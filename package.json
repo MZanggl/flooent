@@ -7,7 +7,7 @@
     "clean": "rm -rf dist",
     "test": "node japaFile.js",
     "build": "npm run clean && tsc",
-    "prepublish": "npm run compile",
+    "prepublish": "npm run build",
     "postpublish": "npm run clean"
   },
   "keywords": ["array", "string", "object oriented", "fluent", "oop"],
