@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "strict": false,
+        "module": "CommonJS",
+        "target": "ES6",
+        "outDir": "./dist",
+        "allowJs": true,
+        "declaration": true,
+        "lib": ["ES2015", "ES5", "ES2015.Iterable"]
+    },
+    "include": [
+        "src/**/*"
+    ]
+}

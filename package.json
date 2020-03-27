@@ -1,0 +1,26 @@
+{
+  "name": "flooent",
+  "version": "1.0.0",
+  "description": "Since we are just subclassing JavaScript's Array, you can instantiate the array the same way",
+  "main": "./dist/index.js",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "test": "node japaFile.js",
+    "build": "npm run clean && tsc",
+    "prepublish": "npm run compile",
+    "postpublish": "npm run clean"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "japa": "^3.0.1",
+    "lodash.camelcase": "^4.3.0",
+    "lodash.capitalize": "^4.2.1",
+    "lodash.kebabcase": "^4.1.1",
+    "lodash.snakecase": "^4.1.1",
+    "lodash.startcase": "^4.4.0",
+    "slugify": "^1.4.0",
+    "typescript": "^3.8.3"
+  }
+}
