@@ -97,8 +97,7 @@ class Stringable extends String {
       return this
     }
     
-    const result = then(this)
-    return result._symbol === symbol ? result : new this.constructor(result)
+    return this.pipe(then)
   }
 
   whenEmpty(then) {
@@ -106,7 +105,8 @@ class Stringable extends String {
   }
   
   pipe(callback) {
-    return this.when(true, callback)
+    const result = callback(this)
+    return result._symbol === symbol ? result : new this.constructor(result)
   }
 
   wrap(start, end = start) {
