@@ -1,7 +1,7 @@
 {
   "name": "flooent",
-  "version": "1.0.0",
-  "description": "Since we are just subclassing JavaScript's Array, you can instantiate the array the same way",
+  "version": "0.0.1",
+  "description": "Fluent interface to provide an expressive syntax for common manipulations.",
   "main": "./dist/index.js",
   "scripts": {
     "clean": "rm -rf dist",
@@ -10,8 +10,8 @@
     "prepublish": "npm run compile",
     "postpublish": "npm run clean"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["array", "string", "object oriented", "fluent", "oop"],
+  "author": "Michael Zanggl",
   "license": "ISC",
   "dependencies": {
     "japa": "^3.0.1",

@@ -1,3 +1,7 @@
+# flooent
+
+Fluent interface to provide an expressive syntax for common manipulations.
+
 ## Arrays
 
 ### Initiate
@@ -14,10 +18,14 @@ Arr.of(1, 2, 3)
 
 ## Strings
 
-Since we are just subclassing JavaScript's String object, you can instantiate it the same way
+### Initiate
 
 ```javascript
 import { Str } from 'flooent'
 
-
+Str.of('hello')
+// or
+Str.from('hello')
+// or
+new Str('hello')
 ```
