@@ -17,6 +17,10 @@
     "fluent",
     "oop"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MZanggl/flooent"
+  },
   "author": "Michael Zanggl",
   "license": "ISC",
   "dependencies": {
