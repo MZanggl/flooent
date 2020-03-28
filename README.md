@@ -63,7 +63,7 @@ Str.of(true) // String { 'true' }
 Str.of(null) // String { '' }
 Str.of(undefined) // String { '' }
 Str.of([1, 2]) // String { '1,2' }
-Str.of({ a: 1 }) // String { '{a: 1}' }
+Str.of({ a: 1 }) // String { '{\"a\":1}' }
 ```
 
 ### Fluent methods
@@ -215,8 +215,75 @@ Str.of('oldschool').wrap('<blink>', '</blink>') // String { '<blink>oldschool</b
 Unwraps a string with given value.
 
 ```javascript
-Str.of('***others***').unwrap('') // String { 'others' }
+Str.of('***others***').unwrap('***') // String { 'others' }
 Str.of('<blink>oldschool</blink>').unwrap('<blink>', '</blink>') // String { 'oldschool' }
+```
+
+### camel
+
+Turns string into camel case.
+
+```javascript
+Str.of('foo bar').camel() // fooBar
+```
+
+### title
+
+Turns string into title case.
+
+```javascript
+Str.of('foo bar').title() // Foo Bar
+```
+
+### studly
+
+Turns string into studly case.
+
+```javascript
+Str.of('foo bar').studly() // FooBar
+```
+
+### kebab
+
+Turns string into kebab case.
+
+```javascript
+Str.of('foo bar').kebab() // foo-bar
+```
+
+### snake
+
+Turns string into snake case.
+
+```javascript
+Str.of('foo bar').snake() // foo_bar
+```
+
+### capitalize
+
+Capitalizes first character.
+
+```javascript
+Str.of('foo bar').capitalize() // Foo bar
+```
+
+### slug
+
+Turns string into URL friendly slug.
+
+```javascript
+Str.of('Foo Bar').slug() // foo-bar
+Str.of('foo bar').slug('+') // foo+bar
+```
+
+### parse
+
+Parses a string back into its original form.
+
+```javascript
+Str.of('true').parse() // true
+Str.of('23').parse() // 23
+Str.of('{\"a\":1}').parse() // { a: 1 }
 ```
 
 ### Constraints!
