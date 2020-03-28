@@ -1,7 +1,7 @@
 import Stringable from './Stringable'
 import Arrayable from './Arrayable'
 
-function from(anyValue) {
+function given(anyValue) {
   if (Array.isArray(anyValue)) {
     return Arrayable.from(anyValue)
   }
@@ -10,7 +10,7 @@ function from(anyValue) {
 }
 
 export {
-  from,
-  Stringable as Str,
-  Arrayable as Arr,
+  given,
+  Stringable,
+  Arrayable,
 }

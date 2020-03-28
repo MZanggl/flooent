@@ -1,5 +1,5 @@
 const test = require('japa')
-const { Arr } = require('../dist')
+const { Arrayable: Arr } = require('../dist')
 
 function isArr(assert, result) {
   assert.instanceOf(result, Arr)

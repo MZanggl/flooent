@@ -2,7 +2,7 @@
 
 Fluent interface to provide an expressive syntax for common manipulations.
 
-Turns logical code
+Turns logical, procedural, "hard to visualize" code
 
 ```javascript
 // given we have const path = 'App/Controllers/user.js'
@@ -16,66 +16,30 @@ into plain English
 
 ```javascript
 // given we have const path = 'App/Controllers/user.js'
-import { Str } from 'flooent'
-
-Str.of(path)
+given(path)
   .betweenLast('/').andLast('.')
   .endWith('Controller')
   .capitalize()
 ```
 
-## From
+## given
 
-Use `from` to create either a flooent Array or String depending on its type
+Use `given` to create either a flooent Array or String depending on its type.
 
 ```javascript
-import { from } from 'flooent'
+import { given } from 'flooent'
 
-from('hello') // instance of Str
-from([1, 2]) // instance of Arr
+given('hello') // instance of Stringable
+given([1, 2]) // instance of Arrayable
 ```
+
+Flooent objects simply extend the native functionality, so you can still execute any native method like `given('hello').includes('h')`
 
 ## Arrays
 
-### Instantiate
-
-Since we are just subclassing JavaScript's Array, you can instantiate the array the same way
-
-```javascript
-import { Arr } from 'flooent'
-
-Arr.from([1, 2, 3])
-// or
-Arr.of(1, 2, 3)
-```
+TODO
 
 ## Strings
-
-```javascript
-import { Str } from 'flooent'
-```
-
-`Str` extends the native String class and therefore inherits all its methods like `includes` or `substring`.
-
-### Instantiate
-
-```javascript
-import { Str } from 'flooent'
-
-Str.of('hello')
-// or
-Str.from('hello')
-// or
-new Str('hello')
-
-// You can not only instantiate strings
-Str.of(1) // String { '1' }
-Str.of(true) // String { 'true' }
-Str.of(null) // String { '' }
-Str.of(undefined) // String { '' }
-Str.of([1, 2]) // String { '1,2' }
-Str.of({ a: 1 }) // String { '{\"a\":1}' }
-```
 
 ### Fluent methods
 
@@ -84,7 +48,7 @@ Str.of({ a: 1 }) // String { '{\"a\":1}' }
 Returns the remaining text after the first occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
 
 ```javascript
-Str.of('sub.domain.com').after('.') // String { 'domain.com' }
+given('sub.domain.com').after('.') // String { 'domain.com' }
 ```
 
 #### afterLast
@@ -92,7 +56,7 @@ Str.of('sub.domain.com').after('.') // String { 'domain.com' }
 Returns the remaining text after the last occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
 
 ```javascript
-Str.of('sub.domain.com').afterLast('.') // String { 'com' }
+given('sub.domain.com').afterLast('.') // String { 'com' }
 ```
 
 ### before
@@ -100,7 +64,7 @@ Str.of('sub.domain.com').afterLast('.') // String { 'com' }
 Returns the text before the first occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
 
 ```javascript
-Str.of('sub.domain.com').before('.') // String { 'sub' }
+given('sub.domain.com').before('.') // String { 'sub' }
 ```
 
 ### beforeLast
@@ -108,7 +72,7 @@ Str.of('sub.domain.com').before('.') // String { 'sub' }
 Returns the text before the last occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
 
 ```javascript
-Str.of('sub.domain.com').beforeLast('.') // String { 'sub.domain' }
+given('sub.domain.com').beforeLast('.') // String { 'sub.domain' }
 ```
 
 ### between
@@ -116,8 +80,8 @@ Str.of('sub.domain.com').beforeLast('.') // String { 'sub.domain' }
 Returns the text between two given values.
 
 ```javascript
-Str.of('some@email.com').between('@').and('.') // String { 'email' }
-Str.of('some@sub.email.com').between('@').andLast('.') // String { 'sub.email' }
+given('some@email.com').between('@').and('.') // String { 'email' }
+given('some@sub.email.com').between('@').andLast('.') // String { 'sub.email' }
 ```
 
 ### betweenLast
@@ -125,8 +89,8 @@ Str.of('some@sub.email.com').between('@').andLast('.') // String { 'sub.email' }
 Returns the text between the last occurrence of given value and second function respectively.
 
 ```javascript
-Str.of('john.doe@email.com:123456').betweenLast('.').and(':') // String { 'com' }
-Str.of('App/Models/payment.method.js').betweenLast('/').andLast('.') // String { 'payment.method' }
+given('john.doe@email.com:123456').betweenLast('.').and(':') // String { 'com' }
+given('App/Models/payment.method.js').betweenLast('/').andLast('.') // String { 'payment.method' }
 ```
 
 ### append
@@ -134,7 +98,7 @@ Str.of('App/Models/payment.method.js').betweenLast('/').andLast('.') // String {
 Alias for `concat`. Appends given value to string.
 
 ```javascript
-Str.of('hello').append(' world') // String { 'hello world' }
+given('hello').append(' world') // String { 'hello world' }
 ```
 
 ### prepend
@@ -142,7 +106,7 @@ Str.of('hello').append(' world') // String { 'hello world' }
 Prepends given value to string.
 
 ```javascript
-Str.of('world').prepend('hello ') // String { 'hello world' }
+given('world').prepend('hello ') // String { 'hello world' }
 ```
 
 ### startWith
@@ -150,8 +114,8 @@ Str.of('world').prepend('hello ') // String { 'hello world' }
 Appends given value only if string doesn't already end with it.
 
 ```javascript
-Str.of('hello').endWith(' world') // String { 'hello world' }
-Str.of('hello world').endWith(' world') // String { 'hello world' }
+given('hello').endWith(' world') // String { 'hello world' }
+given('hello world').endWith(' world') // String { 'hello world' }
 ```
 
 ### startWith
@@ -159,8 +123,8 @@ Str.of('hello world').endWith(' world') // String { 'hello world' }
 Prepends given value only if string doesn't already start with it.
 
 ```javascript
-Str.of('world').startWith('hello ') // String { 'hello world' }
-Str.of('hello world').startWith('hello ') // String { 'hello world' }
+given('world').startWith('hello ') // String { 'hello world' }
+given('hello world').startWith('hello ') // String { 'hello world' }
 ```
 
 ### is
@@ -168,7 +132,7 @@ Str.of('hello world').startWith('hello ') // String { 'hello world' }
 Compares given value with the raw string.
 
 ```javascript
-Str.of('flooent').is('flooent') // true
+given('flooent').is('flooent') // true
 ```
 
 ### limit
@@ -176,40 +140,40 @@ Str.of('flooent').is('flooent') // true
 Truncates text to given length and appends second argument if string got truncated.
 
 ```javascript
-Str.of('The quick brown fox jumps over the lazy dog').limit(9) // The quick...
-Str.of('The quick brown fox jumps over the lazy dog').limit(9, ' (Read more)') // The quick (Read more)
-Str.of('Hello').limit(10) // Hello
+given('The quick brown fox jumps over the lazy dog').limit(9) // The quick...
+given('The quick brown fox jumps over the lazy dog').limit(9, ' (Read more)') // The quick (Read more)
+given('Hello').limit(10) // Hello
 ```
 
 ### pipe
 
-Executes callback and transforms result back into an instance of `Str`.
+Executes callback and transforms result back into a flooent string.
 
 ```javascript
-Str.of('').pipe(str => str.append('!')) // String { '!' }
+given('').pipe(str => str.append('!')) // String { '!' }
 ```
 
 ### when
 
-Executes callback if first given value evaluates to true. Result will get transformed back into an instance of `Str`.
+Executes callback if first given value evaluates to true. Result will get transformed back into a flooent string.
 
 ```javascript
 // can be a boolean
-Str.of('').when(true, str => str.append('!')) // String { '!' }
-Str.of('').when(false, str => str.append('!')) // String { '' }
+given('').when(true, str => str.append('!')) // String { '!' }
+given('').when(false, str => str.append('!')) // String { '' }
 
 // or a method
-Str.of('hello').when(str => str.endsWith('hello'), str => str.append(' world')) // String { 'hello world' }
-Str.of('hi').when(str => str.endsWith('hello'), str => str.append(' world')) // String { 'hello' }
+given('hello').when(str => str.endsWith('hello'), str => str.append(' world')) // String { 'hello world' }
+given('hi').when(str => str.endsWith('hello'), str => str.append(' world')) // String { 'hello' }
 ```
 
 ### whenEmpty
 
-Executes callback if string is empty. Result will get transformed back into an instance of `Str`.
+Executes callback if string is empty. Result will get transformed back into a flooent string.
 
 ```javascript
-Str.of('').whenEmpty(str => str.append('!')) // String { '!' }
-Str.of('hello').whenEmpty(str => str.append('!')) // String { 'hello' }
+given('').whenEmpty(str => str.append('!')) // String { '!' }
+given('hello').whenEmpty(str => str.append('!')) // String { 'hello' }
 ```
 
 ### wrap
@@ -217,17 +181,18 @@ Str.of('hello').whenEmpty(str => str.append('!')) // String { 'hello' }
 Wraps a string with given value.
 
 ```javascript
-Str.of('others').wrap('***') // String { '***others***' }
-Str.of('oldschool').wrap('<blink>', '</blink>') // String { '<blink>oldschool</blink>' }
+given('others').wrap('***') // String { '***others***' }
+given('oldschool').wrap('<blink>', '</blink>') // String { '<blink>oldschool</blink>' }
 ```
 
 ### unwrap
 
 Unwraps a string with given value.
 
+
 ```javascript
-Str.of('***others***').unwrap('***') // String { 'others' }
-Str.of('<blink>oldschool</blink>').unwrap('<blink>', '</blink>') // String { 'oldschool' }
+given('***others***').unwrap('***') // String { 'others' }
+given('<blink>oldschool</blink>').unwrap('<blink>', '</blink>') // String { 'oldschool' }
 ```
 
 ### camel
@@ -235,7 +200,7 @@ Str.of('<blink>oldschool</blink>').unwrap('<blink>', '</blink>') // String { 'ol
 Turns string into camel case.
 
 ```javascript
-Str.of('foo bar').camel() // String { 'fooBar' }
+given('foo bar').camel() // String { 'fooBar' }
 ```
 
 ### title
@@ -243,7 +208,7 @@ Str.of('foo bar').camel() // String { 'fooBar' }
 Turns string into title case.
 
 ```javascript
-Str.of('foo bar').title() // String { 'Foo Bar' }
+given('foo bar').title() // String { 'Foo Bar' }
 ```
 
 ### studly
@@ -251,7 +216,7 @@ Str.of('foo bar').title() // String { 'Foo Bar' }
 Turns string into studly case.
 
 ```javascript
-Str.of('foo bar').studly() // String { 'FooBar' }
+given('foo bar').studly() // String { 'FooBar' }
 ```
 
 ### kebab
@@ -259,7 +224,7 @@ Str.of('foo bar').studly() // String { 'FooBar' }
 Turns string into kebab case.
 
 ```javascript
-Str.of('foo bar').kebab() // String { 'foo-bar' }
+given('foo bar').kebab() // String { 'foo-bar' }
 ```
 
 ### snake
@@ -267,7 +232,7 @@ Str.of('foo bar').kebab() // String { 'foo-bar' }
 Turns string into snake case.
 
 ```javascript
-Str.of('foo bar').snake() // String { 'foo_bar' }
+given('foo bar').snake() // String { 'foo_bar' }
 ```
 
 ### capitalize
@@ -275,7 +240,7 @@ Str.of('foo bar').snake() // String { 'foo_bar' }
 Capitalizes first character.
 
 ```javascript
-Str.of('foo bar').capitalize() // String { 'Foo bar' }
+given('foo bar').capitalize() // String { 'Foo bar' }
 ```
 
 ### slug
@@ -283,8 +248,8 @@ Str.of('foo bar').capitalize() // String { 'Foo bar' }
 Turns string into URL friendly slug.
 
 ```javascript
-Str.of('Foo Bar').slug() // String { 'foo-bar' }
-Str.of('foo bar').slug('+') // String { 'foo+bar' }
+given('Foo Bar').slug() // String { 'foo-bar' }
+given('foo bar').slug('+') // String { 'foo+bar' }
 ```
 
 ### parse
@@ -292,9 +257,9 @@ Str.of('foo bar').slug('+') // String { 'foo+bar' }
 Parses a string back into its original form.
 
 ```javascript
-Str.of('true').parse() // true
-Str.of('23').parse() // 23
-Str.of('{\"a\":1}').parse() // { a: 1 }
+given('true').parse() // true
+given('23').parse() // 23
+given('{\"a\":1}').parse() // { a: 1 }
 ```
 
 ### plural
@@ -302,9 +267,9 @@ Str.of('{\"a\":1}').parse() // { a: 1 }
 Turns a string into its plural form.
 
 ```javascript
-Str.of('child').plural() // String { 'children' }
-Str.of('child').plural(3) // String { 'children' }
-Str.of('child').plural(1) // String { 'child' }
+given('child').plural() // String { 'children' }
+given('child').plural(3) // String { 'children' }
+given('child').plural(1) // String { 'child' }
 ```
 
 ### singular
@@ -312,44 +277,44 @@ Str.of('child').plural(1) // String { 'child' }
 Turns a string into its singular form.
 
 ```javascript
-Str.of('children').singular() // String { 'child' }
-Str.of('child').singular() // String { 'child' }
+given('children').singular() // String { 'child' }
+given('child').singular() // String { 'child' }
 ```
 
 ### Constraints!
 
-The contraints that apply to `Str` are the same that apply to when you new up a native string using `new String('')` and is just how JavaScript works.
+The contraints that apply to flooent strings are the same that apply to when you new up a native string using `new String('')` and is just how JavaScript works.
 
 For one, the type will be `object` instead of `string`.
 
 ```javascript
-typeof Str.of('') // object
+typeof given('') // object
 typeof '' // string
 ```
 
 Also:
 
-> `Str` is immutable!
+> flooent strings are immutable!
 
 While you can still concatinate a string like this:
 
 ```javascript
-Str.of('') + '!'
+given('') + '!'
 ```
 
-which will return a raw string (not an instance of `Str`), you can not mutate `Str` like this:
+which will return a raw string (not an instance of flooent), you can not mutate flooent strings like this:
 
 ```javascript
-Str.of('') += '!' // ERROR
+given('') += '!' // ERROR
 ```
 
 To change the value of a string there are a couple of options.
 
 ```javascript
-let string = Str.of('')
+let string = given('')
 
 // overwrite variable completely
-string = string + '!' // returns raw string, not `Str`.
+string = string + '!' // returns raw string
 
 // use an available expressive fluent method
 string.append('!')
@@ -358,10 +323,10 @@ string.append('!')
 string.pipe(str => 'replace existing value with this text only!')
 ```
 
-You can turn `Str` into a raw string using:
+You can turn a flooent string into a raw string using:
 
 ```javascript
-Str.of('').valueOf()
+given('').valueOf()
 // or
-Str.of('').toString()
+given('').toString()
 ```

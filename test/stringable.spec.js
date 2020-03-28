@@ -1,5 +1,5 @@
 const test = require('japa')
-const { Str } = require('../dist')
+const { Stringable: Str } = require('../dist')
 
 function isStr(assert, result) {
   assert.instanceOf(result, Str)
