@@ -18,17 +18,6 @@ test('first() returns first value in array or undefined', assert => {
   assert.isUndefined(Arr.from([]).first())
 })
 
-test('static times() loops through callback x times', assert => {
-  let count = 0
-  const mapped = Arr.times(3, () => {
-    count++
-    return count
-  })
-
-  assert.equal(count, 3)
-  assert.deepEqual(mapped, [1, 2, 3])
-})
-
 test('last() returns last value in array or undefined', assert => {
   assert.equal(Arr.from([1, 2]).last(), 2)
   assert.isUndefined(Arr.from([]).last())

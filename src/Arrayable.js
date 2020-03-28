@@ -1,8 +1,4 @@
 class Arrayable extends Array {
-  static times(length, fn) {
-    return this.from({ length }, (value, i) => fn(i))
-  }
-
   first() {
     return this.length > 0 ? this[0] : undefined
   }
