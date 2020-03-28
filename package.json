@@ -10,16 +10,23 @@
     "prepublish": "npm run build",
     "postpublish": "npm run clean"
   },
-  "keywords": ["array", "string", "object oriented", "fluent", "oop"],
+  "keywords": [
+    "array",
+    "string",
+    "object oriented",
+    "fluent",
+    "oop"
+  ],
   "author": "Michael Zanggl",
   "license": "ISC",
   "dependencies": {
     "japa": "^3.0.1",
     "lodash.camelcase": "^4.3.0",
-    "lodash.capitalize": "^4.2.1",
     "lodash.kebabcase": "^4.1.1",
     "lodash.snakecase": "^4.1.1",
     "lodash.startcase": "^4.4.0",
+    "lodash.upperfirst": "^4.3.1",
+    "pluralize": "^8.0.0",
     "slugify": "^1.4.0",
     "typescript": "^3.8.3"
   }

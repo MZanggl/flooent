@@ -1,9 +1,10 @@
 import * as camelcase from 'lodash.camelcase'
-import * as capitalize from 'lodash.capitalize'
+import * as upperFirst from 'lodash.upperfirst'
 import * as kebabcase from 'lodash.kebabcase'
 import * as snakecase from 'lodash.snakecase'
 import * as startcase from 'lodash.startcase'
 import * as slugify from 'slugify'
+import * as pluralize from 'pluralize'
 
 const override = ['replace', 'trim', 'trimEnd', 'trimStart', 'substr', 'substring', 'concat', 'repeat', 'slice', 'toLocaleLowerCase', 'toLocaleUpperCase', 'toLowerCase', 'toUpperCase', 'charAt', 'charCodeAt']
 
@@ -173,16 +174,20 @@ class Stringable extends String {
   }
   
   capitalize() {
-    return new this.constructor(capitalize(this))
+    return new this.constructor(upperFirst(this))
+  }
+
+  studly() {
+    return this.camel().capitalize()
   }
   
   slug(replacement = '-') {
     const value = this.valueOf().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9\s]/g,'')
-    return slugify(value, {
+    return new this.constructor(slugify(value, {
       replacement,
       lower: true,
       strict: true,
-    })
+    }))
   }
   
   tap(fn) {
@@ -192,6 +197,14 @@ class Stringable extends String {
 
   parse() {
     return JSON.parse(this)
+  }
+
+  plural(count) {
+    return new this.constructor(pluralize(this, count, false))
+  }
+
+  singular() {
+    return new this.constructor(pluralize.singular(this))
   }
 }
 
