@@ -118,6 +118,58 @@ Str.of('john.doe@email.com:123456').betweenLast('.').and(':') // String { 'com' 
 Str.of('App/Models/payment.method.js').betweenLast('/').andLast('.') // String { 'payment.method' }
 ```
 
+### append
+
+Alias for `concat`. Appends given value to string.
+
+```javascript
+Str.of('hello').append(' world') // String { 'hello world' }
+```
+
+### prepend
+
+Prepends given value to string.
+
+```javascript
+Str.of('world').prepend('hello ') // String { 'hello world' }
+```
+
+### startWith
+
+Appends given value only if string doesn't already end with it.
+
+```javascript
+Str.of('hello').endWith(' world') // String { 'hello world' }
+Str.of('hello world').endWith(' world') // String { 'hello world' }
+```
+
+### startWith
+
+Prepends given value only if string doesn't already start with it.
+
+```javascript
+Str.of('world').startWith('hello ') // String { 'hello world' }
+Str.of('hello world').startWith('hello ') // String { 'hello world' }
+```
+
+### is
+
+Compares given value with the raw string.
+
+```javascript
+Str.of('flooent').is('flooent') // true
+```
+
+### limit
+
+Truncates text to given length and appends second argument if string got truncated.
+
+```javascript
+Str.of('The quick brown fox jumps over the lazy dog').limit(9) // The quick...
+Str.of('The quick brown fox jumps over the lazy dog').limit(9, ' (Read more)') // The quick (Read more)
+Str.of('Hello').limit(10) // Hello
+```
+
 ### pipe
 
 Executes callback and transforms result back into an instance of `Str`.
@@ -128,7 +180,7 @@ Str.of('').pipe(str => str.append('!')) // String { '!' }
 
 ### when
 
-Executes callback if first given value is evaluates to true. Result will get transformed back into an instance of `Str`.
+Executes callback if first given value evaluates to true. Result will get transformed back into an instance of `Str`.
 
 ```javascript
 // can be a boolean
@@ -151,11 +203,20 @@ Str.of('hello').whenEmpty(str => str.append('!')) // String { 'hello' }
 
 ### wrap
 
-Wraps a string with given value
+Wraps a string with given value.
 
 ```javascript
 Str.of('others').wrap('***') // String { '***others***' }
 Str.of('oldschool').wrap('<blink>', '</blink>') // String { '<blink>oldschool</blink>' }
+```
+
+### unwrap
+
+Unwraps a string with given value.
+
+```javascript
+Str.of('***others***').unwrap('') // String { 'others' }
+Str.of('<blink>oldschool</blink>').unwrap('<blink>', '</blink>') // String { 'oldschool' }
 ```
 
 ### Constraints!

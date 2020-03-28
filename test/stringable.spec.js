@@ -155,9 +155,9 @@ test('startWith() starts a string with what gets passed in if it does not alread
 
 test('limit() truncates a string and appends the second argument the string surpasses the limit', assert => {
   isStr(assert, Str.of('it is a beautiful night').limit(5))
-  assert.equal(Str.of('it is a beautiful night').limit(5), 'it is')
+  assert.equal(Str.of('it is a beautiful night').limit(5), 'it is...')
   assert.equal(Str.of('it is a beautiful night').limit(50), 'it is a beautiful night')
-  assert.equal(Str.of('it is a beautiful night').limit(5, '...'), 'it is...')
+  assert.equal(Str.of('it is a beautiful night').limit(5, '(...)'), 'it is(...)')
   assert.equal(Str.of('it is a beautiful night').limit(50, '...'), 'it is a beautiful night')
 
   // make sure we don't have off by 1 bug

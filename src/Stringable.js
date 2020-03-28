@@ -148,7 +148,7 @@ class Stringable extends String {
     }
   }
   
-  limit(n, append) {
+  limit(n, append = '...') {
     const raw = this.valueOf()
     let truncated = raw.slice(0, n)
     if (append && raw.length > n) {
