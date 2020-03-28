@@ -24,6 +24,17 @@ Str.of(path)
   .capitalize()
 ```
 
+## From
+
+Use `from` to create either a flooent Array or String depending on its type
+
+```javascript
+import { from } from 'flooent'
+
+from('hello') // instance of Str
+from([1, 2]) // instance of Arr
+```
+
 ## Arrays
 
 ### Instantiate
