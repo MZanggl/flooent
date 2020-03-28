@@ -12,7 +12,7 @@ if (!name.endsWith('Controller')) name+= 'Controller'
 return name.substring(0, 1).toUpperCase() + name.substring(1)
 ```
 
-into readable code
+into plain English
 
 ```javascript
 // given we have const path = 'App/Controllers/user.js'
@@ -224,7 +224,7 @@ Str.of('<blink>oldschool</blink>').unwrap('<blink>', '</blink>') // String { 'ol
 Turns string into camel case.
 
 ```javascript
-Str.of('foo bar').camel() // fooBar
+Str.of('foo bar').camel() // String { 'fooBar' }
 ```
 
 ### title
@@ -232,7 +232,7 @@ Str.of('foo bar').camel() // fooBar
 Turns string into title case.
 
 ```javascript
-Str.of('foo bar').title() // Foo Bar
+Str.of('foo bar').title() // String { 'Foo Bar' }
 ```
 
 ### studly
@@ -240,7 +240,7 @@ Str.of('foo bar').title() // Foo Bar
 Turns string into studly case.
 
 ```javascript
-Str.of('foo bar').studly() // FooBar
+Str.of('foo bar').studly() // String { 'FooBar' }
 ```
 
 ### kebab
@@ -248,7 +248,7 @@ Str.of('foo bar').studly() // FooBar
 Turns string into kebab case.
 
 ```javascript
-Str.of('foo bar').kebab() // foo-bar
+Str.of('foo bar').kebab() // String { 'foo-bar' }
 ```
 
 ### snake
@@ -256,7 +256,7 @@ Str.of('foo bar').kebab() // foo-bar
 Turns string into snake case.
 
 ```javascript
-Str.of('foo bar').snake() // foo_bar
+Str.of('foo bar').snake() // String { 'foo_bar' }
 ```
 
 ### capitalize
@@ -264,7 +264,7 @@ Str.of('foo bar').snake() // foo_bar
 Capitalizes first character.
 
 ```javascript
-Str.of('foo bar').capitalize() // Foo bar
+Str.of('foo bar').capitalize() // String { 'Foo bar' }
 ```
 
 ### slug
@@ -272,8 +272,8 @@ Str.of('foo bar').capitalize() // Foo bar
 Turns string into URL friendly slug.
 
 ```javascript
-Str.of('Foo Bar').slug() // foo-bar
-Str.of('foo bar').slug('+') // foo+bar
+Str.of('Foo Bar').slug() // String { 'foo-bar' }
+Str.of('foo bar').slug('+') // String { 'foo+bar' }
 ```
 
 ### parse
@@ -284,6 +284,25 @@ Parses a string back into its original form.
 Str.of('true').parse() // true
 Str.of('23').parse() // 23
 Str.of('{\"a\":1}').parse() // { a: 1 }
+```
+
+### plural
+
+Turns a string into its plural form.
+
+```javascript
+Str.of('child').plural() // String { 'children' }
+Str.of('child').plural(3) // String { 'children' }
+Str.of('child').plural(1) // String { 'child' }
+```
+
+### singular
+
+Turns a string into its singular form.
+
+```javascript
+Str.of('children').singular() // String { 'child' }
+Str.of('child').singular() // String { 'child' }
 ```
 
 ### Constraints!
