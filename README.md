@@ -330,3 +330,27 @@ given('').valueOf()
 // or
 given('').toString()
 ```
+
+## Numbers
+
+#### forEach
+
+```javascript
+given(5).forEach(i => {
+  console.log(i)
+})
+```
+
+#### map
+
+```javascript
+given(3).map(i => i) // [0, 1, 2]
+```
+
+#### Rule of three
+
+```javascript
+given(300).percentOf(750) // Number { 40 }
+given(40, '%').totalOf(300) // Number { 750 }
+given(40, '%').fractionOf(750) // Number { 300 }
+```
