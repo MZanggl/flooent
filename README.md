@@ -26,7 +26,7 @@ Str.of(path)
 
 ## Arrays
 
-### Initiate
+### Instantiate
 
 Since we are just subclassing JavaScript's Array, you can instantiate the array the same way
 
