@@ -1,5 +1,7 @@
 # flooent
 
+> `npm install flooent`
+
 Fluent interface to provide an expressive syntax for common manipulations.
 
 Turns logical, procedural, "hard to visualize" code
@@ -24,13 +26,14 @@ given(path)
 
 ## given
 
-Use `given` to create either a flooent Array or String depending on its type.
+Use `given` to create either a flooent Number, Array or String depending on its type.
 
 ```javascript
 import { given } from 'flooent'
 
 given('hello') // instance of Stringable
 given([1, 2]) // instance of Arrayable
+given(1) // instance of Numberable
 ```
 
 Flooent objects simply extend the native functionality, so you can still execute any native method like `given('hello').includes('h')`
@@ -109,7 +112,7 @@ Prepends given value to string.
 given('world').prepend('hello ') // String { 'hello world' }
 ```
 
-### startWith
+### endWith
 
 Appends given value only if string doesn't already end with it.
 
@@ -345,12 +348,4 @@ given(5).forEach(i => {
 
 ```javascript
 given(3).map(i => i) // [0, 1, 2]
-```
-
-#### Rule of three
-
-```javascript
-given(300).percentOf(750) // Number { 40 }
-given(40, '%').totalOf(300) // Number { 750 }
-given(40, '%').fractionOf(750) // Number { 300 }
 ```
