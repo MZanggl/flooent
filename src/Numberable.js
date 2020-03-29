@@ -1,13 +1,24 @@
 class Numberable extends Number {
-  constructor(number, op) {
+  constructor(number, options = {}) {
     super(number)
 
-    if (op === '%') {
-      this.totalOf = fraction => new this.constructor(100 / this * fraction)
-      this.fractionOf = total => new this.constructor(this / 100 * total)
-    } else {
-      this.percentOf = total => new this.constructor(this / total * 100)
+    const { isPercent = false } =options
+    this._isPercent = isPercent
+  }
+
+  of(number) {
+    if (this._isPercent) {
+      return new this.constructor(this * number)
     }
+    return new this.constructor(this / number)
+  }
+
+  percent() {
+    return new this.constructor(this / 100, { isPercent: true })
+  }
+
+  inPercent() {
+    return new this.constructor(this * 100)
   }
 
   map(callback) {
@@ -17,6 +28,26 @@ class Numberable extends Number {
   forEach(callback) {
     Array.from({ length: this }).forEach(callback)
     return this
+  }
+
+  round() {
+    return new this.constructor(Math.round(this))
+  }
+
+  ceil() {
+    return new this.constructor(Math.ceil(this))
+  }
+
+  floor() {
+    return new this.constructor(Math.floor(this))
+  }
+
+  max(...compare) {
+    return new this.constructor(Math.max(this, ...compare))
+  }
+
+  min(...compare) {
+    return new this.constructor(Math.min(this, ...compare))
   }
 }
 

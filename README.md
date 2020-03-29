@@ -4,7 +4,7 @@
 
 Fluent interface to provide an expressive syntax for common manipulations.
 
-Turns logical, procedural, "hard to visualize" code
+Given you have logical, procedural, "hard to visualize" code like this:
 
 ```javascript
 // given we have const path = 'App/Controllers/user.js'
@@ -14,7 +14,7 @@ if (!name.endsWith('Controller')) name+= 'Controller'
 return name.substring(0, 1).toUpperCase() + name.substring(1)
 ```
 
-into plain English
+refactor it into plain English
 
 ```javascript
 // given we have const path = 'App/Controllers/user.js'
@@ -348,4 +348,55 @@ given(5).forEach(i => {
 
 ```javascript
 given(3).map(i => i) // [0, 1, 2]
+```
+
+### Working with percentages
+
+```javascript
+given(40).percent().of(750) // Number { 300 }
+
+given(300).of(750).inPercent() // Number { 40 }
+```
+
+### round
+
+Rounds down until .4 and up from .5.
+
+```javascript
+given(10.4).round() // Number { 10 }
+given(10.5).round() // Number { 11 }
+```
+
+### ceil
+
+Always rounds its value up to the next largest whole number or integer.
+
+```javascript
+given(10.2).ceil() // Number { 11 }
+```
+
+### floor
+
+Always rounds its value down.
+
+```javascript
+given(10.9).floor() // Number { 10 }
+```
+
+### max
+
+Returns the largest value.
+
+```javascript
+given(10).max(20) // Number { 20 }
+given(10).max(1, 2) // Number { 10 }
+```
+
+### min
+
+Returns the lowest-valued number passed into it.
+
+```javascript
+given(10).min(20) // Number { 10 }
+given(10).min(5, 20) // Number { 5 }
 ```
