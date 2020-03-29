@@ -2,12 +2,12 @@ import Stringable from './Stringable'
 import Arrayable from './Arrayable'
 import Numberable from './Numberable'
 
-function given(anyValue, callback, ...options) {
+function given(anyValue, callback) {
   let result
   if (Array.isArray(anyValue)) {
     result = Arrayable.from(anyValue)
   } else if (typeof anyValue === 'number') {
-    result = new Numberable(anyValue, ...options)
+    result = new Numberable(anyValue)
   } else {
     result = Stringable.from(anyValue)
   }
