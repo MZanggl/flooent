@@ -36,13 +36,81 @@ given([1, 2]) // instance of Arrayable
 given(1) // instance of Numberable
 ```
 
-Flooent objects simply extend the native functionality, so you can still execute any native method like `given('hello').includes('h')`
+Flooent objects simply extend the native functionality, so you can still execute any native method like `given('hello').includes('h')`.
 
 ## Arrays
 
-TODO
+### Fluent methods
+
+#### pull
+
+Removes given fields from array.
+
+```javascript
+const numbers = [1, 2, 3, 1, 2, 3]
+
+given(numbers).pull(1, 2) // [3, 3]
+```
+
+#### first
+
+Returns first element in array or undefined.
+
+```javascript
+given([1, 2, 3]).first() // 1
+```
+
+#### second
+
+Returns second element in array or undefined.
+
+```javascript
+given([1, 2, 3]).second() // 2
+```
+
+#### last
+
+Returns last element in array or undefined.
+
+```javascript
+given([1, 2, 3]).last() // 3
+```
+
+#### nth
+
+Returns element at given index or undefined. If given value is negative, it searches from behind.
+
+```javascript
+given(['a', 'b', 'c']).nth(1) // 'b'
+given(['a', 'b', 'c']).nth(5) // undefined
+given(['a', 'b', 'c']).nth(-1) // 'c'
+```
+
+### Fluent methods for array of objects
+
+#### pluck
+
+Pluck given field out an object of arrays.
+
+```javascript
+const cities = [
+  { id: 1, name: 'Munich' },
+  { id: 2, name: 'Naha' },
+]
+
+given(cities).pluck('name') // ['Munich', 'Naha']
+```
+
 
 ## Strings
+
+#### is
+
+Compares given value with the raw string.
+
+```javascript
+given('flooent').is('flooent') // true
+```
 
 ### Fluent methods
 
@@ -62,7 +130,7 @@ Returns the remaining text after the last occurrence of the given value. If the 
 given('sub.domain.com').afterLast('.') // String { 'com' }
 ```
 
-### before
+#### before
 
 Returns the text before the first occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
 
@@ -70,7 +138,7 @@ Returns the text before the first occurrence of the given value. If the value do
 given('sub.domain.com').before('.') // String { 'sub' }
 ```
 
-### beforeLast
+#### beforeLast
 
 Returns the text before the last occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
 
@@ -78,7 +146,7 @@ Returns the text before the last occurrence of the given value. If the value doe
 given('sub.domain.com').beforeLast('.') // String { 'sub.domain' }
 ```
 
-### between
+#### between
 
 Returns the text between two given values.
 
@@ -87,7 +155,7 @@ given('some@email.com').between('@').and('.') // String { 'email' }
 given('some@sub.email.com').between('@').andLast('.') // String { 'sub.email' }
 ```
 
-### betweenLast
+#### betweenLast
 
 Returns the text between the last occurrence of given value and second function respectively.
 
@@ -96,7 +164,7 @@ given('john.doe@email.com:123456').betweenLast('.').and(':') // String { 'com' }
 given('App/Models/payment.method.js').betweenLast('/').andLast('.') // String { 'payment.method' }
 ```
 
-### append
+#### append
 
 Alias for `concat`. Appends given value to string.
 
@@ -104,7 +172,7 @@ Alias for `concat`. Appends given value to string.
 given('hello').append(' world') // String { 'hello world' }
 ```
 
-### prepend
+#### prepend
 
 Prepends given value to string.
 
@@ -112,7 +180,7 @@ Prepends given value to string.
 given('world').prepend('hello ') // String { 'hello world' }
 ```
 
-### endWith
+#### endWith
 
 Appends given value only if string doesn't already end with it.
 
@@ -121,7 +189,7 @@ given('hello').endWith(' world') // String { 'hello world' }
 given('hello world').endWith(' world') // String { 'hello world' }
 ```
 
-### startWith
+#### startWith
 
 Prepends given value only if string doesn't already start with it.
 
@@ -130,15 +198,7 @@ given('world').startWith('hello ') // String { 'hello world' }
 given('hello world').startWith('hello ') // String { 'hello world' }
 ```
 
-### is
-
-Compares given value with the raw string.
-
-```javascript
-given('flooent').is('flooent') // true
-```
-
-### limit
+#### limit
 
 Truncates text to given length and appends second argument if string got truncated.
 
@@ -148,7 +208,7 @@ given('The quick brown fox jumps over the lazy dog').limit(9, ' (Read more)') //
 given('Hello').limit(10) // Hello
 ```
 
-### pipe
+#### pipe
 
 Executes callback and transforms result back into a flooent string.
 
@@ -156,7 +216,7 @@ Executes callback and transforms result back into a flooent string.
 given('').pipe(str => str.append('!')) // String { '!' }
 ```
 
-### when
+#### when
 
 Executes callback if first given value evaluates to true. Result will get transformed back into a flooent string.
 
@@ -170,7 +230,7 @@ given('hello').when(str => str.endsWith('hello'), str => str.append(' world')) /
 given('hi').when(str => str.endsWith('hello'), str => str.append(' world')) // String { 'hello' }
 ```
 
-### whenEmpty
+#### whenEmpty
 
 Executes callback if string is empty. Result will get transformed back into a flooent string.
 
@@ -179,7 +239,7 @@ given('').whenEmpty(str => str.append('!')) // String { '!' }
 given('hello').whenEmpty(str => str.append('!')) // String { 'hello' }
 ```
 
-### wrap
+#### wrap
 
 Wraps a string with given value.
 
@@ -188,7 +248,7 @@ given('others').wrap('***') // String { '***others***' }
 given('oldschool').wrap('<blink>', '</blink>') // String { '<blink>oldschool</blink>' }
 ```
 
-### unwrap
+#### unwrap
 
 Unwraps a string with given value.
 
@@ -198,7 +258,7 @@ given('***others***').unwrap('***') // String { 'others' }
 given('<blink>oldschool</blink>').unwrap('<blink>', '</blink>') // String { 'oldschool' }
 ```
 
-### camel
+#### camel
 
 Turns string into camel case.
 
@@ -206,7 +266,7 @@ Turns string into camel case.
 given('foo bar').camel() // String { 'fooBar' }
 ```
 
-### title
+#### title
 
 Turns string into title case.
 
@@ -214,7 +274,7 @@ Turns string into title case.
 given('foo bar').title() // String { 'Foo Bar' }
 ```
 
-### studly
+#### studly
 
 Turns string into studly case.
 
@@ -222,7 +282,7 @@ Turns string into studly case.
 given('foo bar').studly() // String { 'FooBar' }
 ```
 
-### kebab
+#### kebab
 
 Turns string into kebab case.
 
@@ -230,7 +290,7 @@ Turns string into kebab case.
 given('foo bar').kebab() // String { 'foo-bar' }
 ```
 
-### snake
+#### snake
 
 Turns string into snake case.
 
@@ -238,7 +298,7 @@ Turns string into snake case.
 given('foo bar').snake() // String { 'foo_bar' }
 ```
 
-### capitalize
+#### capitalize
 
 Capitalizes first character.
 
@@ -246,7 +306,7 @@ Capitalizes first character.
 given('foo bar').capitalize() // String { 'Foo bar' }
 ```
 
-### slug
+#### slug
 
 Turns string into URL friendly slug.
 
@@ -255,7 +315,7 @@ given('Foo Bar').slug() // String { 'foo-bar' }
 given('foo bar').slug('+') // String { 'foo+bar' }
 ```
 
-### parse
+#### parse
 
 Parses a string back into its original form.
 
@@ -265,7 +325,7 @@ given('23').parse() // 23
 given('{\"a\":1}').parse() // { a: 1 }
 ```
 
-### plural
+#### plural
 
 Turns a string into its plural form.
 
@@ -275,7 +335,7 @@ given('child').plural(3) // String { 'children' }
 given('child').plural(1) // String { 'child' }
 ```
 
-### singular
+#### singular
 
 Turns a string into its singular form.
 
@@ -350,7 +410,9 @@ given(5).forEach(i => {
 given(3).map(i => i) // [0, 1, 2]
 ```
 
-### Working with percentages
+### Fluent methods
+
+#### Working with percentages
 
 ```javascript
 given(40).percent().of(750) // Number { 300 }
@@ -358,7 +420,7 @@ given(40).percent().of(750) // Number { 300 }
 given(300).of(750).inPercent() // Number { 40 }
 ```
 
-### round
+#### round
 
 Rounds down until .4 and up from .5.
 
@@ -367,7 +429,7 @@ given(10.4).round() // Number { 10 }
 given(10.5).round() // Number { 11 }
 ```
 
-### ceil
+#### ceil
 
 Always rounds its value up to the next largest whole number or integer.
 
@@ -375,7 +437,7 @@ Always rounds its value up to the next largest whole number or integer.
 given(10.2).ceil() // Number { 11 }
 ```
 
-### floor
+#### floor
 
 Always rounds its value down.
 
@@ -383,7 +445,7 @@ Always rounds its value down.
 given(10.9).floor() // Number { 10 }
 ```
 
-### max
+#### max
 
 Returns the largest value.
 
@@ -392,7 +454,7 @@ given(10).max(20) // Number { 20 }
 given(10).max(1, 2) // Number { 10 }
 ```
 
-### min
+#### min
 
 Returns the lowest-valued number passed into it.
 
