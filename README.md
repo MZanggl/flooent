@@ -38,6 +38,45 @@ given(1) // instance of Numberable
 
 Flooent objects simply extend the native functionality, so you can still execute any native method like `given('hello').includes('h')`.
 
+To turn flooent strings and numbers back into their respective primitive form, use `given('hello').valueOf()`.
+
+`given` also accepts a callback as the second argument which will automatically apply `valueOf()` at the end.
+
+```javascript
+const rawHelloWorld = given('hello', message => {
+  return message.append(' world')
+})
+```
+
+## Constraints
+
+The contraints that apply to flooent strings and numbers are the same that apply to when you new up a native string/number using new (`new String('')`) and is just how JavaScript works.
+
+For one, the type will be `object` instead of `string`.
+
+```javascript
+typeof given('') // object
+typeof '' // string
+```
+
+Flooent strings and numbers are immutable. You can still do things like this:
+
+```javascript
+given('?') + '!' // '?!'
+given(1) + 1 // 2
+```
+
+which will return a primitive (not an instance of flooent).
+
+However you can not mutate flooent objects like this:
+
+```javascript
+given('') += '!' // ERROR
+given(1) += 1 // ERROR
+```
+
+There are various fluent alternatives available.
+
 ## Arrays
 
 ### Fluent methods
@@ -342,56 +381,6 @@ Turns a string into its singular form.
 ```javascript
 given('children').singular() // String { 'child' }
 given('child').singular() // String { 'child' }
-```
-
-### Constraints!
-
-The contraints that apply to flooent strings are the same that apply to when you new up a native string using `new String('')` and is just how JavaScript works.
-
-For one, the type will be `object` instead of `string`.
-
-```javascript
-typeof given('') // object
-typeof '' // string
-```
-
-Also:
-
-> flooent strings are immutable!
-
-While you can still concatinate a string like this:
-
-```javascript
-given('') + '!'
-```
-
-which will return a raw string (not an instance of flooent), you can not mutate flooent strings like this:
-
-```javascript
-given('') += '!' // ERROR
-```
-
-To change the value of a string there are a couple of options.
-
-```javascript
-let string = given('')
-
-// overwrite variable completely
-string = string + '!' // returns raw string
-
-// use an available expressive fluent method
-string.append('!')
-
-// pipe it through!
-string.pipe(str => 'replace existing value with this text only!')
-```
-
-You can turn a flooent string into a raw string using:
-
-```javascript
-given('').valueOf()
-// or
-given('').toString()
 ```
 
 ## Numbers

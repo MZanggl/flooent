@@ -2,7 +2,7 @@ class Numberable extends Number {
   constructor(number, options = {}) {
     super(number)
 
-    const { isPercent = false } =options
+    const { isPercent = false } = options
     this._isPercent = isPercent
   }
 
