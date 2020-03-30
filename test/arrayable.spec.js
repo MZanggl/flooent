@@ -47,10 +47,10 @@ test('forget() removes given value from array', assert => {
   assert.deepEqual(given([1, 1,2 ]).forget(1), [2])
 })
 
-test('forgetBy() removes given value of given key from array', assert => {
+test('forget() removes given value of given key from array', assert => {
   const cities = given([ { city: 'Ishigaki' }, { city: 'Naha'}, { city: 'Ishigaki' } ])
-  isArr(assert, given(cities).forgetBy('city', 'Ishigaki'))
-  assert.deepEqual(given(cities).forgetBy('city', 'Ishigaki'), [{ city: 'Naha'}])
+  isArr(assert, given(cities).forget('city', 'Ishigaki'))
+  assert.deepEqual(given(cities).forget('city', 'Ishigaki'), [{ city: 'Naha'}])
 })
 
 test('unique() removes duplicate values', assert => {

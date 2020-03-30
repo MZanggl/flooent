@@ -156,18 +156,18 @@ const cities = [
 given(cities).pluck('name') // ['Munich', 'Naha']
 ```
 
-#### forgetBy
+#### forget
 
-Removes given field from array.
+Removes given field from array comparing the given key and value.
 
 ```javascript
 const cities = [
-  { name: 'Munich' },
-  { name: 'Naha' },
-  { name: 'Naha' },
+  { id: 1, name: 'Munich' },
+  { id: 2, name: 'Naha' },
+  { id: 3, name: 'Naha' },
 ]
 
-given(cities).forgetBy('name', 'Naha') // ['Munich']
+given(cities).forget('name', 'Naha') // ['Munich']
 ```
 
 #### unique
