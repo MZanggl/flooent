@@ -21,8 +21,12 @@ class Arrayable extends Array {
     return this.length - 1 >= index ? this[index] : undefined
   }
 
-  pull(...values) {
-    return pull(this, ...values)
+  forget(value) {
+    return pull(this, value)
+  }
+
+  forgetBy(key, value) {
+    return this.filter(item => item[key] !== value)
   }
 
   pluck(key) {

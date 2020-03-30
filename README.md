@@ -81,14 +81,14 @@ There are various fluent alternatives available.
 
 ### Fluent methods
 
-#### pull
+#### forget
 
-Removes given fields from array.
+Removes given field from array.
 
 ```javascript
-const numbers = [1, 2, 3, 1, 2, 3]
+const numbers = [1, 1, 2, 3]
 
-given(numbers).pull(1, 2) // [3, 3]
+given(numbers).forget(1) // [2, 3]
 ```
 
 #### first
@@ -138,6 +138,20 @@ const cities = [
 ]
 
 given(cities).pluck('name') // ['Munich', 'Naha']
+```
+
+#### forgetBy
+
+Removes given field from array.
+
+```javascript
+const cities = [
+  { name: 'Munich' },
+  { name: 'Naha' },
+  { name: 'Naha' },
+]
+
+given(cities).forgetBy('name', 'Naha') // ['Munich']
 ```
 
 
