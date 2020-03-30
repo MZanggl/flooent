@@ -57,3 +57,9 @@ test('unique() removes duplicate values', assert => {
   isArr(assert, given([1, 2, 3, 1, 2, 3]).unique())
   assert.deepEqual(given([1, 2, 3, 1, 2, 3]).unique(), [1, 2, 3])
 })
+
+test('shuffle() shuffles the array randomly', assert => {
+  const numbers = given([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
+  isArr(assert, numbers.shuffle())
+  assert.notDeepEqual(numbers.shuffle(), numbers)
+})

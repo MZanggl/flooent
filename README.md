@@ -125,6 +125,14 @@ given(['a', 'b', 'c']).nth(5) // undefined
 given(['a', 'b', 'c']).nth(-1) // 'c'
 ```
 
+#### shuffle
+
+Shuffles the array.
+
+```javascript
+given([1, 2, 3]).shuffle() // ?, maybe: [1, 3, 2]
+```
+
 ### Fluent methods for array of objects
 
 #### pluck
