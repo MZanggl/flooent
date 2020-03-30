@@ -1,5 +1,6 @@
 import * as pull from 'lodash.pull'
 import * as uniq from 'lodash.uniq'
+import * as uniqby from 'lodash.uniqby'
 import * as shuffle from 'lodash.shuffle'
 
 class Arrayable extends Array {
@@ -34,8 +35,12 @@ class Arrayable extends Array {
     return this.map(item => item[key])
   }
 
-  unique() {
-    return this.constructor.from(uniq(this))
+  unique(key) {
+    if (!key) {
+      return this.constructor.from(uniq(this))
+    }
+
+    return this.constructor.from(uniqby(this, item => item[key]))
   }
 
   shuffle() {

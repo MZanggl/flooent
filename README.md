@@ -133,7 +133,15 @@ Shuffles the array.
 given([1, 2, 3]).shuffle() // ?, maybe: [1, 3, 2]
 ```
 
-### Fluent methods for array of objects
+#### unique
+
+Returns array of unique values.
+
+```javascript
+given([1, 1, 2]).unique() // [1, 2]
+```
+
+### Fluent methods for arrays of objects
 
 #### pluck
 
@@ -162,6 +170,14 @@ const cities = [
 given(cities).forgetBy('name', 'Naha') // ['Munich']
 ```
 
+#### unique
+
+Returns array of unique values comparing the given key.
+
+```javascript
+const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 1, name: 'music' }]
+given(items).unique('id') // [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }]
+```
 
 ## Strings
 

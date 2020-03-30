@@ -58,6 +58,12 @@ test('unique() removes duplicate values', assert => {
   assert.deepEqual(given([1, 2, 3, 1, 2, 3]).unique(), [1, 2, 3])
 })
 
+test('unique() removes duplicate values by key when given', assert => {
+  const cities = given([ { id: 1, city: 'Ishigaki' }, { city: 'Naha'}, { id: 3, city: 'Ishigaki' } ])
+  isArr(assert, cities.unique('city'))
+  assert.deepEqual(cities.unique('city'), [{ id: 1, city: 'Ishigaki' }, { city: 'Naha' }])
+})
+
 test('shuffle() shuffles the array randomly', assert => {
   const numbers = given([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
   isArr(assert, numbers.shuffle())
