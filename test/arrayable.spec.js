@@ -47,6 +47,13 @@ test('filterOut() removes given value from array', assert => {
   assert.deepEqual(given([1, 1,2 ]).filterOut(1), [2])
 })
 
+test('forget() omits the given keys from the object', assert => {
+  const people = given([ { id: 1, age: 24, initials: 'mz' }, { id: 2, age: 64, initials: 'lz' } ])
+  isArr(assert, people.forget('age'))
+  assert.deepEqual(people.forget('initials'), [ { id: 1, age: 24 }, { id: 2, age: 64 } ])
+  assert.deepEqual(people.forget(['initials', 'age']), [ { id: 1 }, { id: 2 } ])
+})
+
 test('filterOut() removes given value of given key from array', assert => {
   const cities = given([ { city: 'Ishigaki' }, { city: 'Naha'}, { city: 'Ishigaki' } ])
   isArr(assert, given(cities).filterOut('city', 'Ishigaki'))

@@ -2,6 +2,7 @@ import * as pull from 'lodash.pull'
 import * as uniq from 'lodash.uniq'
 import * as uniqby from 'lodash.uniqby'
 import * as shuffle from 'lodash.shuffle'
+import * as omit from 'lodash.omit'
 
 class Arrayable extends Array {
   first() {
@@ -29,6 +30,13 @@ class Arrayable extends Array {
     }
 
     return this.filter(item => item[key] !== value)
+  }
+
+  forget(keys) {
+    keys = Array.isArray(keys) ? keys : [keys]
+    return this.map(item => {
+      return omit(item, keys)
+    })
   }
 
   pluck(key) {
