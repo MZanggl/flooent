@@ -21,13 +21,8 @@ class Numberable extends Number {
     return new this.constructor(this * 100)
   }
 
-  map(callback) {
+  times(callback) {
     return Array.from({ length: this }, (value, i) => callback(i))
-  }
-
-  forEach(callback) {
-    Array.from({ length: this }).forEach(callback)
-    return this
   }
 
   round() {

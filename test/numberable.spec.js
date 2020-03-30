@@ -5,9 +5,9 @@ function isNum(assert, result) {
   assert.instanceOf(result, Numberable)
 }
 
-test('map() loops and maps through callback x times', assert => {
+test('times() loops and maps through callback x times', assert => {
   let count = 0
-  const mapped = given(3).map(i => {
+  const mapped = given(3).times(i => {
     count++
     return i
   })
@@ -15,17 +15,6 @@ test('map() loops and maps through callback x times', assert => {
   
   assert.equal(count, 3)
   assert.deepEqual(mapped, [0, 1, 2])
-})
-
-test('forEach() loops through callback x times', assert => {
-  let count = 0
-  const result = given(3).forEach(() => {
-    count++
-    return count // doesn't do anything
-  })
-
-  assert.equal(count, 3)
-  isNum(assert, result)
 })
 
 test('can calculate with percentages', assert => {

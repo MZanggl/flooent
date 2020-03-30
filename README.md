@@ -385,18 +385,12 @@ given('child').singular() // String { 'child' }
 
 ## Numbers
 
-#### forEach
+#### times
+
+Executes callback for number of base values' times and returns an array with the result of each iteration.
 
 ```javascript
-given(5).forEach(i => {
-  console.log(i)
-})
-```
-
-#### map
-
-```javascript
-given(3).map(i => i) // [0, 1, 2]
+given(3).times(i => i) // [0, 1, 2]
 ```
 
 ### Fluent methods
