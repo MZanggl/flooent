@@ -42,15 +42,15 @@ test('pluck() returns all values for a given key', assert => {
   assert.deepEqual(array.pluck('id'), [1, 2])
 })
 
-test('forget() removes given value from array', assert => {
-  isArr(assert, given([1, 2, 3, 1, 2, 3]).forget(1))
-  assert.deepEqual(given([1, 1,2 ]).forget(1), [2])
+test('filterOut() removes given value from array', assert => {
+  isArr(assert, given([1, 2, 3, 1, 2, 3]).filterOut(1))
+  assert.deepEqual(given([1, 1,2 ]).filterOut(1), [2])
 })
 
-test('forget() removes given value of given key from array', assert => {
+test('filterOut() removes given value of given key from array', assert => {
   const cities = given([ { city: 'Ishigaki' }, { city: 'Naha'}, { city: 'Ishigaki' } ])
-  isArr(assert, given(cities).forget('city', 'Ishigaki'))
-  assert.deepEqual(given(cities).forget('city', 'Ishigaki'), [{ city: 'Naha'}])
+  isArr(assert, given(cities).filterOut('city', 'Ishigaki'))
+  assert.deepEqual(given(cities).filterOut('city', 'Ishigaki'), [{ city: 'Naha'}])
 })
 
 test('unique() removes duplicate values', assert => {

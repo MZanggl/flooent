@@ -81,14 +81,14 @@ There are various fluent alternatives available.
 
 ### Fluent methods
 
-#### forget
+#### filterOut
 
 Removes given field from array.
 
 ```javascript
 const numbers = [1, 1, 2, 3]
 
-given(numbers).forget(1) // [2, 3]
+given(numbers).filterOut(1) // [2, 3]
 ```
 
 #### first
@@ -156,7 +156,7 @@ const cities = [
 given(cities).pluck('name') // ['Munich', 'Naha']
 ```
 
-#### forget
+#### filterOut
 
 Removes given field from array comparing the given key and value.
 
@@ -167,7 +167,7 @@ const cities = [
   { id: 3, name: 'Naha' },
 ]
 
-given(cities).forget('name', 'Naha') // ['Munich']
+given(cities).filterOut('name', 'Naha') // ['Munich']
 ```
 
 #### unique
