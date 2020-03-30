@@ -1,6 +1,6 @@
 {
   "name": "flooent",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Fluent interface to provide an expressive syntax for common manipulations.",
   "main": "./dist/index.js",
   "scripts": {
