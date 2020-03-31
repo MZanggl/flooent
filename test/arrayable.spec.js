@@ -76,3 +76,28 @@ test('shuffle() shuffles the array randomly', assert => {
   isArr(assert, numbers.shuffle())
   assert.notDeepEqual(numbers.shuffle(), numbers)
 })
+
+test('filled() only returns items that are not empty', assert => {
+  isArr(assert, given([1]).filled())
+  assert.deepEqual(given([1, 0, '', null, undefined, 2]).filled(), [1, 2])
+})
+
+test('groupBy() groups an array of object by the given key', assert => {
+  const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
+  const result = given(users).groupBy('area')
+
+  isArr(assert, result.LA)
+  assert.deepEqual(result, {
+    'New York': [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}],
+    'LA': [{ id: 3, area: 'LA' }]
+  })
+})
+
+test('clone() copies an array recursively', assert => {
+  const users = given([{ id: 1 }, { id: 2 }, { id: 3 }])
+  const cloned = users.clone()
+
+  isArr(assert, cloned)
+  assert.notEqual(users[0], cloned[0])
+  assert.deepEqual(users, cloned)
+})

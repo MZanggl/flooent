@@ -141,7 +141,15 @@ Returns array of unique values.
 given([1, 1, 2]).unique() // [1, 2]
 ```
 
-### Fluent methods for arrays of objects
+#### filled
+
+Only returns items which are not empty
+
+```javascript
+given([0, '', null, undefined, 1, 2]).filled() // [1, 2]
+```
+
+### Methods for arrays of objects
 
 #### pluck
 
@@ -191,6 +199,40 @@ Returns array of unique values comparing the given key.
 ```javascript
 const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 1, name: 'music' }]
 given(items).unique('id') // [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }]
+```
+
+#### filled
+
+Only returns items which the value of the given key is not empty.
+
+```javascript
+const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 3, name: '' }]
+given(items).filled('name') // [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }]
+```
+
+#### clone
+
+Deep clones an array.
+
+```javascript
+const items = [{ id: 1, name: 'music' }]
+const clone = given(items).clone() // [{ id: 1, name: 'music' }]
+console.log(items[0] === clone[0]) // false
+```
+
+#### groupBy
+
+Groups an array by the given key
+
+```javascript
+const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 3, name: 'music' }]
+given(items).groupBy('name') // result is:
+/*
+{
+  music: [{ id: 1, name: 'music' }, { id: 3, name: 'music' }],
+  movie: [{ id: 2, name: 'movie' }]
+}
+*/
 ```
 
 ## Strings

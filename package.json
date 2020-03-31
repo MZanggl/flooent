@@ -26,6 +26,7 @@
   "dependencies": {
     "japa": "^3.0.1",
     "lodash.camelcase": "^4.3.0",
+    "lodash.clonedeep": "^4.5.0",
     "lodash.kebabcase": "^4.1.1",
     "lodash.omit": "^4.5.0",
     "lodash.pull": "^4.1.0",

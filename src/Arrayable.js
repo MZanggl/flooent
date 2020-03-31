@@ -3,6 +3,7 @@ import * as uniq from 'lodash.uniq'
 import * as uniqby from 'lodash.uniqby'
 import * as shuffle from 'lodash.shuffle'
 import * as omit from 'lodash.omit'
+import * as clonedeep from 'lodash.clonedeep'
 
 class Arrayable extends Array {
   first() {
@@ -30,6 +31,27 @@ class Arrayable extends Array {
     }
 
     return this.filter(item => item[key] !== value)
+  }
+
+  filled(key) {
+    if (!key) {
+      return this.filter(value => !!value)
+    }
+
+    return this.filter(item => !!item[key])
+  }
+
+  clone() {
+    // lodash does array.constructor(lenght) which doesn't work on subclassed arrays
+    return this.constructor.from(clonedeep([...this]))
+  }
+
+  groupBy(key) {
+    return this.reduce((result, item) => {
+      result[item[key]] = result[item[key]] || new this.constructor
+      result[item[key]].push(item)
+      return result
+    }, {})
   }
 
   forget(keys) {
