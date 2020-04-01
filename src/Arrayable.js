@@ -25,12 +25,36 @@ class Arrayable extends Array {
     return this.length - 1 >= index ? this[index] : undefined
   }
 
-  filterOut(key, value = key) {
+  whereNot(key, value = key) {
     if (arguments.length === 1) {
-      return pull(this, value)
+      return this.filter(item => item !== value)
     }
 
     return this.filter(item => item[key] !== value)
+  }
+
+  where(key, value = key) {
+    if (arguments.length === 1) {
+      return this.filter(item => item === value)
+    }
+
+    return this.filter(item => item[key] === value)
+  }
+
+  whereIn(key, value = key) {
+    if (arguments.length === 1) {
+      return this.filter(item => value.includes(item))
+    }
+
+    return this.filter(item => value.includes(item[key]))
+  }
+
+  whereNotIn(key, value = key) {
+    if (arguments.length === 1) {
+      return this.filter(item => !value.includes(item))
+    }
+
+    return this.filter(item => !value.includes(item[key]))
   }
 
   filled(key) {

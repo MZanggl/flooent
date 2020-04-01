@@ -81,14 +81,44 @@ There are various fluent alternatives available.
 
 ### Fluent methods
 
-#### filterOut
+#### where
 
-Removes given field from array.
+Filters array by given value.
 
 ```javascript
 const numbers = [1, 1, 2, 3]
 
-given(numbers).filterOut(1) // [2, 3]
+given(numbers).where(1) // [1, 1]
+```
+
+#### whereIn
+
+Filters array by given values.
+
+```javascript
+const numbers = [1, 1, 2, 3]
+
+given(numbers).whereIn([1, 3]) // [1, 1, 3]
+```
+
+#### whereNot
+
+Removes given value from array.
+
+```javascript
+const numbers = [1, 1, 2, 3]
+
+given(numbers).whereNot(1) // [2, 3]
+```
+
+#### whereNotIn
+
+Removes given values from array.
+
+```javascript
+const numbers = [1, 1, 2, 3]
+
+given(numbers).whereNotIn([2, 3]) // [1, 1]
 ```
 
 #### first
@@ -164,9 +194,9 @@ const cities = [
 given(cities).pluck('name') // ['Munich', 'Naha']
 ```
 
-#### filterOut
+#### where
 
-Removes given field from array comparing the given key and value.
+Filters array by given key / value pair.
 
 ```javascript
 const cities = [
@@ -175,7 +205,49 @@ const cities = [
   { id: 3, name: 'Naha' },
 ]
 
-given(cities).filterOut('name', 'Naha') // ['Munich']
+given(cities).where('name', 'Munich') // [{ id: 1, name: 'Munich' }]
+```
+
+#### whereNot
+
+Removes items from array by the given key / value pair.
+
+```javascript
+const cities = [
+  { id: 1, name: 'Munich' },
+  { id: 2, name: 'Naha' },
+  { id: 3, name: 'Naha' },
+]
+
+given(cities).whereNot('name', 'Naha') // [{ id: 1, name: 'Munich' }]
+```
+
+#### whereIn
+
+Filters array by given key and values.
+
+```javascript
+const cities = [
+  { id: 1, name: 'Munich' },
+  { id: 2, name: 'Naha' },
+  { id: 3, name: 'Yoron' },
+]
+
+given(cities).whereIn('name', ['Munich', 'Yoron']) // [{ id: 1, name: 'Munich' }, { id: 3, name: 'Yoron' }]
+```
+
+#### whereNotIn
+
+Removes items from array by the given key and values.
+
+```javascript
+const cities = [
+  { id: 1, name: 'Munich' },
+  { id: 2, name: 'Naha' },
+  { id: 3, name: 'Yoron' },
+]
+
+given(cities).whereNotIn('name', ['Naha', 'Yoron']) // [{ id: 1, name: 'Munich' }]
 ```
 
 #### forget

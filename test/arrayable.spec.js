@@ -42,9 +42,24 @@ test('pluck() returns all values for a given key', assert => {
   assert.deepEqual(array.pluck('id'), [1, 2])
 })
 
-test('filterOut() removes given value from array', assert => {
-  isArr(assert, given([1, 2, 3, 1, 2, 3]).filterOut(1))
-  assert.deepEqual(given([1, 1,2 ]).filterOut(1), [2])
+test('whereNot() removes given value from array', assert => {
+  isArr(assert, given([1, 2, 3, 1, 2, 3]).whereNot(1))
+  assert.deepEqual(given([1, 1,2 ]).whereNot(1), [2])
+})
+
+test('where() filters array by given value', assert => {
+  isArr(assert, given([1, 2, 3, 1, 2, 3]).where(1))
+  assert.deepEqual(given([1, 1, 2 ]).where(1), [1, 1])
+})
+
+test('whereIn() filters array by given values', assert => {
+  isArr(assert, given([1, 2, 3, 1, 2, 3]).whereIn([1]))
+  assert.deepEqual(given([1, 1, 2, 3 ]).whereIn([1, 2]), [1, 1, 2])
+})
+
+test('whereNotIn() removes given values from array', assert => {
+  isArr(assert, given([1, 2, 3, 1, 2, 3]).whereNotIn([1]))
+  assert.deepEqual(given([1, 1, 2, 3 ]).whereNotIn([1, 2]), [3])
 })
 
 test('forget() omits the given keys from the object', assert => {
@@ -54,10 +69,28 @@ test('forget() omits the given keys from the object', assert => {
   assert.deepEqual(people.forget(['initials', 'age']), [ { id: 1 }, { id: 2 } ])
 })
 
-test('filterOut() removes given value of given key from array', assert => {
+test('whereNot() removes given value of given key from array', assert => {
   const cities = given([ { city: 'Ishigaki' }, { city: 'Naha'}, { city: 'Ishigaki' } ])
-  isArr(assert, given(cities).filterOut('city', 'Ishigaki'))
-  assert.deepEqual(given(cities).filterOut('city', 'Ishigaki'), [{ city: 'Naha'}])
+  isArr(assert, cities.whereNot('city', 'Ishigaki'))
+  assert.deepEqual(cities.whereNot('city', 'Ishigaki'), [{ city: 'Naha'}])
+})
+
+test('where() filters array by given key / value pair', assert => {
+  const cities = given([ { city: 'Ishigaki' }, { city: 'Naha'}, { city: 'Ishigaki' } ])
+  isArr(assert, cities.where('city', 'Naha'))
+  assert.deepEqual(cities.where('city', 'Naha'), [{ city: 'Naha'}])
+})
+
+test('whereIn() filters array by given key and values', assert => {
+  const cities = given([ { city: 'Hokkaido' }, { city: 'Naha'}, { city: 'Ishigaki' } ])
+  isArr(assert, cities.whereIn('city', 'Naha'))
+  assert.deepEqual(cities.whereIn('city', ['Naha', 'Hokkaido']), [{ city: 'Hokkaido'}, { city: 'Naha'}])
+})
+
+test('whereNotIn() filters out items in array by given key and values', assert => {
+  const cities = given([ { city: 'Hokkaido' }, { city: 'Naha'}, { city: 'Ishigaki' } ])
+  isArr(assert, cities.whereNotIn('city', 'Naha'))
+  assert.deepEqual(cities.whereNotIn('city', ['Naha', 'Hokkaido']), [{ city: 'Ishigaki' }])
 })
 
 test('unique() removes duplicate values', assert => {
