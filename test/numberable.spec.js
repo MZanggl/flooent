@@ -44,3 +44,19 @@ test('max(), min(), round(), ceil(), floor() calls respective Math class', asser
   isNum(assert, given(1).floor(1))
   assert.equal(given(10.5).floor(), Math.round(10))
 })
+
+test('pad() fills up number with zeroes', assert => {
+  assert.equal(given(23).pad(3), '023')
+  assert.equal(given(23).pad(5), '00023')
+  assert.equal(given(23).pad(2), '23')
+  assert.equal(given(23).pad(-1), '23')
+})
+
+test('ordinal() returns number with ordinal suffix', assert => {
+  assert.equal(given(20).ordinal(), '20th')
+  assert.equal(given(21).ordinal(), '21st')
+  assert.equal(given(22).ordinal(), '22nd')
+  assert.equal(given(23).ordinal(), '23rd')
+  assert.equal(given(24).ordinal(), '24th')
+  assert.equal(given(25).ordinal(), '25th')
+})

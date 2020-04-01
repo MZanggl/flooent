@@ -21,6 +21,17 @@ class Numberable extends Number {
     return new this.constructor(this * 100)
   }
 
+  ordinal() {
+    const finalDigit = this.toString().slice(-1)
+    return this + (['th', 'st', 'nd', 'rd'][finalDigit] || 'th')
+  }
+
+  pad(size) {
+    let value = this.toString()
+    while (value.length < size) value = "0" + value;
+    return value
+  }
+
   times(callback) {
     return Array.from({ length: this }, (value, i) => callback(i))
   }

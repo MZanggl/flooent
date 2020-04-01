@@ -559,6 +559,23 @@ Executes callback for number of base values' times and returns an array with the
 given(3).times(i => i) // [0, 1, 2]
 ```
 
+#### pad
+
+Fills up number with zeroes.
+
+```javascript
+given(40).pad(4) // '0040'
+```
+
+#### ordinal
+
+Returns number with ordinal suffix. Only supports English.
+
+```javascript
+given(1).ordinal() // '1st'
+given(9).ordinal() // '9th'
+```
+
 ### Fluent methods
 
 #### Working with percentages
