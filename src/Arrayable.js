@@ -7,23 +7,31 @@ import * as clonedeep from 'lodash.clonedeep'
 import * as isequal from 'lodash.isequal'
 
 class Arrayable extends Array {
-  first() {
-    return this.length > 0 ? this[0] : undefined
+  first(count) {
+    if (count) {
+      return this.slice(0, count)
+    }
+
+    return this[0]
   }
 
   second() {
-    return this.length > 1 ? this[1] : undefined
+    return this[1]
   }
   
-  last() {
-    return this.length > 0 ? this[this.length - 1] : undefined
+  last(count) {
+    if (count) {
+      return this.slice(this.length - count)
+    }
+
+    return this[this.length - 1]
   }
 
   nth(index) {
     if (index < 0) {
       index = this.length + index
     }
-    return this.length - 1 >= index ? this[index] : undefined
+    return this[index]
   }
 
   whereNot(key, value = key) {
