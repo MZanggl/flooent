@@ -16,6 +16,8 @@ test('it can create Arrayable from array', (assert) => {
 test('first() returns first value in array or undefined', assert => {
   assert.equal(given([1, 2]).first(), 1)
   assert.isUndefined(given([]).first())
+  assert.deepEqual(given([1, 2]).first(2), [1, 2])
+  assert.deepEqual(given([1, 2]).first(4), [1, 2])
 })
 
 test('second() returns second value in array or undefined', assert => {
@@ -26,6 +28,10 @@ test('second() returns second value in array or undefined', assert => {
 test('last() returns last value in array or undefined', assert => {
   assert.equal(given([1, 2]).last(), 2)
   assert.isUndefined(given([]).last())
+
+  assert.deepEqual(given([1, 2]).last(1), [2])
+  assert.deepEqual(given([1, 2, 3, 4]).last(2), [3, 4])
+  assert.deepEqual(given([1, 2, 3, 4]).last(200), [1, 2, 3, 4])
 })
 
 test('nth() returns value at given index in array or undefined', assert => {
