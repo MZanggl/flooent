@@ -133,10 +133,11 @@ given(numbers).whereNotIn([2, 3]) // [1, 1]
 
 #### first
 
-Returns first element in array or undefined.
+Returns first (x) element(s) in array or undefined.
 
 ```javascript
 given([1, 2, 3]).first() // 1
+given([1, 2, 3]).first(2) // [1, 2]
 ```
 
 #### second
@@ -149,10 +150,11 @@ given([1, 2, 3]).second() // 2
 
 #### last
 
-Returns last element in array or undefined.
+Returns last (x) element(s) in array or undefined.
 
 ```javascript
 given([1, 2, 3]).last() // 3
+given([1, 2, 3]).last(2) // [2, 3]
 ```
 
 #### nth
