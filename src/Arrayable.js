@@ -4,6 +4,7 @@ import * as uniqby from 'lodash.uniqby'
 import * as shuffle from 'lodash.shuffle'
 import * as omit from 'lodash.omit'
 import * as clonedeep from 'lodash.clonedeep'
+import * as isequal from 'lodash.isequal'
 
 class Arrayable extends Array {
   first() {
@@ -99,6 +100,14 @@ class Arrayable extends Array {
 
   shuffle() {
     return this.constructor.from(shuffle(this))
+  }
+
+  is(compareWith) {
+    return isequal(this, compareWith)
+  }
+
+  squacksLike(duck) {
+    return this.is(duck)
   }
 }
 
