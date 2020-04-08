@@ -79,6 +79,17 @@ There are various fluent alternatives available.
 
 ## Arrays
 
+#### is / squawksLike
+
+Deep-compares the given value with the array
+
+```javascript
+const users = [{ id: 1 }]
+
+given(users).is([{ id: 1 }]) // true
+given(users).squawksLike([{ id: 1 }]) // true
+```
+
 ### Fluent methods
 
 #### where

@@ -134,3 +134,11 @@ test('clone() copies an array recursively', assert => {
   assert.notEqual(users[0], cloned[0])
   assert.deepEqual(users, cloned)
 })
+
+test('is() / squawksLike() deep-checks if the given value is the same', assert => {
+  const users = given([{ id: 1 }, { id: 2 }, { id: 3 }])
+
+  assert.isTrue(users.is([{ id: 1 }, { id: 2 }, { id: 3 }]))
+  assert.isFalse(users.is([{ id: 1 }, { id: 2 }]))
+  assert.isFalse(users.squawksLike([{ id: 11 }, { id: 2 }, { id: 3 }]))
+})
