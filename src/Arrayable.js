@@ -117,6 +117,16 @@ class Arrayable extends Array {
   squawksLike(duck) {
     return this.is(duck)
   }
+
+  partition(callback) {
+    const tuple = [ this.constructor.from([]), this.constructor.from([]) ]
+
+    return this.reduce((result, item) => {
+      const hasPassedTest = callback(item)
+      result[hasPassedTest ? 0 : 1].push(item)
+      return result
+    }, tuple)
+  }
 }
 
 export default Arrayable

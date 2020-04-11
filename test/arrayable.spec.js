@@ -148,3 +148,14 @@ test('is() / squawksLike() deep-checks if the given value is the same', assert =
   assert.isFalse(users.is([{ id: 1 }, { id: 2 }]))
   assert.isFalse(users.squawksLike([{ id: 11 }, { id: 2 }, { id: 3 }]))
 })
+
+test('partition() returns a tuple separating the items that pass the given truth test', assert => {
+  const users = given([{ id: 1, active: false }, { id: 2, active: false }, { id: 3, active: true }])
+
+  const [activeUsers, inactiveUsers] = users.partition(user => user.active)
+  isArr(assert, activeUsers)
+  isArr(assert, inactiveUsers)
+
+  assert.deepEqual(inactiveUsers, [{ id: 1, active: false }, { id: 2, active: false }])
+  assert.deepEqual(activeUsers, [{ id: 3, active: true }])
+})
