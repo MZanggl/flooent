@@ -185,10 +185,20 @@ given([1, 1, 2]).unique() // [1, 2]
 
 #### filled
 
-Only returns items which are not empty
+Only returns items which are not empty.
 
 ```javascript
 given([0, '', null, undefined, 1, 2]).filled() // [1, 2]
+```
+
+#### partition
+
+Returns a tuple separating the items that pass the given truth test.
+
+```javascript
+const users = given([{ id: 1, active: false }, { id: 2, active: false }, { id: 3, active: true }])
+
+const [activeUsers, inactiveUsers] = users.partition(user => user.active)
 ```
 
 ### Methods for arrays of objects
