@@ -202,6 +202,24 @@ const users = given([{ id: 1, active: false }, { id: 2, active: false }, { id: 3
 const [activeUsers, inactiveUsers] = users.partition(user => user.active)
 ```
 
+#### prepend
+
+Prepends the given items to the array. Unlike `unshift` it returns the entire array.
+
+```javascript
+const numbers = given([2, 3])
+numbers.prepend(0, 1) // [0, 1, 2, 3]
+```
+
+#### append
+
+Appends the given items to the array. Unlike `push` it returns the entire array.
+
+```javascript
+const numbers = given([0, 1])
+numbers.append(2, 3) // [0, 1, 2, 3]
+```
+
 ### Methods for arrays of objects
 
 #### pluck

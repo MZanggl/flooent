@@ -159,3 +159,17 @@ test('partition() returns a tuple separating the items that pass the given truth
   assert.deepEqual(inactiveUsers, [{ id: 1, active: false }, { id: 2, active: false }])
   assert.deepEqual(activeUsers, [{ id: 3, active: true }])
 })
+
+test('prepend() prepends the given items to the array and returns the entire array', assert => {
+  const numbers = given([2, 3])
+
+  isArr(assert, numbers.prepend(0, 1))
+  assert.deepEqual(numbers, [0, 1, 2, 3])
+})
+
+test('append() appends the given items to the array and returns the entire array', assert => {
+  const numbers = given([0, 1])
+
+  isArr(assert, numbers.append(2, 3))
+  assert.deepEqual(numbers, [0, 1, 2, 3])
+})
