@@ -81,8 +81,9 @@ class Arrayable extends Array {
 
   groupBy(key) {
     return this.reduce((result, item) => {
-      result[item[key]] = result[item[key]] || new this.constructor
-      result[item[key]].push(item)
+      const group = typeof key === 'function' ? key(item) : item[key]
+      result[group] = result[group] || new this.constructor
+      result[group].push(item)
       return result
     }, {})
   }

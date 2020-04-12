@@ -348,6 +348,19 @@ given(items).groupBy('name') // result is:
 */
 ```
 
+Alternatively, pass in a function which result will become the key instead.
+
+```javascript
+const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 3, name: 'music' }]
+given(items).groupBy(item => item.name.toUpperCase()) // result is:
+/*
+{
+  MUSIC: [{ id: 1, name: 'music' }, { id: 3, name: 'music' }],
+  MOVIE: [{ id: 2, name: 'movie' }]
+}
+*/
+```
+
 ## Strings
 
 #### is
