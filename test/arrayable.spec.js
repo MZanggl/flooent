@@ -132,6 +132,17 @@ test('groupBy() groups an array of object by the given key', assert => {
   })
 })
 
+test('groupBy() groups an array of object by the given key transformation', assert => {
+  const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
+  const result = given(users).groupBy(item => item.area.toLowerCase())
+
+  isArr(assert, result.la)
+  assert.deepEqual(result, {
+    'new york': [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}],
+    'la': [{ id: 3, area: 'LA' }]
+  })
+})
+
 test('clone() copies an array recursively', assert => {
   const users = given([{ id: 1 }, { id: 2 }, { id: 3 }])
   const cloned = users.clone()
