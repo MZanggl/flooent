@@ -127,6 +127,16 @@ class Arrayable extends Array {
       return result
     }, tuple)
   }
+
+  prepend(...items) {
+    this.unshift(...items)
+    return this
+  }
+
+  append(...items) {
+    this.push(...items)
+    return this
+  }
 }
 
 export default Arrayable
