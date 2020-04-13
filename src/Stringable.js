@@ -6,7 +6,7 @@ import * as startcase from 'lodash.startcase'
 import * as slugify from 'slugify'
 import * as pluralize from 'pluralize'
 
-const override = ['replace', 'trim', 'trimEnd', 'trimStart', 'substr', 'substring', 'concat', 'repeat', 'slice', 'toLocaleLowerCase', 'toLocaleUpperCase', 'toLowerCase', 'toUpperCase', 'charAt', 'charCodeAt']
+const override = ['replace', 'replaceAll', 'trim', 'trimEnd', 'trimStart', 'substr', 'substring', 'concat', 'repeat', 'slice', 'toLocaleLowerCase', 'toLocaleUpperCase', 'toLowerCase', 'toUpperCase', 'charAt', 'charCodeAt']
 
 const symbol = Symbol('Stringable')
 
