@@ -219,6 +219,26 @@ const numbers = given([0, 1])
 numbers.append(2, 3) // [0, 1, 2, 3]
 ```
 
+#### pipe
+
+Executes callback and transforms result back into a flooent array.
+
+```javascript
+given([]).pipe(array => array.append(1)) // [1]
+```
+
+#### tap
+
+Tap into the chain without modifying the array.
+
+```javascript
+given([])
+  .append(1)
+  .tap(array => console.log(array))
+  .append(2)
+  // ...
+```
+
 ### Methods for arrays of objects
 
 #### pluck
@@ -313,6 +333,12 @@ const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 1, name
 given(items).unique('id') // [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }]
 ```
 
+Alternatively, pass in a function of which its result will become the key instead.
+
+```javascript
+const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 3, name: 'MUSIC' }]
+given(items).unique(item => item.name.toLowerCase()) // [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }]
+
 #### filled
 
 Only returns items which the value of the given key is not empty.
@@ -347,7 +373,7 @@ given(items).groupBy('name') // result is:
 */
 ```
 
-Alternatively, pass in a function which result will become the key instead.
+Alternatively, pass in a function of which its result will become the key instead.
 
 ```javascript
 const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 3, name: 'music' }]
@@ -472,6 +498,18 @@ Executes callback and transforms result back into a flooent string.
 
 ```javascript
 given('').pipe(str => str.append('!')) // String { '!' }
+```
+
+#### tap
+
+Tap into the chain without modifying the string.
+
+```javascript
+given('')
+  .append('!')
+  .tap(str => console.log(str))
+  .append('!')
+  // ...
 ```
 
 #### when

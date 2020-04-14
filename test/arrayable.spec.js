@@ -110,6 +110,14 @@ test('unique() removes duplicate values by key when given', assert => {
   assert.deepEqual(cities.unique('city'), [{ id: 1, city: 'Ishigaki' }, { city: 'Naha' }])
 })
 
+test('unique() removes duplicate values by return value when callback when given', assert => {
+  const cities = given([ { id: 1, city: 'ishigaki' }, { city: 'Naha'}, { id: 3, city: 'Ishigaki' } ])
+  assert.deepEqual(cities.unique(item => item.city), cities)
+
+  isArr(assert, cities.unique(item => item.city.toLowerCase()))
+  assert.deepEqual(cities.unique(item => item.city.toLowerCase()), [{ id: 1, city: 'ishigaki' }, { city: 'Naha' }])
+})
+
 test('shuffle() shuffles the array randomly', assert => {
   const numbers = given([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
   isArr(assert, numbers.shuffle())
@@ -183,4 +191,19 @@ test('append() appends the given items to the array and returns the entire array
 
   isArr(assert, numbers.append(2, 3))
   assert.deepEqual(numbers, [0, 1, 2, 3])
+})
+
+test('tap() lets you tap into the process without modifying the array', assert => {
+  isArr(assert, given([]).tap(() => 1))
+
+  let wasCalled = false
+  given([]).tap(() => wasCalled = true)
+  assert.isTrue(wasCalled)
+
+  assert.deepEqual(given([]).tap(arr => 1), [])
+})
+
+test('pipe() calls the callback and lets you continue the chain', assert => {
+  isArr(assert, given([]).pipe(array => [1]))
+  assert.deepEqual(given([]).pipe(arr => arr.append(1)), [1])
 })

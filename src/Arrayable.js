@@ -104,7 +104,8 @@ class Arrayable extends Array {
       return this.constructor.from(uniq(this))
     }
 
-    return this.constructor.from(uniqby(this, item => item[key]))
+    const compareFn = typeof key === 'function' ? key : item => item[key]
+    return this.constructor.from(uniqby(this, compareFn))
   }
 
   shuffle() {
@@ -113,6 +114,15 @@ class Arrayable extends Array {
 
   is(compareWith) {
     return isequal(this, compareWith)
+  }
+
+  tap(fn) {
+    fn(this)
+    return this
+  }
+
+  pipe(callback) {
+    return this.constructor.from(callback(this))
   }
 
   quacksLike(duck) {
