@@ -224,7 +224,9 @@ numbers.append(2, 3) // [0, 1, 2, 3]
 Executes callback and transforms result back into a flooent array.
 
 ```javascript
-given([]).pipe(array => array.append(1)) // [1]
+const someMethodToBePipedThrough = array => array.append(1)
+
+given([]).pipe(someMethodToBePipedThrough) // [1]
 ```
 
 #### tap
@@ -376,7 +378,7 @@ given(items).groupBy('name') // result is:
 Alternatively, pass in a function of which its result will become the key instead.
 
 ```javascript
-const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 3, name: 'music' }]
+const items = [{ id: 1, name: 'Music' }, { id: 2, name: 'movie' }, { id: 3, name: 'music' }]
 given(items).groupBy(item => item.name.toUpperCase()) // result is:
 /*
 {
