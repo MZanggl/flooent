@@ -97,6 +97,7 @@ Returns the sum of the array.
 given([2, 2, 1]).sum() // 5
 ```
 
+> See usage for [arrays of objects](#sum-1).
 
 #### when
 
@@ -124,6 +125,8 @@ const numbers = [1, 1, 2, 3]
 given(numbers).where(1) // [1, 1]
 ```
 
+> See usage for [arrays of objects](#where-1).
+
 #### whereIn
 
 Filters array by given values.
@@ -133,6 +136,8 @@ const numbers = [1, 1, 2, 3]
 
 given(numbers).whereIn([1, 3]) // [1, 1, 3]
 ```
+
+> See usage for [arrays of objects](#wherein-1).
 
 #### whereNot
 
@@ -144,6 +149,8 @@ const numbers = [1, 1, 2, 3]
 given(numbers).whereNot(1) // [2, 3]
 ```
 
+> See usage for [arrays of objects](#wherenot-1).
+
 #### whereNotIn
 
 Removes given values from array.
@@ -153,6 +160,8 @@ const numbers = [1, 1, 2, 3]
 
 given(numbers).whereNotIn([2, 3]) // [1, 1]
 ```
+
+> See usage for [arrays of objects](#wherenotin-1).
 
 #### first
 
@@ -206,6 +215,8 @@ Returns array of unique values.
 given([1, 1, 2]).unique() // [1, 2]
 ```
 
+> See usage for [arrays of objects](#unique-1).
+
 #### filled
 
 Only returns items which are not empty.
@@ -213,6 +224,8 @@ Only returns items which are not empty.
 ```javascript
 given([0, '', null, undefined, 1, 2]).filled() // [1, 2]
 ```
+
+> See usage for [arrays of objects](#filled-1).
 
 #### partition
 
@@ -251,6 +264,8 @@ given([3, 1, 2]).sortAsc() // [1, 2, 3]
 given([3, 1, 2]).sortDesc() // [3, 2, 1]
 ```
 
+> See usage for [arrays of objects](#sortasc--sortdesc-1).
+
 #### pipe
 
 Executes callback and transforms result back into a flooent array.
@@ -273,6 +288,16 @@ given([])
   // ...
 ```
 
+#### clone
+
+Deep clones an array.
+
+```javascript
+const items = [{ id: 1, name: 'music' }]
+const clone = given(items).clone() // [{ id: 1, name: 'music' }]
+console.log(items[0] === clone[0]) // false
+```
+
 ### Methods for arrays of objects
 
 #### sum
@@ -292,8 +317,8 @@ Sorts an array in their respective order and **returns a new array**.
 
 ```javascript
 const numbers = [{ val: 3 }, { val: 1 }, { val: 2 }]
-given(numbers).sortAsc() // [{ val: 1 }, { val: 2 }, { val: 3 }]
-given(numbers).sortDesc() // [{ val: 3 }, { val: 2 }, { val: 1 }]
+given(numbers).sortAsc('val') // [{ val: 1 }, { val: 2 }, { val: 3 }]
+given(numbers).sortDesc('val') // [{ val: 3 }, { val: 2 }, { val: 1 }]
 ```
 
 #### pluck
@@ -393,6 +418,7 @@ Alternatively, pass in a function of which its result will become the key instea
 ```javascript
 const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 3, name: 'MUSIC' }]
 given(items).unique(item => item.name.toLowerCase()) // [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }]
+```
 
 #### filled
 
@@ -401,16 +427,6 @@ Only returns items which the value of the given key is not empty.
 ```javascript
 const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 3, name: '' }]
 given(items).filled('name') // [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }]
-```
-
-#### clone
-
-Deep clones an array.
-
-```javascript
-const items = [{ id: 1, name: 'music' }]
-const clone = given(items).clone() // [{ id: 1, name: 'music' }]
-console.log(items[0] === clone[0]) // false
 ```
 
 #### groupBy
