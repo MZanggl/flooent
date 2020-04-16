@@ -151,6 +151,14 @@ test('groupBy() groups an array of object by the given key transformation', asse
   })
 })
 
+test('sum() sums all the values in the array', assert => {
+  assert.equal(given([2, 2, 1]).sum(), 5)
+
+  const users = [{ id: 1, points: 10 }, { id: 2, points: 10 }, { id: 3, points: 10 }]
+  assert.equal(given(users).sum('points'), 30)
+  assert.equal(given(users).sum(user => user.points * 10), 300)
+})
+
 test('clone() copies an array recursively', assert => {
   const users = given([{ id: 1 }, { id: 2 }, { id: 3 }])
   const cloned = users.clone()

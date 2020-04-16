@@ -89,6 +89,14 @@ const users = [{ id: 1 }]
 given(users).is([{ id: 1 }]) // true
 ```
 
+#### sum
+
+Returns the sum of the array.
+
+```javascript
+given([2, 2, 1]).sum() // 5
+```
+
 ### Fluent methods
 
 #### where
@@ -242,6 +250,17 @@ given([])
 ```
 
 ### Methods for arrays of objects
+
+#### sum
+
+Returns the sum of the given field/result of callback in the array.
+
+```javascript
+  const users = [{ id: 1, points: 10 }, { id: 2, points: 10 }, { id: 3, points: 10 }]
+
+  given(users).sum('points') // 30
+  given(users).sum(user => user.points * 10) // 300
+```
 
 #### pluck
 

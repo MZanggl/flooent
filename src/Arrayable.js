@@ -88,6 +88,16 @@ class Arrayable extends Array {
     }, {})
   }
 
+  sum(key) {
+    return this.reduce((result, item) => {
+      let number = item
+      if (key) {
+        number = typeof key === 'function' ? key(item) : item[key]
+      }
+      return result + number
+    }, 0)
+  }
+
   forget(keys) {
     keys = Array.isArray(keys) ? keys : [keys]
     return this.map(item => {
