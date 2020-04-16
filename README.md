@@ -97,6 +97,21 @@ Returns the sum of the array.
 given([2, 2, 1]).sum() // 5
 ```
 
+
+#### when
+
+Executes callback if first given value evaluates to true. Result will get transformed back into a flooent array.
+
+```javascript
+// can be a boolean
+given([]).when(true, str => str.append(1)) // [1]
+given([]).when(false, str => str.append(1)) // []
+
+// or a method
+given([]).when(array => array.is([]), array => array.append('called!')) // ['called']
+given([]).when(array => array.is([1]), array => array.append('called!')) // []
+```
+
 ### Fluent methods
 
 #### where

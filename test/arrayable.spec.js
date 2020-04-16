@@ -159,6 +159,16 @@ test('sum() sums all the values in the array', assert => {
   assert.equal(given(users).sum(user => user.points * 10), 300)
 })
 
+test('when() can apply modifications conditionally', assert => {
+  const callback = array => array.append('called')
+  isArr(assert, given([]).when(true, () => [1]))
+
+  assert.deepEqual(given([]).when(true, callback), ['called'])
+  assert.deepEqual(given([]).when(false, callback), [])
+  assert.deepEqual(given([]).when(array => array.is([]), callback), ['called'])
+  assert.deepEqual(given([]).when(array => array.is(['called']), callback), [])
+})
+
 test('clone() copies an array recursively', assert => {
   const users = given([{ id: 1 }, { id: 2 }, { id: 3 }])
   const cloned = users.clone()

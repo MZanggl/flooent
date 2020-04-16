@@ -135,6 +135,20 @@ class Arrayable extends Array {
     return this.constructor.from(callback(this))
   }
 
+  when(comparison, then) {
+    const isBoolean = typeof comparison === 'boolean'
+
+    if (isBoolean && !comparison) {
+      return this
+    }
+
+    if (!isBoolean && !comparison(this)) {
+      return this
+    }
+    
+    return this.pipe(then)
+  }
+
   quacksLike(duck) {
     return this.is(duck)
   }
