@@ -172,6 +172,21 @@ class Arrayable extends Array {
     this.push(...items)
     return this
   }
+
+  sortDesc(key) {
+    if (!key) {
+      return this.constructor.from(this).sort().reverse()
+    }
+    return this.constructor.from(this).sort((a, b) => b[key] - a[key])
+  }
+
+  sortAsc(key) {
+    if (!key) {
+      return this.constructor.from(this).sort()
+    }
+    return this.constructor.from(this).sort((a, b) => a[key] - b[key])
+  }
+
 }
 
 export default Arrayable

@@ -225,3 +225,29 @@ test('pipe() calls the callback and lets you continue the chain', assert => {
   isArr(assert, given([]).pipe(array => [1]))
   assert.deepEqual(given([]).pipe(arr => arr.append(1)), [1])
 })
+
+test('sortAsc() and sortDesc() do not mutate original array and return arrayable', assert => {
+  const numbers = given([3, 1, 2])
+  isArr(assert, numbers.sortAsc())
+  assert.deepEqual(numbers, [3, 1, 2])
+  isArr(assert, numbers.sortDesc())
+  assert.deepEqual(numbers, [3, 1, 2])
+
+  const numberObject = given([{ val: 3 }, { val: 1 }, { val: 2 }])
+  isArr(assert, numberObject.sortAsc('val'))
+  assert.deepEqual(numberObject, [{ val: 3 }, { val: 1 }, { val: 2 }])
+  isArr(assert, numberObject.sortDesc('val'))
+  assert.deepEqual(numberObject, [{ val: 3 }, { val: 1 }, { val: 2 }])
+})
+
+test('sortAsc() and sortDesc() sort in the respective direction', assert => {
+  const numbers = given([3, 1, 2])
+  assert.deepEqual(numbers.sortAsc(), [1, 2, 3])
+  assert.deepEqual(numbers.sortDesc(), [3, 2, 1])
+  assert.deepEqual(given(['C', 'A', 'B']).sortAsc(), ['A', 'B', 'C'])
+  assert.deepEqual(given(['C', 'A', 'B']).sortDesc(), ['C', 'B', 'A'])
+
+  const numberObject = given([{ val: 3 }, { val: 1 }, { val: 2 }])
+  assert.deepEqual(numberObject.sortAsc('val'), [{ val: 1 }, { val: 2 }, { val: 3 }])
+  assert.deepEqual(numberObject.sortDesc('val'), [{ val: 3 }, { val: 2 }, { val: 1 }])
+})

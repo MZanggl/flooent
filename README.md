@@ -242,6 +242,15 @@ const numbers = given([0, 1])
 numbers.append(2, 3) // [0, 1, 2, 3]
 ```
 
+#### sortAsc / sortDesc
+
+Sorts an array in their respective order and **returns a new array**.
+
+```javascript
+given([3, 1, 2]).sortAsc() // [1, 2, 3]
+given([3, 1, 2]).sortDesc() // [3, 2, 1]
+```
+
 #### pipe
 
 Executes callback and transforms result back into a flooent array.
@@ -275,6 +284,16 @@ Returns the sum of the given field/result of callback in the array.
 
   given(users).sum('points') // 30
   given(users).sum(user => user.points * 10) // 300
+```
+
+#### sortAsc / sortDesc
+
+Sorts an array in their respective order and **returns a new array**.
+
+```javascript
+const numbers = [{ val: 3 }, { val: 1 }, { val: 2 }]
+given(numbers).sortAsc() // [{ val: 1 }, { val: 2 }, { val: 3 }]
+given(numbers).sortDesc() // [{ val: 3 }, { val: 2 }, { val: 1 }]
 ```
 
 #### pluck
