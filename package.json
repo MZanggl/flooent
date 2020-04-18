@@ -2,7 +2,8 @@
   "name": "flooent",
   "version": "0.11.0",
   "description": "Fluent interface to provide an expressive syntax for common manipulations.",
-  "main": "./dist/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "clean": "rm -rf dist",
     "test": "node japaFile.js",
