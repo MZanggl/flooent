@@ -738,6 +738,16 @@ given(1).ordinal() // '1st'
 given(9).ordinal() // '9th'
 ```
 
+### isBetween / isBetweenOr
+
+Check if the number is between two given numbers. `isBetweenOr` is inclusive, while `isBetween` is exclusive.
+
+```javascript
+given(5).isBetween(1, 10) // true
+given(5).isBetween(5, 10) // false
+given(5).isBetweenOr(5, 10) // true
+```
+
 ### Fluent methods
 
 #### Working with percentages

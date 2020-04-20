@@ -36,6 +36,14 @@ class Numberable extends Number {
     return Array.from({ length: this }, (value, i) => callback(i))
   }
 
+  isBetween(start, end) {
+    return this > start && this < end
+  }
+
+  isBetweenOr(start, end) {
+    return this >= start && this <= end
+  }
+
   round() {
     return new this.constructor(Math.round(this))
   }

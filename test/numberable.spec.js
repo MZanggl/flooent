@@ -60,3 +60,21 @@ test('ordinal() returns number with ordinal suffix', assert => {
   assert.equal(given(24).ordinal(), '24th')
   assert.equal(given(25).ordinal(), '25th')
 })
+
+test('isBetween() checks if the number is exclusively between the given start and end points', assert => {
+  assert.isTrue(given(5).isBetween(1, 10))
+  assert.isTrue(given(5).isBetween(4, 6))
+  assert.isFalse(given(5).isBetween(6, 9))
+  assert.isFalse(given(5).isBetween(1, 3))
+  assert.isFalse(given(5).isBetween(1, 5))
+  assert.isFalse(given(5).isBetween(5, 6))
+})
+
+test('isBetweenOr() checks if the number is inclusively between the given start and end points', assert => {
+  assert.isTrue(given(5).isBetweenOr(1, 10))
+  assert.isTrue(given(5).isBetweenOr(4, 6))
+  assert.isFalse(given(5).isBetweenOr(6, 9))
+  assert.isFalse(given(5).isBetweenOr(1, 3))
+  assert.isTrue(given(5).isBetweenOr(1, 5))
+  assert.isTrue(given(5).isBetweenOr(5, 6))
+})
