@@ -467,6 +467,14 @@ Compares given value with the raw string.
 given('flooent').is('flooent') // true
 ```
 
+#### includedIn
+
+Checks if string is included in the given array.
+
+```javascript
+given('flooent').includedIn(['flooent', 'string'])
+```
+
 ### Fluent methods
 
 #### after

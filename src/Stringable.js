@@ -123,13 +123,17 @@ class Stringable extends String {
   append(part) {
     return this.concat(part)
   }
-  
+
   prepend(part) {
     return new this.constructor(part + this)
   }
   
   is(compare) {
     return this.valueOf() === compare 
+  }
+  
+  includedIn(array) {
+    return array.includes(this.valueOf())
   }
   
   endWith(part) {

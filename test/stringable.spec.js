@@ -141,6 +141,11 @@ test('is() compares the raw string against what gets passed in', assert => {
   assert.isFalse(Str.of('').is(0))
 })
 
+test('includedIn() checks if string is included in array', assert => {
+  assert.isTrue(Str.of('first').includedIn(['first']))
+  assert.isFalse(Str.of('first').includedIn(['second']))
+})
+
 test('endWith() ends a string with what gets passed in if it does not already end with that string', assert => {
   isStr(assert, Str.of('').endWith(':'))
   assert.equal(Str.of('User').endWith('Controller'), 'UserController')
