@@ -2,7 +2,7 @@ import Stringable from './Stringable'
 import Arrayable from './Arrayable'
 import Numberable from './Numberable'
 
-function given(anyValue, callback) {
+function given(anyValue, callback = undefined) {
   let result
   if (Array.isArray(anyValue)) {
     result = Arrayable.from(anyValue)
