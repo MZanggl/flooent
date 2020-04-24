@@ -4,7 +4,7 @@ import kebabcase from "lodash.kebabcase";
 import snakecase from "lodash.snakecase";
 import startcase from "lodash.startcase";
 import slugify from "slugify";
-import * as pluralize from "pluralize";
+import pluralize from "pluralize";
 
 const override = [
   "replace",
