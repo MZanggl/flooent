@@ -5,11 +5,12 @@ import omit from "lodash.omit";
 import clonedeep from "lodash.clonedeep";
 import isequal from "lodash.isequal";
 
-
 class Arrayable extends Array {
+  ["constructor"]!: typeof Arrayable;
+
   first(count?: number) {
     if (count) {
-      return this.slice(0, count);
+      return (this.slice(0, count) as unknown) as Arrayable;
     }
 
     return this[0];
@@ -21,7 +22,7 @@ class Arrayable extends Array {
 
   last(count?: number) {
     if (count) {
-      return this.slice(this.length - count);
+      return this.slice(this.length - count) as Arrayable;
     }
 
     return this[this.length - 1];
@@ -36,56 +37,56 @@ class Arrayable extends Array {
 
   whereNot(key, value = key) {
     if (arguments.length === 1) {
-      return this.filter((item) => item !== value);
+      return this.filter((item) => item !== value) as Arrayable;
     }
 
-    return this.filter((item) => item[key] !== value);
+    return this.filter((item) => item[key] !== value) as Arrayable;
   }
 
   where(key, value = key) {
     if (arguments.length === 1) {
-      return this.filter((item) => item === value);
+      return this.filter((item) => item === value) as Arrayable;
     }
 
-    return this.filter((item) => item[key] === value);
+    return this.filter((item) => item[key] === value) as Arrayable;
   }
 
   whereIn(key, value = key) {
     if (arguments.length === 1) {
-      return this.filter((item) => value.includes(item));
+      return this.filter((item) => value.includes(item)) as Arrayable;
     }
 
-    return this.filter((item) => value.includes(item[key]));
+    return this.filter((item) => value.includes(item[key])) as Arrayable;
   }
 
   whereNotIn(key, value = key) {
     if (arguments.length === 1) {
-      return this.filter((item) => !value.includes(item));
+      return this.filter((item) => !value.includes(item)) as Arrayable;
     }
 
-    return this.filter((item) => !value.includes(item[key]));
+    return this.filter((item) => !value.includes(item[key])) as Arrayable;
   }
 
   filled(key) {
     if (!key) {
-      return this.filter((value) => !!value);
+      return this.filter((value) => !!value) as Arrayable;
     }
 
-    return this.filter((item) => !!item[key]);
+    return this.filter((item) => !!item[key]) as Arrayable;
   }
 
   clone() {
     // lodash does array.constructor(lenght) which doesn't work on subclassed arrays
-    return (this.constructor as any).from(clonedeep([...this]));
+    return this.constructor.from(clonedeep([...this])) as Arrayable;
   }
 
   groupBy(key) {
     return this.reduce((result, item) => {
       const group = typeof key === "function" ? key(item) : item[key];
-      result[group] = result[group] || new (this as any).constructor();
+      result[group] = result[group] || new this.constructor();
       result[group].push(item);
       return result;
-    }, {});
+    }, {}) as Arrayable;
   }
 
   sum(key) {
@@ -95,44 +96,44 @@ class Arrayable extends Array {
         number = typeof key === "function" ? key(item) : item[key];
       }
       return result + number;
-    }, 0);
+    }, 0) as Arrayable;
   }
 
   forget(keys) {
     keys = Array.isArray(keys) ? keys : [keys];
     return this.map((item) => {
       return omit(item, keys);
-    });
+    }) as Arrayable;
   }
 
   pluck(key) {
-    return this.map((item) => item[key]);
+    return this.map((item) => item[key]) as Arrayable;
   }
 
   unique(key) {
     if (!key) {
-      return (this.constructor as any).from(uniq(this));
+      return this.constructor.from(uniq(this)) as Arrayable;
     }
 
     const compareFn = typeof key === "function" ? key : (item) => item[key];
-    return (this.constructor as any).from(uniqby(this, compareFn));
+    return this.constructor.from(uniqby(this, compareFn)) as Arrayable;
   }
 
   shuffle() {
-    return (this.constructor as any).from(shuffle(this));
+    return this.constructor.from(shuffle(this)) as Arrayable;
   }
 
   is(compareWith) {
     return isequal(this, compareWith);
   }
 
-  tap(fn) {
+  tap(fn): Arrayable {
     fn(this);
     return this;
   }
 
   pipe(callback) {
-    return (this.constructor as any).from(callback(this));
+    return this.constructor.from(callback(this)) as Arrayable;
   }
 
   when(comparison, then) {
@@ -154,37 +155,41 @@ class Arrayable extends Array {
   }
 
   partition(callback) {
-    const tuple = [(this.constructor as any).from([]), (this.constructor as any).from([])];
+    const tuple = [this.constructor.from([]), this.constructor.from([])];
 
     return this.reduce((result, item) => {
       const hasPassedTest = callback(item);
       result[hasPassedTest ? 0 : 1].push(item);
       return result;
-    }, tuple);
+    }, tuple) as Arrayable;
   }
 
-  prepend(...items) {
+  prepend(...items): Arrayable {
     this.unshift(...items);
     return this;
   }
 
-  append(...items) {
+  append(...items): Arrayable {
     this.push(...items);
     return this;
   }
 
   sortDesc(key) {
     if (!key) {
-      return (this.constructor as any).from(this).sort().reverse();
+      return this.constructor.from(this).sort().reverse() as Arrayable;
     }
-    return (this.constructor as any).from(this).sort((a, b) => b[key] - a[key]);
+    return this.constructor
+      .from(this)
+      .sort((a, b) => b[key] - a[key]) as Arrayable;
   }
 
   sortAsc(key) {
     if (!key) {
-      return (this.constructor as any).from(this).sort();
+      return this.constructor.from(this).sort() as Arrayable;
     }
-    return (this.constructor as any).from(this).sort((a, b) => a[key] - b[key]);
+    return this.constructor
+      .from(this)
+      .sort((a, b) => a[key] - b[key]) as Arrayable;
   }
 }
 
