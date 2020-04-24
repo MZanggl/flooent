@@ -12,7 +12,7 @@ function given(anyValue: AnyValue, callback?: Callback) {
   } else if (typeof anyValue === 'number') {
     result = new Numberable(anyValue)
   } else {
-    result = Stringable.from(anyValue)
+    result = new Stringable(anyValue)
   }
 
   if (!callback) {

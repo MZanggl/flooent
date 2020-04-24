@@ -29,39 +29,16 @@ const symbol = Symbol("Stringable");
 
 class Stringable extends String {
   ["constructor"]!: typeof Stringable;
-  _symbol: typeof symbol;
+  _symbol = symbol;
 
   constructor(value) {
-    if (
-      ["string", "number", "boolean"].indexOf(typeof value) >= 0 ||
-      Array.isArray(value)
-    ) {
-      super(value);
-    } else if (!value) {
-      super("");
-    } else if (value instanceof String) {
-      super(value.valueOf());
-    } else if (typeof value === "object") {
-      super(JSON.stringify(value));
-    } else {
-      throw new Error(typeof value + " is not an allowed type");
-    }
-
-    this._symbol = symbol;
+    super(value)
 
     override.forEach((name) => {
       this[name] = (...args) => {
         return new this.constructor(super[name](...args));
       };
     });
-  }
-
-  static from(value) {
-    return new this(value);
-  }
-
-  static of(value) {
-    return new this(value);
   }
 
   after(part) {
