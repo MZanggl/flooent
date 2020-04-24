@@ -81,22 +81,22 @@ class Arrayable extends Array {
   }
 
   groupBy(key) {
-    return this.reduce((result, item) => {
+    return this.reduce<{ [key: string]: Arrayable }>((result, item) => {
       const group = typeof key === "function" ? key(item) : item[key];
       result[group] = result[group] || new this.constructor();
       result[group].push(item);
       return result;
-    }, {}) as Arrayable;
+    }, {});
   }
 
   sum(key) {
-    return this.reduce((result, item) => {
+    return this.reduce<number>((result, item) => {
       let number = item;
       if (key) {
         number = typeof key === "function" ? key(item) : item[key];
       }
       return result + number;
-    }, 0) as Arrayable;
+    }, 0);
   }
 
   forget(keys) {
@@ -155,13 +155,14 @@ class Arrayable extends Array {
   }
 
   partition(callback) {
-    const tuple = [this.constructor.from([]), this.constructor.from([])];
+    const tuple = [this.constructor.from([]), this.constructor.from([])] as [Arrayable, Arrayable];
 
-    return this.reduce((result, item) => {
-      const hasPassedTest = callback(item);
-      result[hasPassedTest ? 0 : 1].push(item);
-      return result;
-    }, tuple) as Arrayable;
+    for (const item of this) {
+      const index = callback(item) ? 0 : 1;
+      tuple[index].push(item);
+    }
+
+    return tuple;
   }
 
   prepend(...items): Arrayable {

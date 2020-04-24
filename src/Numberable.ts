@@ -26,14 +26,13 @@ class Numberable extends Number {
 
   ordinal() {
     const finalDigit = this.toString().slice(-1);
-    return ((this +
-      (["th", "st", "nd", "rd"][finalDigit] || "th")) as unknown) as Numberable;
+    return this.toString() + (["th", "st", "nd", "rd"][finalDigit] || "th")
   }
 
   pad(size) {
     let value = this.toString();
     while (value.length < size) value = "0" + value;
-    return (value as unknown) as Numberable;
+    return value;
   }
 
   times(callback) {
