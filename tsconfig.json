@@ -6,7 +6,8 @@
         "outDir": "./dist",
         "allowJs": true,
         "declaration": true,
-        "lib": ["ES2015", "ES5", "ES2015.Iterable"]
+        "lib": ["ES2015", "ES5", "ES2015.Iterable", "ES2017"],
+        "esModuleInterop": true
     },
     "include": [
         "src/**/*"
