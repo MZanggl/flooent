@@ -2,11 +2,11 @@
     "compilerOptions": {
         "strict": false,
         "module": "CommonJS",
-        "target": "ES6",
+        "target": "ES5",
         "outDir": "./dist",
-        "allowJs": true,
+        "allowJs": false,
         "declaration": true,
-        "lib": ["ES2015", "ES5", "ES2015.Iterable", "ES2017"],
+        "lib": ["ES2015", "ES5"],
         "esModuleInterop": true
     },
     "include": [

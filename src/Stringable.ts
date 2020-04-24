@@ -33,7 +33,7 @@ class Stringable extends String {
 
   constructor(value) {
     if (
-      ["string", "number", "boolean"].includes(typeof value) ||
+      ["string", "number", "boolean"].indexOf(typeof value) >= 0 ||
       Array.isArray(value)
     ) {
       super(value);
