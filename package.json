@@ -40,5 +40,18 @@
     "pluralize": "^8.0.0",
     "slugify": "^1.4.0",
     "typescript": "^3.8.3"
+  },
+  "devDependencies": {
+    "@types/lodash.camelcase": "^4.3.6",
+    "@types/lodash.clonedeep": "^4.5.6",
+    "@types/lodash.isequal": "^4.5.5",
+    "@types/lodash.kebabcase": "^4.1.6",
+    "@types/lodash.omit": "^4.5.6",
+    "@types/lodash.shuffle": "^4.2.6",
+    "@types/lodash.snakecase": "^4.1.6",
+    "@types/lodash.startcase": "^4.4.6",
+    "@types/lodash.uniq": "^4.5.6",
+    "@types/lodash.uniqby": "^4.7.6",
+    "@types/lodash.upperfirst": "^4.3.6"
   }
 }

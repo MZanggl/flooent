@@ -1,9 +1,9 @@
-import * as camelcase from 'lodash.camelcase'
-import * as upperFirst from 'lodash.upperfirst'
-import * as kebabcase from 'lodash.kebabcase'
-import * as snakecase from 'lodash.snakecase'
-import * as startcase from 'lodash.startcase'
-import * as slugify from 'slugify'
+import camelcase from 'lodash.camelcase'
+import upperFirst from 'lodash.upperfirst'
+import kebabcase from 'lodash.kebabcase'
+import snakecase from 'lodash.snakecase'
+import startcase from 'lodash.startcase'
+import slugify from 'slugify'
 import * as pluralize from 'pluralize'
 
 const override = ['replace', 'replaceAll', 'trim', 'trimEnd', 'trimStart', 'substr', 'substring', 'concat', 'repeat', 'slice', 'toLocaleLowerCase', 'toLocaleUpperCase', 'toLowerCase', 'toUpperCase', 'charAt', 'charCodeAt']
@@ -11,6 +11,7 @@ const override = ['replace', 'replaceAll', 'trim', 'trimEnd', 'trimStart', 'subs
 const symbol = Symbol('Stringable')
 
 class Stringable extends String {
+  private _symbol: any
   constructor(value) {
     if (['string', 'number', 'boolean'].includes(typeof value) || Array.isArray(value)) {
       super(value)
@@ -28,7 +29,7 @@ class Stringable extends String {
     
     override.forEach(name => {
       this[name] = (...args) => {
-        return new this.constructor(super[name](...args))
+        return new (this as any).constructor(super[name](...args))
       }
     })
   }
@@ -46,7 +47,7 @@ class Stringable extends String {
     if (index === -1) {
       return this
     }
-    return this.slice(index + part.length)
+    return this.slice(index + part.length) as unknown as Stringable
   }
 
   afterLast(part) {
@@ -54,7 +55,7 @@ class Stringable extends String {
     if (index === -1) {
       return this
     }
-    return this.slice(index + part.length)
+    return this.slice(index + part.length) as unknown as Stringable
   }
 
   before(part) {
@@ -107,7 +108,7 @@ class Stringable extends String {
   
   pipe(callback) {
     const result = callback(this)
-    return result._symbol === symbol ? result : new this.constructor(result)
+    return result._symbol === symbol ? result : new (this as any).constructor(result)
   }
 
   wrap(start, end = start) {
@@ -125,7 +126,7 @@ class Stringable extends String {
   }
 
   prepend(part) {
-    return new this.constructor(part + this)
+    return new (this as any).constructor(part + this)
   }
   
   is(compare) {
@@ -158,27 +159,27 @@ class Stringable extends String {
     if (append && raw.length > n) {
       truncated += append
     }
-    return new this.constructor(truncated)
+    return new (this as any).constructor(truncated)
   }
   
   camel() {
-    return new this.constructor(camelcase(this))
+    return new (this as any).constructor(camelcase(this as unknown as string))
   }
   
   snake() {
-    return new this.constructor(snakecase(this))
+    return new (this as any).constructor(snakecase(this as unknown as string))
   }
   
   kebab() {
-    return new this.constructor(kebabcase(this))
+    return new (this as any).constructor(kebabcase(this as unknown as string))
   }
   
   title() {
-    return new this.constructor(startcase(this))
+    return new (this as any).constructor(startcase(this as unknown as string))
   }
   
   capitalize() {
-    return new this.constructor(upperFirst(this))
+    return new (this as any).constructor(upperFirst(this as unknown as string))
   }
 
   studly() {
@@ -187,7 +188,7 @@ class Stringable extends String {
   
   slug(replacement = '-') {
     const value = this.valueOf().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9\s]/g,'')
-    return new this.constructor(slugify(value, {
+    return new (this as any).constructor(slugify(value, {
       replacement,
       lower: true,
       strict: true,
@@ -200,15 +201,15 @@ class Stringable extends String {
   }
 
   parse() {
-    return JSON.parse(this)
+    return JSON.parse(this as any)
   }
 
   plural(count) {
-    return new this.constructor(pluralize(this, count, false))
+    return new (this as any).constructor(pluralize(this, count, false))
   }
 
   singular() {
-    return new this.constructor(pluralize.singular(this))
+    return new (this as any).constructor(pluralize.singular(this))
   }
 }
 

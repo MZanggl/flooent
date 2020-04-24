@@ -2,7 +2,10 @@ import Stringable from './Stringable'
 import Arrayable from './Arrayable'
 import Numberable from './Numberable'
 
-function given(anyValue, callback = undefined) {
+type AnyValue = any[] | number | string
+type Callback = (result: any) => any
+
+function given(anyValue: AnyValue, callback?: Callback) {
   let result
   if (Array.isArray(anyValue)) {
     result = Arrayable.from(anyValue)
