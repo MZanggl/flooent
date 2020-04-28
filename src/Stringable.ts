@@ -41,7 +41,7 @@ class Stringable extends String {
     });
   }
 
-  after(part) {
+  after(part: string) {
     const index = this.indexOf(part);
     if (index === -1) {
       return this;
@@ -49,7 +49,7 @@ class Stringable extends String {
     return (this.slice(index + part.length) as unknown) as Stringable;
   }
 
-  afterLast(part) {
+  afterLast(part: string) {
     const index = this.lastIndexOf(part);
     if (index === -1) {
       return this;
@@ -57,7 +57,7 @@ class Stringable extends String {
     return (this.slice(index + part.length) as unknown) as Stringable;
   }
 
-  before(part) {
+  before(part: string) {
     const index = this.indexOf(part);
     if (index === -1) {
       return this;
@@ -65,7 +65,7 @@ class Stringable extends String {
     return (this.slice(0, index) as unknown) as Stringable;
   }
 
-  beforeLast(part) {
+  beforeLast(part: string) {
     const index = this.lastIndexOf(part);
     if (index === -1) {
       return this;
@@ -73,21 +73,21 @@ class Stringable extends String {
     return (this.slice(0, index) as unknown) as Stringable;
   }
 
-  between(start) {
+  between(start: string) {
     return {
-      and: (end) => this.after(start).before(end),
-      andLast: (end) => this.after(start).beforeLast(end),
+      and: (end: string) => this.after(start).before(end),
+      andLast: (end: string) => this.after(start).beforeLast(end),
     };
   }
 
-  betweenLast(start) {
+  betweenLast(start: string) {
     return {
-      and: (end) => this.afterLast(start).before(end),
-      andLast: (end) => this.afterLast(start).beforeLast(end),
+      and: (end: string) => this.afterLast(start).before(end),
+      andLast: (end: string) => this.afterLast(start).beforeLast(end),
     };
   }
 
-  when(comparison, then) {
+  when(comparison, then: Function) {
     const isBoolean = typeof comparison === "boolean";
 
     if (isBoolean && !comparison) {
@@ -105,18 +105,18 @@ class Stringable extends String {
     return this.when(this.is(""), then);
   }
 
-  pipe(callback) {
+  pipe(callback: Function) {
     const result = callback(this);
     return result._symbol === symbol
       ? result
       : ((new this.constructor(result) as unknown) as Stringable);
   }
 
-  wrap(start, end = start) {
+  wrap(start: string, end = start) {
     return (this.prepend(start).append(end) as unknown) as Stringable;
   }
 
-  unwrap(start, end = start) {
+  unwrap(start: string, end = start) {
     return this.when(this.startsWith(start), (str) =>
       str.substring(start.length)
     ).when(this.endsWith(end), (str) =>
@@ -124,23 +124,23 @@ class Stringable extends String {
     );
   }
 
-  append(part) {
+  append(part: string) {
     return (this.concat(part) as unknown) as Stringable;
   }
 
-  prepend(part) {
+  prepend(part: string) {
     return new this.constructor(part + this);
   }
 
-  is(compare) {
+  is(compare: string) {
     return this.valueOf() === compare;
   }
 
-  includedIn(array) {
-    return (array.includes(this.valueOf()) as unknown) as Stringable;
+  includedIn(array: string[]) {
+    return array.indexOf(this.valueOf()) >= 0;
   }
 
-  endWith(part) {
+  endWith(part: string) {
     if (this.endsWith(part)) {
       return this;
     } else {
@@ -148,7 +148,7 @@ class Stringable extends String {
     }
   }
 
-  startWith(part) {
+  startWith(part: string) {
     if (this.startsWith(part)) {
       return this;
     } else {
@@ -156,7 +156,7 @@ class Stringable extends String {
     }
   }
 
-  limit(n, append = "...") {
+  limit(n: number, append = "...") {
     const raw = this.valueOf();
     let truncated = raw.slice(0, n);
     if (append && raw.length > n) {
@@ -212,7 +212,7 @@ class Stringable extends String {
     return JSON.parse(this as any);
   }
 
-  plural(count) {
+  plural(count?: number) {
     return new this.constructor(pluralize(this, count, false));
   }
 

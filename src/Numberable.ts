@@ -9,7 +9,7 @@ class Numberable extends Number {
     this._isPercent = isPercent;
   }
 
-  of(number) {
+  of(number: number) {
     if (this._isPercent) {
       return new this.constructor((this as any) * number);
     }
@@ -29,13 +29,13 @@ class Numberable extends Number {
     return this.toString() + (["th", "st", "nd", "rd"][finalDigit] || "th")
   }
 
-  pad(size) {
+  pad(size: number) {
     let value = this.toString();
     while (value.length < size) value = "0" + value;
     return value;
   }
 
-  times(callback) {
+  times(callback: Function) {
     return Array.from({ length: (this as unknown) as number }, (value, i) =>
       callback(i)
     );

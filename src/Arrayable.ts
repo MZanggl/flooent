@@ -67,7 +67,7 @@ class Arrayable extends Array {
     return this.filter((item) => !value.includes(item[key])) as Arrayable;
   }
 
-  filled(key) {
+  filled(key?: string) {
     if (!key) {
       return this.filter((value) => !!value) as Arrayable;
     }
@@ -80,7 +80,7 @@ class Arrayable extends Array {
     return this.constructor.from(clonedeep([...this])) as Arrayable;
   }
 
-  groupBy(key) {
+  groupBy(key: string | Function) {
     return this.reduce<{ [key: string]: Arrayable }>((result, item) => {
       const group = typeof key === "function" ? key(item) : item[key];
       result[group] = result[group] || new this.constructor();
@@ -89,7 +89,7 @@ class Arrayable extends Array {
     }, {});
   }
 
-  sum(key) {
+  sum(key?: string | Function) {
     return this.reduce<number>((result, item) => {
       let number = item;
       if (key) {
@@ -106,11 +106,11 @@ class Arrayable extends Array {
     }) as Arrayable;
   }
 
-  pluck(key) {
+  pluck(key: string) {
     return this.map((item) => item[key]) as Arrayable;
   }
 
-  unique(key) {
+  unique(key?: string | Function) {
     if (!key) {
       return this.constructor.from(uniq(this)) as Arrayable;
     }
@@ -127,16 +127,16 @@ class Arrayable extends Array {
     return isequal(this, compareWith);
   }
 
-  tap(fn): Arrayable {
+  tap(fn: Function): Arrayable {
     fn(this);
     return this;
   }
 
-  pipe(callback) {
+  pipe(callback: Function) {
     return this.constructor.from(callback(this)) as Arrayable;
   }
 
-  when(comparison, then) {
+  when(comparison, then: Function) {
     const isBoolean = typeof comparison === "boolean";
 
     if (isBoolean && !comparison) {
@@ -154,7 +154,7 @@ class Arrayable extends Array {
     return this.is(duck);
   }
 
-  partition(callback) {
+  partition(callback: Function) {
     const tuple = [this.constructor.from([]), this.constructor.from([])] as [Arrayable, Arrayable];
 
     for (const item of this) {
@@ -175,7 +175,7 @@ class Arrayable extends Array {
     return this;
   }
 
-  sortDesc(key) {
+  sortDesc(key?: string) {
     if (!key) {
       return this.constructor.from(this).sort().reverse() as Arrayable;
     }
@@ -184,7 +184,7 @@ class Arrayable extends Array {
       .sort((a, b) => b[key] - a[key]) as Arrayable;
   }
 
-  sortAsc(key) {
+  sortAsc(key?: string) {
     if (!key) {
       return this.constructor.from(this).sort() as Arrayable;
     }
