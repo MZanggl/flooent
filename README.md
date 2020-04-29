@@ -206,8 +206,8 @@ given(['a', 'b', 'c']).nth(-1) // 'c'
 Returns the items until either the given value is found, or the given callback returns `true`.
 
 ```javascript
-given(['a', 'b', 'c']).until('b') // ['a', 'b']
-given(['a', 'b', 'c']).until(item => item === 'b') // ['a', 'b']
+given(['a', 'b', 'c']).until('c') // ['a', 'b']
+given(['a', 'b', 'c']).until(item => item === 'c') // ['a', 'b']
 ```
 
 #### shuffle

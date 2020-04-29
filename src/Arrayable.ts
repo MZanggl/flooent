@@ -38,11 +38,11 @@ class Arrayable extends Array {
     until(comparison) {
         const newArray = this.constructor.from([])
         for (const item of this) {
-            newArray.push(item)
-            const reachedEnd = (typeof comparison === "function" && comparison(item)) || item === comparison
-            if (reachedEnd) {
-                break
-            }
+          const reachedEnd = (typeof comparison === "function" && comparison(item)) || item === comparison
+          if (reachedEnd) {
+            break
+          }
+          newArray.push(item)
         }
         return newArray
     }

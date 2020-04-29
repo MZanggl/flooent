@@ -46,9 +46,9 @@ test('until() returns all elements that match the given truth test until the fir
   const array = given([1, 2, 3])
 
   assert.deepEqual(array.until(item => item === 4), [1, 2, 3])
-  assert.deepEqual(array.until(item => item === 2), [1, 2])
-  assert.deepEqual(array.until(2), [1, 2])
-  assert.deepEqual(array.until(item => item === 1), [1])
+  assert.deepEqual(array.until(item => item === 2), [1])
+  assert.deepEqual(array.until(2), [1])
+  assert.deepEqual(array.until(item => item === 1), [])
 })
 
 test('pluck() returns all values for a given key', assert => {
