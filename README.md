@@ -79,6 +79,8 @@ There are various fluent alternatives available.
 
 ## Arrays
 
+You have access to [everything from the native Array object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array).
+
 #### is / quacksLike
 
 Deep-compares the given value with the array
@@ -459,6 +461,8 @@ given(items).groupBy(item => item.name.toUpperCase()) // result is:
 
 ## Strings
 
+You have access to [everything from the native String object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String).
+
 #### is
 
 Compares given value with the raw string.
@@ -721,6 +725,8 @@ given('child').singular() // String { 'child' }
 
 ## Numbers
 
+You have access to [everything from the native Number object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number).
+
 #### times
 
 Executes callback for number of base values' times and returns an array with the result of each iteration.
@@ -791,7 +797,7 @@ Always rounds its value down.
 given(10.9).floor() // Number { 10 }
 ```
 
-#### max
+#### max (deprecated)
 
 Returns the largest value.
 
@@ -800,7 +806,7 @@ given(10).max(20) // Number { 20 }
 given(10).max(1, 2) // Number { 10 }
 ```
 
-#### min
+#### min (deprecate)
 
 Returns the lowest-valued number passed into it.
 

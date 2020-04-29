@@ -105,7 +105,7 @@ class Stringable extends String {
     return this.when(this.is(""), then);
   }
 
-  pipe(callback: Function) {
+  pipe(callback: Function): Stringable {
     const result = callback(this);
     return result._symbol === symbol
       ? result
