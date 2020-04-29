@@ -4,6 +4,7 @@ import shuffle from "lodash.shuffle"
 import omit from "lodash.omit"
 import clonedeep from "lodash.clonedeep"
 import isequal from "lodash.isequal"
+import chunk from "lodash.chunk"
 
 class Arrayable extends Array {
     ["constructor"]!: typeof Arrayable
@@ -20,9 +21,12 @@ class Arrayable extends Array {
         return this[1]
     }
 
-    last(count?: number) {
-        if (count) {
-            return this.slice(this.length - count) as Arrayable
+    last(countOrFn?: number | ((value: any) => any[])) {
+        if (typeof countOrFn === 'number') {
+            return this.slice(this.length - countOrFn) as Arrayable
+        } else if (typeof countOrFn === 'function') {
+            const filteredItems = this.filter(countOrFn)
+            return filteredItems[filteredItems.length - 1]
         }
 
         return this[this.length - 1]
@@ -45,6 +49,25 @@ class Arrayable extends Array {
           newArray.push(item)
         }
         return newArray
+    }
+
+    chunk(n) {
+        return this.constructor.from(chunk(this, n)).map(item => this.constructor.from(item as any[]))
+    }
+
+    forPage(page: number, size: number) {
+        const from = ((page - 1) * size)
+        return this.slice(from, from + size)
+    }
+
+    pad(size: number, value) {
+        const copy = this.constructor.from(this)
+        while (copy.length < size) copy.push(value)
+        return copy
+    }
+
+    isEmpty() {
+        return this.length < 1
     }
 
     whereNot(key, value = key) {

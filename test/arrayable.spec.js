@@ -32,6 +32,8 @@ test('last() returns last value in array or undefined', assert => {
   assert.deepEqual(given([1, 2]).last(1), [2])
   assert.deepEqual(given([1, 2, 3, 4]).last(2), [3, 4])
   assert.deepEqual(given([1, 2, 3, 4]).last(200), [1, 2, 3, 4])
+
+  assert.deepEqual(given([1, 2, 3, 4]).last(i => i > 1), 4)
 })
 
 test('nth() returns value at given index in array or undefined', assert => {
@@ -45,10 +47,41 @@ test('nth() returns value at given index in array or undefined', assert => {
 test('until() returns all elements that match the given truth test until the first one returns false', assert => {
   const array = given([1, 2, 3])
 
+  isArr(assert, array.until(2))
   assert.deepEqual(array.until(item => item === 4), [1, 2, 3])
   assert.deepEqual(array.until(item => item === 2), [1])
   assert.deepEqual(array.until(2), [1])
   assert.deepEqual(array.until(item => item === 1), [])
+})
+
+test('isEmpty() returns whether or not the array is empty', assert => {
+  assert.isTrue(given([]).isEmpty())
+  assert.isFalse(given([1]).isEmpty())
+})
+
+test('pad() appends the remaining number of items to the array', assert => {
+  isArr(assert, given([1]).pad(1, 1))
+  assert.deepEqual(given([1]).pad(3, null), [1, null, null])
+  assert.deepEqual(given([1, 2, 3]).pad(2, '!'), [1, 2, 3])
+})
+
+test('chunk() chunks the array into the given size', assert => {
+  const array = given([1, 2, 3, 4, 5])
+  isArr(assert, array.chunk(2)[0])
+  isArr(assert, array.chunk(2))
+  assert.deepEqual(array.chunk(3), [
+    [1, 2, 3],
+    [4, 5]
+  ])
+})
+
+test('forPage() returns the items for the given page and size', assert => {
+  const array = given(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k'])
+  isArr(assert, array.forPage(1, 1))
+
+  assert.deepEqual(array.forPage(2, 2), ['c', 'd'])
+  assert.deepEqual(array.forPage(3, 4), ['i', 'k'])
+  assert.deepEqual(array.forPage(9, 4), [])
 })
 
 test('pluck() returns all values for a given key', assert => {

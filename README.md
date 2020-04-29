@@ -115,6 +115,15 @@ given([]).when(array => array.is([]), array => array.append('called!')) // ['cal
 given([]).when(array => array.is([1]), array => array.append('called!')) // []
 ```
 
+#### isEmpty
+
+Returns a boolean whether the array is empty or not.
+
+```javascript
+given([]).isEmpty() // true
+given([1]).isEmpty() // false
+```
+
 ### Fluent methods
 
 #### where
@@ -191,6 +200,12 @@ given([1, 2, 3]).last() // 3
 given([1, 2, 3]).last(2) // [2, 3]
 ```
 
+Alternatively, pass in a callback to get the last item that passes the given truth test. (opposite of `find`)
+
+```javascript
+given([1, 2, 3]).last(item => item > 1) // 3
+```
+
 #### nth
 
 Returns element at given index or undefined. If given value is negative, it searches from behind.
@@ -227,6 +242,33 @@ given([1, 1, 2]).unique() // [1, 2]
 ```
 
 > See usage for [arrays of objects](#unique-1).
+
+### chunk
+
+Breaks the array into multiple, smaller arrays of a given size:
+
+```javascript
+given([1, 2, 3, 4, 5]).chunk(3) // [[1, 2, 3], [4, 5]]
+```
+
+### forPage
+
+Returns the items for the given page and size.
+
+```javascript
+given(['a', 'b', 'c', 'd', 'e', 'f', 'g']).forPage(1, 3) // ['a', 'b', 'c']
+given(['a', 'b', 'c', 'd', 'e', 'f', 'g']).forPage(2, 3) // ['d', 'e', 'f']
+given(['a', 'b', 'c', 'd', 'e', 'f', 'g']).forPage(3, 3) // ['g']
+given(['a', 'b', 'c', 'd', 'e', 'f', 'g']).forPage(4, 3) // []
+```
+
+### pad
+
+Fills up the array with the given value.
+
+```javascript
+given([1, 2, 3]).pad(5, 0) // [1, 2, 3, 0, 0]
+```
 
 #### filled
 
@@ -746,7 +788,7 @@ given(3).times(i => i) // [0, 1, 2]
 
 #### pad
 
-Fills up number with zeroes.
+Fills up the number with zeroes.
 
 ```javascript
 given(40).pad(4) // '0040'
