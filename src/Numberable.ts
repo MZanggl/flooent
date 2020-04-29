@@ -1,79 +1,73 @@
 class Numberable extends Number {
-  ["constructor"]!: typeof Numberable;
+    ["constructor"]!: typeof Numberable
 
-  private _isPercent: boolean;
-  constructor(number, options: any = {}) {
-    super(number);
+    private _isPercent: boolean
+    constructor(number, options: any = {}) {
+        super(number)
 
-    const { isPercent = false } = options;
-    this._isPercent = isPercent;
-  }
-
-  of(number: number) {
-    if (this._isPercent) {
-      return new this.constructor((this as any) * number);
+        const { isPercent = false } = options
+        this._isPercent = isPercent
     }
-    return new this.constructor((this as any) / number);
-  }
 
-  percent() {
-    return new this.constructor((this as any) / 100, { isPercent: true });
-  }
+    of(number: number) {
+        if (this._isPercent) {
+            return new this.constructor((this as any) * number)
+        }
+        return new this.constructor((this as any) / number)
+    }
 
-  inPercent() {
-    return new this.constructor((this as any) * 100);
-  }
+    percent() {
+        return new this.constructor((this as any) / 100, { isPercent: true })
+    }
 
-  ordinal() {
-    const finalDigit = this.toString().slice(-1);
-    return this.toString() + (["th", "st", "nd", "rd"][finalDigit] || "th")
-  }
+    inPercent() {
+        return new this.constructor((this as any) * 100)
+    }
 
-  pad(size: number) {
-    let value = this.toString();
-    while (value.length < size) value = "0" + value;
-    return value;
-  }
+    ordinal() {
+        const finalDigit = this.toString().slice(-1)
+        return this.toString() + (["th", "st", "nd", "rd"][finalDigit] || "th")
+    }
 
-  times(callback: Function) {
-    return Array.from({ length: (this as unknown) as number }, (value, i) =>
-      callback(i)
-    );
-  }
+    pad(size: number) {
+        let value = this.toString()
+        while (value.length < size) value = "0" + value
+        return value
+    }
 
-  isBetween(start, end) {
-    return this > start && this < end;
-  }
+    times(callback: Function) {
+        return Array.from({ length: (this as unknown) as number }, (value, i) => callback(i))
+    }
 
-  isBetweenOr(start, end) {
-    return this >= start && this <= end;
-  }
+    isBetween(start, end) {
+        return this > start && this < end
+    }
 
-  round() {
-    return new this.constructor(Math.round((this as unknown) as number));
-  }
+    isBetweenOr(start, end) {
+        return this >= start && this <= end
+    }
 
-  ceil() {
-    return new this.constructor(Math.ceil((this as unknown) as number));
-  }
+    round() {
+        return new this.constructor(Math.round((this as unknown) as number))
+    }
 
-  floor() {
-    return new this.constructor(Math.floor((this as unknown) as number));
-  }
+    ceil() {
+        return new this.constructor(Math.ceil((this as unknown) as number))
+    }
 
-  max(...compare) {
-    console.warn('max() is deprecated. Use Math.max() instead')
-    return new this.constructor(
-      Math.max((this as unknown) as number, ...compare)
-    );
-  }
+    floor() {
+        return new this.constructor(Math.floor((this as unknown) as number))
+    }
 
-  min(...compare) {
-    console.warn('min() is deprecated. Use Math.min() instead')
-    return new this.constructor(
-      Math.min((this as unknown) as number, ...compare)
-    );
-  }
+    max(...compare) {
+        console.warn("max() is deprecated. Use Math.max() instead")
+        return new this.constructor(Math.max((this as unknown) as number, ...compare))
+    }
+
+    min(...compare) {
+        console.warn("min() is deprecated. Use Math.min() instead")
+        return new this.constructor(Math.min((this as unknown) as number, ...compare))
+    }
 }
 
-export default Numberable;
+export default Numberable
