@@ -35,6 +35,17 @@ class Arrayable extends Array {
     return this[index];
   }
 
+  until(comparison) {
+    const newArray = this.constructor.from([])
+    for (const item of this) {
+      newArray.push(item)
+      if ((typeof comparison === 'function' && comparison(item)) || item === comparison) {
+        break;
+      }
+    }
+    return newArray
+  }
+
   whereNot(key, value = key) {
     if (arguments.length === 1) {
       return this.filter((item) => item !== value) as Arrayable;
@@ -126,6 +137,10 @@ class Arrayable extends Array {
   is(compareWith) {
     return isequal(this, compareWith);
   }
+  
+  quacksLike(duck) {
+    return this.is(duck);
+  }
 
   tap(fn: Function): Arrayable {
     fn(this);
@@ -148,10 +163,6 @@ class Arrayable extends Array {
     }
 
     return this.pipe(then);
-  }
-
-  quacksLike(duck) {
-    return this.is(duck);
   }
 
   partition(callback: Function) {

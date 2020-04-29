@@ -42,6 +42,15 @@ test('nth() returns value at given index in array or undefined', assert => {
   assert.isUndefined(given([1, 2]).nth(-5))
 })
 
+test('until() returns all elements that match the given truth test until the first one returns false', assert => {
+  const array = given([1, 2, 3])
+
+  assert.deepEqual(array.until(item => item === 4), [1, 2, 3])
+  assert.deepEqual(array.until(item => item === 2), [1, 2])
+  assert.deepEqual(array.until(2), [1, 2])
+  assert.deepEqual(array.until(item => item === 1), [1])
+})
+
 test('pluck() returns all values for a given key', assert => {
   const array = given([ { id: 1}, { id: 2} ])
   isArr(assert, array.pluck('id'))
