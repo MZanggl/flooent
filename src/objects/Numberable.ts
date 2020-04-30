@@ -60,16 +60,6 @@ class Numberable extends Number {
     floor() {
         return new this.constructor(Math.floor((this as unknown) as number))
     }
-
-    max(...compare) {
-        console.warn("max() is deprecated. Use Math.max() instead")
-        return new this.constructor(Math.max((this as unknown) as number, ...compare))
-    }
-
-    min(...compare) {
-        console.warn("min() is deprecated. Use Math.min() instead")
-        return new this.constructor(Math.min((this as unknown) as number, ...compare))
-    }
 }
 
 export default Numberable

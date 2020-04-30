@@ -878,21 +878,3 @@ Always rounds its value down.
 ```javascript
 given(10.9).floor() // Number { 10 }
 ```
-
-#### max (deprecated)
-
-Returns the largest value.
-
-```javascript
-given(10).max(20) // Number { 20 }
-given(10).max(1, 2) // Number { 10 }
-```
-
-#### min (deprecate)
-
-Returns the lowest-valued number passed into it.
-
-```javascript
-given(10).min(20) // Number { 10 }
-given(10).min(5, 20) // Number { 5 }
-```
