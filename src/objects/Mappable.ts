@@ -10,7 +10,7 @@ function entries(obj) {
   return resArray;
 }
 
-class Mappable extends Map {
+class Mappable<T = any, K = any> extends Map<T, K> {
   ["constructor"]!: typeof Mappable
 
   constructor(value: Map<any, any> | Object) {

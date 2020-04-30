@@ -1,19 +1,14 @@
-import { Stringable, Arrayable, Numberable, Mappable, ObjectType, typeMap } from './objects'
+import { Stringable, Arrayable, Numberable, Mappable, typeMap, newupGivenValue } from './objects'
+import { ObjectType, GivenValue } from './types'
 
-type AnyValue = any[] | number | string | Map<any, any> | Object
 type Callback = (result: any) => any
 
-function given(anyValue: AnyValue, callback?: Callback) {
-    let result
-    if (Array.isArray(anyValue)) {
-        result = Arrayable.from(anyValue)
-    } else if (typeof anyValue === "number") {
-        result = new Numberable(anyValue)
-    } else if (typeof anyValue === 'object') {
-        result = new Mappable(anyValue)
-    } else {
-        result = new Stringable(anyValue)
-    }
+/**
+ * Create either a flooent Number, Array, Map, or String depending on its type.
+ * To create a flooent Map, either pass in a native Map, or an object.
+ */
+function given<T = any, K = any>(givenValue: GivenValue<T, K>, callback?: Callback) {
+    const result = newupGivenValue<T, K>(givenValue)
 
     if (!callback) {
         return result
@@ -27,6 +22,9 @@ function given(anyValue: AnyValue, callback?: Callback) {
     return callbackResult
 }
 
+/**
+ * Extend flooent's native functionality.
+ */
 given.macro = function<T = unknown>(type: ObjectType<T>, key: string, callback: Function) {
     // @ts-ignore
     typeMap.get(type).prototype[key] = callback
