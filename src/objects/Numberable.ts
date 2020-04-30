@@ -1,3 +1,5 @@
+import { Arrayable } from './index'
+
 class Numberable extends Number {
     ["constructor"]!: typeof Numberable
 
@@ -35,8 +37,8 @@ class Numberable extends Number {
         return value
     }
 
-    times(callback: Function) {
-        return Array.from({ length: (this as unknown) as number }, (value, i) => callback(i))
+    times<T = void>(callback: (index: number) => T[]) {
+        return Arrayable.from({ length: (this as unknown) as number }, (value, i) => callback(i))
     }
 
     isBetween(start, end) {

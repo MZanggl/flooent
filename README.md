@@ -780,7 +780,7 @@ You have access to [everything from the native Number object](https://developer.
 
 #### times
 
-Executes callback for number of base values' times and returns an array with the result of each iteration.
+Executes callback for number of base values' times and returns a flooent array with the result of each iteration.
 
 ```javascript
 given(3).times(i => i) // [0, 1, 2]
