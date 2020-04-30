@@ -7,12 +7,12 @@ import isequal from "lodash.isequal"
 import chunk from "lodash.chunk"
 import { Mappable } from '../index'
 
-class Arrayable extends Array {
+class Arrayable<T> extends Array<T> {
     ["constructor"]!: typeof Arrayable
 
     first(count?: number) {
         if (count) {
-            return (this.slice(0, count) as unknown) as Arrayable
+            return (this.slice(0, count) as unknown) as Arrayable<T>
         }
 
         return this[0]
@@ -24,7 +24,7 @@ class Arrayable extends Array {
 
     last(countOrFn?: number | ((value: any) => any[])) {
         if (typeof countOrFn === 'number') {
-            return this.slice(this.length - countOrFn) as Arrayable
+            return this.slice(this.length - countOrFn) as Arrayable<T>
         } else if (typeof countOrFn === 'function') {
             const filteredItems = this.filter(countOrFn)
             return filteredItems[filteredItems.length - 1]
@@ -73,51 +73,51 @@ class Arrayable extends Array {
 
     whereNot(key, value = key) {
         if (arguments.length === 1) {
-            return this.filter((item) => item !== value) as Arrayable
+            return this.filter((item) => item !== value) as Arrayable<T>
         }
 
-        return this.filter((item) => item[key] !== value) as Arrayable
+        return this.filter((item) => item[key] !== value) as Arrayable<T>
     }
 
     where(key, value = key) {
         if (arguments.length === 1) {
-            return this.filter((item) => item === value) as Arrayable
+            return this.filter((item) => item === value) as Arrayable<T>
         }
 
-        return this.filter((item) => item[key] === value) as Arrayable
+        return this.filter((item) => item[key] === value) as Arrayable<T>
     }
 
     whereIn(key, value = key) {
         if (arguments.length === 1) {
-            return this.filter((item) => value.includes(item)) as Arrayable
+            return this.filter((item) => value.includes(item)) as Arrayable<T>
         }
 
-        return this.filter((item) => value.includes(item[key])) as Arrayable
+        return this.filter((item) => value.includes(item[key])) as Arrayable<T>
     }
 
     whereNotIn(key, value = key) {
         if (arguments.length === 1) {
-            return this.filter((item) => !value.includes(item)) as Arrayable
+            return this.filter((item) => !value.includes(item)) as Arrayable<T>
         }
 
-        return this.filter((item) => !value.includes(item[key])) as Arrayable
+        return this.filter((item) => !value.includes(item[key])) as Arrayable<T>
     }
 
     filled(key?: string) {
         if (!key) {
-            return this.filter((value) => !!value) as Arrayable
+            return this.filter((value) => !!value) as Arrayable<T>
         }
 
-        return this.filter((item) => !!item[key]) as Arrayable
+        return this.filter((item) => !!item[key]) as Arrayable<T>
     }
 
     clone() {
         // lodash does array.constructor(lenght) which doesn't work on subclassed arrays
-        return this.constructor.from(clonedeep([...this])) as Arrayable
+        return this.constructor.from(clonedeep([...this])) as Arrayable<T>
     }
 
     groupBy(key: string | Function) {
-        const grouped = this.reduce<{ [key: string]: Arrayable }>((result, item) => {
+        const grouped = this.reduce<{ [key: string]: Arrayable<T> }>((result, item) => {
             const group = typeof key === "function" ? key(item) : item[key]
             result[group] = result[group] || new this.constructor()
             result[group].push(item)
@@ -127,38 +127,38 @@ class Arrayable extends Array {
         return new Mappable(grouped)
     }
 
-    sum(key?: string | Function) {
+    sum(key?: string | ((item: T) => number)) {
         return this.reduce<number>((result, item) => {
             let number = item
             if (key) {
                 number = typeof key === "function" ? key(item) : item[key]
             }
-            return result + number
+            return result + (number as unknown as number)
         }, 0)
     }
 
     forget(keys) {
         keys = Array.isArray(keys) ? keys : [keys]
-        return this.map((item) => {
+        return (this as unknown as Object[]).map((item) => {
             return omit(item, keys)
-        }) as Arrayable
+        }) as Arrayable<T>
     }
 
     pluck(key: string) {
-        return this.map((item) => item[key]) as Arrayable
+        return this.map((item) => item[key]) as Arrayable<T>
     }
 
-    unique(key?: string | Function) {
+    unique(key?: string | ((item: T) => any)) {
         if (!key) {
-            return this.constructor.from(uniq(this)) as Arrayable
+            return this.constructor.from(uniq(this)) as Arrayable<T>
         }
 
         const compareFn = typeof key === "function" ? key : (item) => item[key]
-        return this.constructor.from(uniqby(this, compareFn)) as Arrayable
+        return this.constructor.from(uniqby(this, compareFn)) as Arrayable<T>
     }
 
     shuffle() {
-        return this.constructor.from(shuffle(this)) as Arrayable
+        return this.constructor.from(shuffle(this)) as Arrayable<T>
     }
 
     is(compareWith) {
@@ -169,13 +169,13 @@ class Arrayable extends Array {
         return this.is(duck)
     }
 
-    tap(fn: Function): Arrayable {
+    tap(fn: Function): this {
         fn(this)
         return this
     }
 
     pipe(callback: Function) {
-        return this.constructor.from(callback(this)) as Arrayable
+        return this.constructor.from(callback(this)) as Arrayable<T>
     }
 
     when(comparison, then: Function) {
@@ -193,7 +193,7 @@ class Arrayable extends Array {
     }
 
     partition(callback: Function) {
-        const tuple = [this.constructor.from([]), this.constructor.from([])] as [Arrayable, Arrayable]
+        const tuple = [this.constructor.from([]), this.constructor.from([])] as [Arrayable<T>, Arrayable<T>]
 
         for (const item of this) {
             const index = callback(item) ? 0 : 1
@@ -203,28 +203,28 @@ class Arrayable extends Array {
         return tuple
     }
 
-    prepend(...items): Arrayable {
+    prepend(...items): Arrayable<T> {
         this.unshift(...items)
         return this
     }
 
-    append(...items): Arrayable {
+    append(...items): Arrayable<T> {
         this.push(...items)
         return this
     }
 
     sortDesc(key?: string) {
         if (!key) {
-            return this.constructor.from(this).sort().reverse() as Arrayable
+            return this.constructor.from(this).sort().reverse() as Arrayable<T>
         }
-        return this.constructor.from(this).sort((a, b) => b[key] - a[key]) as Arrayable
+        return this.constructor.from(this).sort((a, b) => b[key] - a[key]) as Arrayable<T>
     }
 
     sortAsc(key?: string) {
         if (!key) {
-            return this.constructor.from(this).sort() as Arrayable
+            return this.constructor.from(this).sort() as Arrayable<T>
         }
-        return this.constructor.from(this).sort((a, b) => a[key] - b[key]) as Arrayable
+        return this.constructor.from(this).sort((a, b) => a[key] - b[key]) as Arrayable<T>
     }
 }
 
