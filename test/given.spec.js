@@ -20,3 +20,21 @@ test('can pass callback which will call valueOf() at the end', assert => {
   assert.instanceOf(given([], arr => arr), Arrayable)
   assert.deepEqual(given([], arr => arr), [])
 })
+
+test('can extend flooent objects by replacing the types', assert => {
+  given.macro(String, 'scream', function() {
+    return this.toUpperCase()
+  })
+
+  given.macro(Array, 'stringify', function() {
+    return this.toString()
+  })
+
+  given.macro(Number, 'stringify', function() {
+    return this.toString()
+  })
+
+  assert.equal(given('hello').scream(), 'HELLO')
+  assert.equal(given([1]).stringify(), '1')
+  assert.equal(given(1).stringify(), '1')
+})

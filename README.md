@@ -77,6 +77,23 @@ given(1) += 1 // ERROR
 
 There are various fluent alternatives available.
 
+## Extending flooent
+
+Extending flooent's method is easy as pie thanks to `macro`.
+
+```javascript
+import { given } from 'flooent'
+
+// first argument can be String, Number, or Array
+given.macro(String, 'scream', function() {
+  return this.toUpperCase()
+})
+
+given('hello').scream() // Stringable { 'HELLO' }
+```
+
+Define macros at a central place before your business logic. E.g. entry point or service provider
+
 ## Arrays
 
 You have access to [everything from the native Array object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array).

@@ -25,4 +25,17 @@ function given(anyValue: AnyValue, callback?: Callback) {
     return callbackResult
 }
 
+type Constructor<T> = new(...args: any[]) => T
+type ObjectType<T> = Constructor<String> | Constructor<Array<T>> | Constructor<Number>
+
+const typeMap = new Map<ObjectType<any>, any>([
+    [String, Stringable],
+    [Array, Arrayable],
+    [Number, Numberable],
+])
+given.macro = function<T = unknown>(type: ObjectType<T>, key: string, callback: Function) {
+    // @ts-ignore
+    typeMap.get(type).prototype[key] = callback
+}
+
 export { given, Stringable, Arrayable, Numberable }
