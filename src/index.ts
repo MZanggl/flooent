@@ -1,6 +1,4 @@
-import Stringable from "./Stringable"
-import Arrayable from "./Arrayable"
-import Numberable from "./Numberable"
+import { Stringable, Arrayable, Numberable } from './objects'
 
 type AnyValue = any[] | number | string
 type Callback = (result: any) => any
