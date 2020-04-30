@@ -34,6 +34,7 @@ import { given } from 'flooent'
 given('hello') // instance of Stringable
 given([1, 2]) // instance of Arrayable
 given(1) // instance of Numberable
+given({ key: 'value' }) // instance of Mappable (not object)
 ```
 
 Flooent objects simply extend the native functionality, so you can still execute any native method like `given('hello').includes('h')`.
@@ -84,7 +85,7 @@ Extending flooent's method is easy as pie thanks to `macro`.
 ```javascript
 import { given } from 'flooent'
 
-// first argument can be String, Number, or Array
+// first argument can be String, Number, Map, or Array
 given.macro(String, 'scream', function() {
   return this.toUpperCase()
 })
@@ -501,7 +502,7 @@ given(items).filled('name') // [{ id: 1, name: 'music' }, { id: 2, name: 'movie'
 
 #### groupBy
 
-Groups an array by the given key
+Groups an array by the given key and returns a flooent map
 
 ```javascript
 const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 3, name: 'music' }]
@@ -789,6 +790,19 @@ Turns a string into its singular form.
 ```javascript
 given('children').singular() // String { 'child' }
 given('child').singular() // String { 'child' }
+```
+
+## Map
+
+You have access to [everything from the native Map object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map).
+
+#### toJSON
+
+Turns the map back into an object
+
+```javascript
+const map = given({ key: 'value' }) // Map { key → "value" }
+map.toJSON() // { key: 'value' }
 ```
 
 ## Numbers

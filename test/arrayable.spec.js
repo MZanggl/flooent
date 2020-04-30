@@ -171,9 +171,9 @@ test('filled() only returns items that are not empty', assert => {
   assert.deepEqual(given([1, 0, '', null, undefined, 2]).filled(), [1, 2])
 })
 
-test('groupBy() groups an array of object by the given key', assert => {
+test('groupBy() groups an array of objects by the given key', assert => {
   const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
-  const result = given(users).groupBy('area')
+  const result = given(users).groupBy('area').toJSON()
 
   isArr(assert, result.LA)
   assert.deepEqual(result, {
@@ -184,7 +184,7 @@ test('groupBy() groups an array of object by the given key', assert => {
 
 test('groupBy() groups an array of object by the given key transformation', assert => {
   const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
-  const result = given(users).groupBy(item => item.area.toLowerCase())
+  const result = given(users).groupBy(item => item.area.toLowerCase()).toJSON()
 
   isArr(assert, result.la)
   assert.deepEqual(result, {

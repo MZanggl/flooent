@@ -5,6 +5,7 @@ import omit from "lodash.omit"
 import clonedeep from "lodash.clonedeep"
 import isequal from "lodash.isequal"
 import chunk from "lodash.chunk"
+import { Mappable } from '../index'
 
 class Arrayable extends Array {
     ["constructor"]!: typeof Arrayable
@@ -116,12 +117,14 @@ class Arrayable extends Array {
     }
 
     groupBy(key: string | Function) {
-        return this.reduce<{ [key: string]: Arrayable }>((result, item) => {
+        const grouped = this.reduce<{ [key: string]: Arrayable }>((result, item) => {
             const group = typeof key === "function" ? key(item) : item[key]
             result[group] = result[group] || new this.constructor()
             result[group].push(item)
             return result
         }, {})
+
+        return new Mappable(grouped)
     }
 
     sum(key?: string | Function) {
