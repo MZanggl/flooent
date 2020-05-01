@@ -222,14 +222,14 @@ class Arrayable<T> extends Array<T> {
         return this.sortAsc(key).reverse()
     }
 
-    sortAsc(key?: string | ((item: T) => any)) {
+    sortAsc(key?: string | ((item: T, index: number) => any)) {
         if (!key) {
             return this.constructor.from(this).sort() as Arrayable<T>
         }
 
          if (typeof key === 'function') {
-            return this.map(item => {
-                return { sortKey: key(item), item }
+            return this.map((item, index) => {
+                return { sortKey: key(item, index), item }
             })
             .sort((a, b) => a.sortKey - b.sortKey)
             .map(item => item.item) as Arrayable<T>
