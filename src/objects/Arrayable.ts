@@ -11,8 +11,8 @@ class Arrayable<T> extends Array<T> {
     ["constructor"]!: typeof Arrayable
     ["next"]!: (...args: [] | [undefined]) => IteratorResult<T, any>
 
-    static from<T>(iterable: Iterable<T> | ArrayLike<T>): Arrayable<T> {
-        return super.from(iterable) as Arrayable<T>
+    static from<T, U = T>(iterable: Iterable<T> | ArrayLike<T>, mapfn?: (v: T, k: number) => U, thisArg?: any): Arrayable<U> {
+        return super.from(iterable, mapfn, thisArg) as Arrayable<U>
     }
 
     first(count?: number) {
