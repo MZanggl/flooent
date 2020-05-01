@@ -15,6 +15,9 @@ test('it can create Mappable from Map or object', (assert) => {
 
   assert.equal(given({ key: 'value' }).get('key'), 'value')
   assert.equal(given(new Map([['key', 'value']])).get('key'), 'value')
+
+  // only first layer gets mapped
+  assert.equal(given({ user: { city: 'Munich' } }).get('user').city, 'Munich')
 })
 
 test('toJSON() turns the map back into an object', assert => {

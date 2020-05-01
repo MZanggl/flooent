@@ -796,6 +796,8 @@ given('child').singular() // String { 'child' }
 
 You have access to [everything from the native Map object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map).
 
+> For nested data structures, only the first layer gets transformed into a map
+
 #### toJSON
 
 Turns the map back into an object
