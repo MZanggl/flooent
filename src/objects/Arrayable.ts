@@ -9,6 +9,11 @@ import { Mappable } from '../index'
 
 class Arrayable<T> extends Array<T> {
     ["constructor"]!: typeof Arrayable
+    ["next"]!: (...args: [] | [undefined]) => IteratorResult<T, any>
+
+    static from<T>(iterable: Iterable<T> | ArrayLike<T>): Arrayable<T> {
+        return super.from(iterable) as Arrayable<T>
+    }
 
     first(count?: number) {
         if (count) {

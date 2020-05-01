@@ -1,8 +1,12 @@
 const test = require('japa')
-const { Mappable, given } = require('../dist')
+const { Mappable, given, Arrayable } = require('../dist')
 
 function isMap(assert, result) {
   assert.instanceOf(result, Mappable)
+}
+
+function isArr(assert, result) {
+  assert.instanceOf(result, Arrayable)
 }
 
 test('it can create Mappable from Map or object', (assert) => {
@@ -15,4 +19,11 @@ test('it can create Mappable from Map or object', (assert) => {
 
 test('toJSON() turns the map back into an object', assert => {
   assert.deepEqual(given({ key: 'value' }).toJSON(), { key: 'value' })
+})
+
+test('keys(), values() and entries() return instances of Arrayable', assert => {
+  const map = given({ key: 'value' })
+  isArr(assert, map.entries())
+  isArr(assert, map.keys())
+  isArr(assert, map.values())
 })

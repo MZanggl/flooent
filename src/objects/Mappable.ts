@@ -1,4 +1,5 @@
 import fromEntries from 'fromentries'
+import { Arrayable } from './index'
 
 function entries(obj) {
   var ownProps = Object.keys( obj ),
@@ -13,11 +14,10 @@ function entries(obj) {
 class Mappable<T = any, K = any> extends Map<T, K> {
   ["constructor"]!: typeof Mappable
 
-  constructor(value: Map<any, any> | Object) {
+  constructor(value: Map<T, K> | Object) {
     if (!(value instanceof Map)) {
       value = entries(value)
     }
-
 
     // @ts-ignore
     super(value)
@@ -25,6 +25,18 @@ class Mappable<T = any, K = any> extends Map<T, K> {
   
   toJSON() {
     return fromEntries(this.entries())
+  }
+
+  entries() {
+    return Arrayable.from(super.entries())
+  }
+
+  keys() {
+    return Arrayable.from(super.keys())
+  }
+
+  values() {
+    return Arrayable.from(super.values())
   }
 }
 
