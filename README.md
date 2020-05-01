@@ -392,6 +392,14 @@ given(numbers).sortAsc('val') // [{ val: 1 }, { val: 2 }, { val: 3 }]
 given(numbers).sortDesc('val') // [{ val: 3 }, { val: 2 }, { val: 1 }]
 ```
 
+Alternatively, pass in a map function of which its result will become the key instead.
+
+```javascript
+const numbers = [{ val: 3 }, { val: 1 }, { val: 2 }]
+given(numbers).sortAsc(item => item.val) // [{ val: 1 }, { val: 2 }, { val: 3 }]
+given(numbers).sortDesc(item => item.val) // [{ val: 3 }, { val: 2 }, { val: 1 }]
+```
+
 #### pluck
 
 Pluck given field out an object of arrays.

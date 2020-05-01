@@ -218,17 +218,23 @@ class Arrayable<T> extends Array<T> {
         return this
     }
 
-    sortDesc(key?: string) {
-        if (!key) {
-            return this.constructor.from(this).sort().reverse() as Arrayable<T>
-        }
-        return this.constructor.from(this).sort((a, b) => b[key] - a[key]) as Arrayable<T>
+    sortDesc(key?: string | ((item: T) => any)) {
+        return this.sortAsc(key).reverse()
     }
 
-    sortAsc(key?: string) {
+    sortAsc(key?: string | ((item: T) => any)) {
         if (!key) {
             return this.constructor.from(this).sort() as Arrayable<T>
         }
+
+         if (typeof key === 'function') {
+            return this.map(item => {
+                return { sortKey: key(item), item }
+            })
+            .sort((a, b) => a.sortKey - b.sortKey)
+            .map(item => item.item) as Arrayable<T>
+        }
+        
         return this.constructor.from(this).sort((a, b) => a[key] - b[key]) as Arrayable<T>
     }
 }
