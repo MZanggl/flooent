@@ -15,7 +15,7 @@ class Mappable<T = any, K = any> extends Map<T, K> {
   ["constructor"]!: typeof Mappable
 
   constructor(value: Map<T, K> | Object) {
-    if (!(value instanceof Map)) {
+    if (!(value instanceof Map) && !Array.isArray(value)) {
       value = entries(value)
     }
 
