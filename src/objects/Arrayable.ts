@@ -237,6 +237,10 @@ class Arrayable<T> extends Array<T> {
         
         return this.constructor.from(this).sort((a, b) => a[key] - b[key]) as Arrayable<T>
     }
+
+    toMap() {
+        return new Mappable(this)
+    }
 }
 
 export default Arrayable

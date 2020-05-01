@@ -142,6 +142,14 @@ given([]).isEmpty() // true
 given([1]).isEmpty() // false
 ```
 
+#### toMap
+
+Turns an array in the structure of `[ ['key', 'value'] ]` into a flooent map.
+
+```javascript
+given({ key: 'value' }).entries().toMap()
+```
+
 ### Fluent methods
 
 #### where

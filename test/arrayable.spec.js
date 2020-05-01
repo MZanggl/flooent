@@ -1,8 +1,12 @@
 const test = require('japa')
-const { Arrayable, given } = require('../dist')
+const { Arrayable, Mappable, given } = require('../dist')
 
 function isArr(assert, result) {
   assert.instanceOf(result, Arrayable)
+}
+
+function isMap(assert, result) {
+  assert.instanceOf(result, Mappable)
 }
 
 test('it can create Arrayable from array', (assert) => {
@@ -295,4 +299,11 @@ test('sortAsc() and sortDesc() sort in the respective direction', assert => {
   
   assert.deepEqual(numberObject.sortAsc(item => item.val), [{ val: 1 }, { val: 2 }, { val: 3 }])
   assert.deepEqual(numberObject.sortDesc(item => item.val), [{ val: 3 }, { val: 2 }, { val: 1 }])
+})
+
+test('can turn array into map', assert => {
+  const mapTurnedMap = given({ key: 'value' }).entries().toMap()
+  console.log(given({ key: 'value' }).entries(), mapTurnedMap)
+  assert.equal(mapTurnedMap.get('key'), 'value')
+  isMap(assert, mapTurnedMap)
 })
