@@ -1,8 +1,14 @@
 const test = require('japa')
-const { Arrayable, Stringable, Numberable, given } = require('../dist')
+const { Arrayable, Stringable, Numberable, Mappable, given } = require('../dist')
 
-test('creates Arrayable out of array', assert => {
+test('creates Arrayable out of array or other iterables (except maps and strings)', assert => {
   assert.instanceOf(given([]), Arrayable)
+  assert.instanceOf(given(new Set([1, 2])), Arrayable)
+})
+
+test('creates Mappable out of maps or objects', assert => {
+  assert.instanceOf(given({}), Mappable)
+  assert.instanceOf(given(new Map()), Mappable)
 })
 
 test('creates Stringable out of strings', assert => {

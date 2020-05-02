@@ -304,7 +304,6 @@ test('sortAsc() and sortDesc() sort in the respective direction', assert => {
 
 test('can turn array into map', assert => {
   const mapTurnedMap = given({ key: 'value' }).entries().toMap()
-  console.log(given({ key: 'value' }).entries(), mapTurnedMap)
   assert.equal(mapTurnedMap.get('key'), 'value')
   isMap(assert, mapTurnedMap)
 })

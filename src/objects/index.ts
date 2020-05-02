@@ -14,17 +14,20 @@ export const typeMap = new Map<ObjectType<any>, any>([
 ])
 
 export function newupGivenValue<T, K>(value: GivenValue<T, K>) {
-    if (Array.isArray(value)) {
-        return Arrayable.from<T>(value)
-    } 
-
     if (typeof value === "number") {
         return new Numberable(value)
+    }
+
+    if (typeof value === "string") {
+        return new Stringable(value)
+    }
+
+    if (Symbol.iterator in value && !(value instanceof Map)) {
+        return Arrayable.from<T>(value as Iterable<T>)
     } 
+
 
     if (typeof value === 'object') {
         return new Mappable<T, K>(value)
-    } 
-
-    return new Stringable(value)
+    }
 }
