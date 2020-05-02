@@ -27,6 +27,16 @@ test('can pass callback which will call valueOf() at the end', assert => {
   assert.deepEqual(given([], arr => arr), [])
 })
 
+test('throws error when passing invalid types', assert => {
+  assert.plan(1)
+
+  try {
+    given(true)
+  } catch(error) {
+    assert.equal(error.message, 'can not create flooent object given [boolean] "true"')
+  }
+})
+
 test('can extend flooent objects by replacing the types', assert => {
   given.macro(String, 'scream', function() {
     return this.toUpperCase()

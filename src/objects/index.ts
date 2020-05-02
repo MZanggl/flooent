@@ -22,7 +22,7 @@ export function newupGivenValue<T, K>(value: GivenValue<T, K>) {
         return new Stringable(value)
     }
 
-    if (Symbol.iterator in value && !(value instanceof Map)) {
+    if (Symbol.iterator in Object(value) && !(value instanceof Map)) {
         return Arrayable.from<T>(value as Iterable<T>)
     } 
 
@@ -30,4 +30,6 @@ export function newupGivenValue<T, K>(value: GivenValue<T, K>) {
     if (typeof value === 'object') {
         return new Mappable<T, K>(value)
     }
+
+    throw new Error(`can not create flooent object given [${typeof value}] "${value.toString()}"`)
 }
