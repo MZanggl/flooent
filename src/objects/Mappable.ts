@@ -14,8 +14,8 @@ function entries(obj) {
 class Mappable<T = any, K = any> extends Map<T, K> {
   ["constructor"]!: typeof Mappable
 
-  constructor(value: Map<T, K> | Object) {
-    if (!(value instanceof Map) && !Array.isArray(value)) {
+  constructor(value?: Map<T, K> | Object) {
+    if (value && !(value instanceof Map) && !Array.isArray(value)) {
       value = entries(value)
     }
 
@@ -57,6 +57,20 @@ class Mappable<T = any, K = any> extends Map<T, K> {
 
   clone() {
     return this.entries().clone().toMap()
+  }
+
+  arrange(...keys: T[]) {
+    const clone = this.clone()
+    const arrangedMap = new this.constructor()
+    for (const key of keys) {
+      arrangedMap.set(key, clone.pull(key))
+    }
+    
+    for (const [key] of clone) {
+      arrangedMap.set(key, clone.pull(key))
+    }
+
+    return arrangedMap
   }
 
   pull(key?: any) {

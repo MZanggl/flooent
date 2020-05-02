@@ -60,3 +60,9 @@ test('clone() returns a completely new map', assert => {
 
   assert.notEqual(map.get('numbers'), clone.get('numbers'))
 })
+
+test('arrange() arranges the map according to the given keys', assert => {
+  const map = given({ strings: 2, numbers: 1, functions: 4 }).arrange('numbers', 'functions')
+
+  assert.deepEqual(map.keys(), ['numbers', 'functions', 'strings'])
+})

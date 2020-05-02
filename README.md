@@ -869,6 +869,16 @@ const clone = map.clone()
 console.log(map.get('numbers') === clone.get('numbers')) // false
 ```
 
+#### arrange
+
+Rearranges the map to the given keys. Any unmentioned keys will be appended to the end.
+
+```javascript
+given({ strings: 2, numbers: 1, functions: 4 })
+  .arrange('numbers', 'functions')
+  .keys() // ['numbers', 'functions', 'strings']
+```
+
 ## Numbers
 
 You have access to [everything from the native Number object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number).
