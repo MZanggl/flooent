@@ -61,16 +61,8 @@ class Mappable<T = any, K = any> extends Map<T, K> {
 
   arrange(...keys: T[]) {
     const clone = this.clone()
-    const arrangedMap = new this.constructor()
-    for (const key of keys) {
-      arrangedMap.set(key, clone.pull(key))
-    }
-    
-    for (const [key] of clone) {
-      arrangedMap.set(key, clone.pull(key))
-    }
-
-    return arrangedMap
+    const entries = keys.map(key => [key, clone.pull(key)])
+    return new this.constructor(entries.concat(clone.entries()))
   }
 
   pull(key?: any) {
