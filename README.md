@@ -400,6 +400,12 @@ given(numbers).sortAsc('val') // [{ val: 1 }, { val: 2 }, { val: 3 }]
 given(numbers).sortDesc('val') // [{ val: 3 }, { val: 2 }, { val: 1 }]
 ```
 
+Also works by passing the index (useful when working with array entries).
+
+```javascript
+given([[0], [2], [1]]).sortAsc(0)) // [[0], [1], [2]])
+```
+
 Alternatively, pass in a map function of which its result will become the key instead.
 
 ```javascript

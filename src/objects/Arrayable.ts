@@ -218,11 +218,11 @@ class Arrayable<T> extends Array<T> {
         return this
     }
 
-    sortDesc(key?: string | ((item: T) => any)) {
+    sortDesc(key?: string | number | ((item: T) => any)) {
         return this.sortAsc(key).reverse()
     }
 
-    sortAsc(key?: string | ((item: T, index: number) => any)) {
+    sortAsc(key?: string | number | ((item: T, index: number) => any)) {
         if (!key) {
             return this.constructor.from(this).sort() as Arrayable<T>
         }

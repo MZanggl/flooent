@@ -296,6 +296,7 @@ test('sortAsc() and sortDesc() sort in the respective direction', assert => {
   const numberObject = given([{ val: 3 }, { val: 1 }, { val: 2 }])
   assert.deepEqual(numberObject.sortAsc('val'), [{ val: 1 }, { val: 2 }, { val: 3 }])
   assert.deepEqual(numberObject.sortDesc('val'), [{ val: 3 }, { val: 2 }, { val: 1 }])
+  assert.deepEqual(given([[0], [2], [1]]).sortAsc(0), [[0], [1], [2]])
   
   assert.deepEqual(numberObject.sortAsc(item => item.val), [{ val: 1 }, { val: 2 }, { val: 3 }])
   assert.deepEqual(numberObject.sortDesc(item => item.val), [{ val: 3 }, { val: 2 }, { val: 1 }])
