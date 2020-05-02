@@ -53,3 +53,10 @@ test('mapValues() iterates the entries through the given callback and assigns ea
   assert.isTrue(newMap.has('a'))
   assert.equal(newMap.get('a'), 'a1')
 })
+
+test('clone() returns a completely new map', assert => {
+  const map = given({ numbers: [1, 2, 3] })
+  const clone = map.clone()
+
+  assert.notEqual(map.get('numbers'), clone.get('numbers'))
+})

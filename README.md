@@ -859,6 +859,16 @@ const map = given({ a: '1' }).mapValues((value, key) => key + value)
 map.get('a') // a1
 ```
 
+#### clone
+
+Deep clones a map.
+
+```javascript
+const map = given({ numbers: [1, 2, 3] })
+const clone = map.clone()
+console.log(map.get('numbers') === clone.get('numbers')) // false
+```
+
 ## Numbers
 
 You have access to [everything from the native Number object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number).

@@ -55,6 +55,10 @@ class Mappable<T = any, K = any> extends Map<T, K> {
       .toMap()
   }
 
+  clone() {
+    return this.entries().clone().toMap()
+  }
+
   pull(key?: any) {
     const value = this.get(key)
     this.delete(key)
