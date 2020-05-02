@@ -39,6 +39,22 @@ class Mappable<T = any, K = any> extends Map<T, K> {
     return Arrayable.from(super.values())
   }
 
+  mapKeys<N>(callback: ((value: K, key: T) => N)) {
+    return this
+      .entries()
+      .map(([key, value]) => [callback(value, key), value])
+        // @ts-ignore
+      .toMap()
+  }
+
+  mapValues<N>(callback: ((value: K, key: T) => N)) {
+    return this
+      .entries()
+      .map(([key, value]) => [key, callback(value, key)])
+        // @ts-ignore
+      .toMap()
+  }
+
   pull(key?: any) {
     const value = this.get(key)
     this.delete(key)

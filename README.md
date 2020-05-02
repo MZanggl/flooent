@@ -839,6 +839,26 @@ map.pull('key') // 'value'
 map.has('key') // false
 ```
 
+#### mapKeys
+
+Iterates the entries through the given callback and assigns each result as the key.
+
+```javascript
+const map = given({ a: 1 }).mapKeys((value, key) => key + value)
+
+map.get('a1') // 1
+```
+
+#### mapValues
+
+Iterates the entries through the given callback and assigns each result as the value.
+
+```javascript
+const map = given({ a: '1' }).mapValues((value, key) => key + value)
+
+map.get('a') // a1
+```
+
 ## Numbers
 
 You have access to [everything from the native Number object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number).
