@@ -38,6 +38,12 @@ class Mappable<T = any, K = any> extends Map<T, K> {
   values() {
     return Arrayable.from(super.values())
   }
+
+  pull(key?: any) {
+    const value = this.get(key)
+    this.delete(key)
+    return value
+  }
 }
 
 export default Mappable

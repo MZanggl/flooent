@@ -31,3 +31,9 @@ test('keys(), values() and entries() return instances of Arrayable', assert => {
   isArr(assert, map.keys())
   isArr(assert, map.values())
 })
+
+test('pull() returns the value for the given key and removes it from the map', assert => {
+  const map = given({ key: 'value' })
+  assert.equal(map.pull('key'), 'value')
+  assert.isFalse(map.has('key'))
+})

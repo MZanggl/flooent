@@ -829,6 +829,16 @@ const map = given({ key: 'value' }) // Map { key → "value" }
 map.toJSON() // { key: 'value' }
 ```
 
+#### pull
+
+Returns the value for the given key and deletes the key value pair from the map (mutation).
+
+```javascript
+const map = given({ key: 'value' })
+map.pull('key') // 'value'
+map.has('key') // false
+```
+
 ## Numbers
 
 You have access to [everything from the native Number object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number).
