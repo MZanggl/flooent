@@ -226,7 +226,7 @@ given([1, 2, 3]).last() // 3
 given([1, 2, 3]).last(2) // [2, 3]
 ```
 
-Alternatively, pass in a callback to get the last item that passes the given truth test. (opposite of `find`)
+Alternatively, pass in a callback to get the last item that passes the given truth test (inverse of `find`).
 
 ```javascript
 given([1, 2, 3]).last(item => item > 1) // 3
@@ -817,6 +817,8 @@ given('child').singular() // String { 'child' }
 ## Map
 
 You have access to [everything from the native Map object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map).
+
+The native methods `keys()`, `entries()` and `values()` will return an instance of flooent Array instead of a native Array.
 
 > For nested data structures, only the first layer gets transformed into a map
 
