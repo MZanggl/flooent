@@ -26,7 +26,7 @@ given(path)
 
 ## given
 
-Use `given` to create either a flooent Number, Array or String depending on its type.
+Use `given` to create either a flooent Number, Array, Map or String depending on its type.
 
 ```javascript
 import { given } from 'flooent'
