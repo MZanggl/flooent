@@ -23,6 +23,9 @@ class Mappable<K = any, V = any> extends Map<K, V> {
     super(value)
   }
   
+  /**
+   * Turns the map back into an object.
+   */
   toJSON() {
     return fromEntries(this.entries())
   }
@@ -39,6 +42,9 @@ class Mappable<K = any, V = any> extends Map<K, V> {
     return Arrayable.from(super.values())
   }
 
+  /**
+   * Iterates the entries through the given callback and assigns each result as the key.
+   */
   mapKeys<N>(callback: ((value: V, key: K) => N)) {
     return this
       .entries()
@@ -47,6 +53,9 @@ class Mappable<K = any, V = any> extends Map<K, V> {
       .toMap()
   }
 
+  /**
+   * Iterates the entries through the given callback and assigns each result as the value.
+   */
   mapValues<N>(callback: ((value: V, key: K) => N)) {
     return this
       .entries()
@@ -55,28 +64,43 @@ class Mappable<K = any, V = any> extends Map<K, V> {
       .toMap()
   }
 
+  /**
+   * Deep clones a map.
+   */
   clone() {
     return this.entries().clone().toMap()
   }
 
+  /**
+   * Rearranges the map to the given keys. Any unmentioned keys will be appended to the end.
+   */
   arrange(...keys: K[]) {
     const clone = this.clone()
     const entries = keys.map(key => [key, clone.pull(key)])
     return new this.constructor(entries.concat(clone.entries()))
   }
 
+  /**
+   * Returns the value for the given key and deletes the key value pair from the map (mutation).
+   */
   pull(key?: any) {
     const value = this.get(key)
     this.delete(key)
     return value
   }
 
+  /**
+   * Returns a new map with only the given keys.
+   */
   only(keys: K[]) {
-    return this.entries().filter(([key, value]) => keys.indexOf(key) >= 0).toMap()
+    return this.entries().filter(([key]) => keys.indexOf(key) >= 0).toMap()
   }
   
+  /**
+   * Inverse of `only`. Returns a new map with all keys except for the given keys.
+   */
   except(keys: K[]) {
-    return this.entries().filter(([key, value]) => keys.indexOf(key) === -1).toMap()
+    return this.entries().filter(([key]) => keys.indexOf(key) === -1).toMap()
   }
 }
 

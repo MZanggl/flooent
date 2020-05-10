@@ -822,7 +822,7 @@ You have access to [everything from the native Map object](https://developer.moz
 
 #### toJSON
 
-Turns the map back into an object
+Turns the map back into an object.
 
 ```javascript
 const map = given({ key: 'value' }) // Map { key → "value" }
@@ -857,6 +857,22 @@ Iterates the entries through the given callback and assigns each result as the v
 const map = given({ a: '1' }).mapValues((value, key) => key + value)
 
 map.get('a') // a1
+```
+
+#### only
+
+Returns a new map with only the given keys.
+
+```javascript
+  given({ one: 1, two: 2, three: 3 }).only(['one', 'two']) // Map { "one" → 1, "two" → 2 }
+```
+
+#### except
+
+Inverse of `only`. Returns a new map with all keys except for the given keys.
+
+```javascript
+  given({ one: 1, two: 2, three: 3 }).except(['one', 'two']) // Map { "three" → 3 }
 ```
 
 #### clone
