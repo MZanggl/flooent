@@ -66,3 +66,13 @@ test('arrange() arranges the map according to the given keys', assert => {
 
   assert.deepEqual(map.keys(), ['numbers', 'functions', 'strings'])
 })
+
+test('only() returns a new map with only the given keys', assert => {
+  const map = given({ one: 1, two: 2, three: 3 }).only(['one', 'two'])
+  assert.deepEqual(map.keys(), ['one', 'two'])
+})
+
+test('except() returns a new map with all keys except for the given keys', assert => {
+  const map = given({ one: 1, two: 2, three: 3 }).except(['one', 'two'])
+  assert.deepEqual(map.keys(), ['three'])
+})

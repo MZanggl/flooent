@@ -11,10 +11,10 @@ function entries(obj) {
   return resArray;
 }
 
-class Mappable<T = any, K = any> extends Map<T, K> {
+class Mappable<K = any, V = any> extends Map<K, V> {
   ["constructor"]!: typeof Mappable
 
-  constructor(value?: Map<T, K> | Object) {
+  constructor(value?: Map<K, V> | Object) {
     if (value && !(value instanceof Map) && !Array.isArray(value)) {
       value = entries(value)
     }
@@ -39,7 +39,7 @@ class Mappable<T = any, K = any> extends Map<T, K> {
     return Arrayable.from(super.values())
   }
 
-  mapKeys<N>(callback: ((value: K, key: T) => N)) {
+  mapKeys<N>(callback: ((value: V, key: K) => N)) {
     return this
       .entries()
       .map(([key, value]) => [callback(value, key), value])
@@ -47,7 +47,7 @@ class Mappable<T = any, K = any> extends Map<T, K> {
       .toMap()
   }
 
-  mapValues<N>(callback: ((value: K, key: T) => N)) {
+  mapValues<N>(callback: ((value: V, key: K) => N)) {
     return this
       .entries()
       .map(([key, value]) => [key, callback(value, key)])
@@ -59,7 +59,7 @@ class Mappable<T = any, K = any> extends Map<T, K> {
     return this.entries().clone().toMap()
   }
 
-  arrange(...keys: T[]) {
+  arrange(...keys: K[]) {
     const clone = this.clone()
     const entries = keys.map(key => [key, clone.pull(key)])
     return new this.constructor(entries.concat(clone.entries()))
@@ -69,6 +69,14 @@ class Mappable<T = any, K = any> extends Map<T, K> {
     const value = this.get(key)
     this.delete(key)
     return value
+  }
+
+  only(keys: K[]) {
+    return this.entries().filter(([key, value]) => keys.indexOf(key) >= 0).toMap()
+  }
+  
+  except(keys: K[]) {
+    return this.entries().filter(([key, value]) => keys.indexOf(key) === -1).toMap()
   }
 }
 
