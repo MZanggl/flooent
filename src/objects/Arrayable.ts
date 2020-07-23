@@ -86,6 +86,30 @@ class Arrayable<T> extends Array<T> {
         return this.filter((item) => item[key] !== value) as Arrayable<T>
     }
 
+    at(indexOrFn: number | ((item: T) => boolean)) {
+        let index: number
+
+        if (typeof indexOrFn === 'number') {
+            index = indexOrFn < 0 ? this.length + indexOrFn : indexOrFn
+        } else {
+            index = this.findIndex(indexOrFn)
+        }
+
+        const array = this
+        const pointer = {
+            append(item: T) {
+                const [before, after] = array.partition((item, i) => i <= index)
+                return [...before, item, ...after]
+            },
+            prepend(item: T) {
+                const [before, after] = array.partition((item, i) => i < index)
+                return [...before, item, ...after]
+            }
+        }
+
+        return pointer
+    }
+
     where(key, value = key) {
         if (arguments.length === 1) {
             return this.filter((item) => item === value) as Arrayable<T>
@@ -202,10 +226,10 @@ class Arrayable<T> extends Array<T> {
     partition(callback: Function) {
         const tuple = [this.constructor.from([]), this.constructor.from([])] as [Arrayable<T>, Arrayable<T>]
 
-        for (const item of this) {
-            const index = callback(item) ? 0 : 1
-            tuple[index].push(item)
-        }
+        this.forEach((item, index) => {
+            const tupleIndex = callback(item, index) ? 0 : 1
+            tuple[tupleIndex].push(item)
+        })
 
         return tuple
     }

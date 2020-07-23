@@ -377,6 +377,32 @@ const clone = given(items).clone() // [{ id: 1, name: 'music' }]
 console.log(items[0] === clone[0]) // false
 ```
 
+### Pointer API
+
+Let's you point to a specific index inside the array to do further actions on it.
+
+```javascript
+given(['music', 'video', 'tech']).at(1) // returns pointer pointing to 'video'
+given(['music', 'video', 'tech']).at(-1) // returns pointer pointing to 'tech'
+given(['music', 'video', 'tech']).at(item => item === 'music') // returns pointer pointing to 'music'
+```
+
+#### append
+
+Appends given value to array in between the currently pointed item and its next item.
+
+```javascript
+given(['music', 'tech']).at(0).append('video') // ['music', 'video', 'tech']
+```
+
+#### prepend
+
+Prepends given value to array in between the currently pointed item and its previous item.
+
+```javascript
+given(['music', 'tech']).at(1).prepend('video') // ['music', 'video', 'tech']
+```
+
 ### Methods for arrays of objects
 
 #### sum

@@ -307,3 +307,25 @@ test('can turn array into map', assert => {
   assert.equal(mapTurnedMap.get('key'), 'value')
   isMap(assert, mapTurnedMap)
 })
+
+test('can append items at specific pointer', (assert) => {
+  let abcd = given(['a', 'b', 'd']).at(1).append('c')
+  assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
+
+  abcd = given(['a', 'b', 'c']).at(-1).append('d')
+  assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
+
+  abcd = given(['a', 'c', 'd']).at(item => item === 'a').append('b')
+  assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
+})
+
+test('can prepend items at specific pointer', (assert) => {
+  let abcd = given(['a', 'b', 'd']).at(2).prepend('c')
+  assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
+
+  abcd = given(['a', 'b', 'd']).at(-1).prepend('c')
+  assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
+
+  abcd = given(['b', 'c', 'd']).at(item => item === 'b').prepend('a')
+  assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
+})
