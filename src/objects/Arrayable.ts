@@ -97,13 +97,13 @@ class Arrayable<T> extends Array<T> {
 
         const array = this
         const pointer = {
-            append(item: T) {
+            append(...items: T[]) {
                 const [before, after] = array.partition((item, i) => i <= index)
-                return [...before, item, ...after]
+                return array.constructor.from([...before, ...items, ...after])
             },
-            prepend(item: T) {
+            prepend(...items: T[]) {
                 const [before, after] = array.partition((item, i) => i < index)
-                return [...before, item, ...after]
+                return array.constructor.from([...before, ...items, ...after])
             }
         }
 
@@ -235,13 +235,11 @@ class Arrayable<T> extends Array<T> {
     }
 
     prepend(...items): Arrayable<T> {
-        this.unshift(...items)
-        return this
+        return this.constructor.from([...items, ...this])
     }
 
     append(...items): Arrayable<T> {
-        this.push(...items)
-        return this
+        return this.constructor.from([...this, ...items])
     }
 
     sortDesc(key?: string | number | ((item: T) => any)) {

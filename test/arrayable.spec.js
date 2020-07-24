@@ -246,15 +246,17 @@ test('partition() returns a tuple separating the items that pass the given truth
 test('prepend() prepends the given items to the array and returns the entire array', assert => {
   const numbers = given([2, 3])
 
-  isArr(assert, numbers.prepend(0, 1))
-  assert.deepEqual(numbers, [0, 1, 2, 3])
+  const result = numbers.prepend(0, 1)
+  isArr(assert, result)
+  assert.deepEqual(result, [0, 1, 2, 3])
 })
 
 test('append() appends the given items to the array and returns the entire array', assert => {
   const numbers = given([0, 1])
 
-  isArr(assert, numbers.append(2, 3))
-  assert.deepEqual(numbers, [0, 1, 2, 3])
+  const result = numbers.append(2, 3)
+  isArr(assert, result)
+  assert.deepEqual(result, [0, 1, 2, 3])
 })
 
 test('tap() lets you tap into the process without modifying the array', assert => {
@@ -309,8 +311,9 @@ test('can turn array into map', assert => {
 })
 
 test('can append items at specific pointer', (assert) => {
-  let abcd = given(['a', 'b', 'd']).at(1).append('c')
-  assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
+  let abcd = given(['a', 'b', 'e']).at(1).append('c', 'd')
+  isArr(assert, abcd)
+  assert.deepEqual(abcd, ['a', 'b', 'c', 'd', 'e'])
 
   abcd = given(['a', 'b', 'c']).at(-1).append('d')
   assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
@@ -320,8 +323,9 @@ test('can append items at specific pointer', (assert) => {
 })
 
 test('can prepend items at specific pointer', (assert) => {
-  let abcd = given(['a', 'b', 'd']).at(2).prepend('c')
-  assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
+  let abcd = given(['a', 'b', 'e']).at(2).prepend('c', 'd')
+  isArr(assert, abcd)
+  assert.deepEqual(abcd, ['a', 'b', 'c', 'd', 'e'])
 
   abcd = given(['a', 'b', 'd']).at(-1).prepend('c')
   assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])

@@ -318,21 +318,25 @@ const [activeUsers, inactiveUsers] = users.partition(user => user.active)
 
 #### prepend
 
-Prepends the given items to the array. Unlike `unshift` it returns the entire array.
+Prepends the given items to the array. Unlike `unshift`, it is immutable and returns a new array.
 
 ```javascript
 const numbers = given([2, 3])
 numbers.prepend(0, 1) // [0, 1, 2, 3]
 ```
 
+To prepend items at a specific index, check out the [Pointer API](#pointer-api).
+
 #### append
 
-Appends the given items to the array. Unlike `push` it returns the entire array.
+Appends the given items to the array. Unlike `push`, it is immutable and returns a new array.
 
 ```javascript
 const numbers = given([0, 1])
 numbers.append(2, 3) // [0, 1, 2, 3]
 ```
+
+To append items at a specific index, check out the [Pointer API](#pointer-api).
 
 #### sortAsc / sortDesc
 
@@ -389,7 +393,7 @@ given(['music', 'video', 'tech']).at(item => item === 'music') // returns pointe
 
 #### append
 
-Appends given value to array in between the currently pointed item and its next item.
+Appends given value to array in between the currently pointed item and its next item and returns a new array.
 
 ```javascript
 given(['music', 'tech']).at(0).append('video') // ['music', 'video', 'tech']
@@ -397,7 +401,7 @@ given(['music', 'tech']).at(0).append('video') // ['music', 'video', 'tech']
 
 #### prepend
 
-Prepends given value to array in between the currently pointed item and its previous item.
+Prepends given value to array in between the currently pointed item and its previous item and returns a new array.
 
 ```javascript
 given(['music', 'tech']).at(1).prepend('video') // ['music', 'video', 'tech']
