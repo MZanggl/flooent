@@ -1,8 +1,11 @@
 const test = require('japa')
 const { Arrayable, Mappable, given } = require('../dist')
 
-function isArr(assert, result) {
+function isArr(assert, result, notSameAs) {
   assert.instanceOf(result, Arrayable)
+  if (notSameAs) {
+    assert.notEqual(notSameAs, result)
+  }
 }
 
 function isMap(assert, result) {
@@ -51,7 +54,7 @@ test('nth() returns value at given index in array or undefined', assert => {
 test('until() returns all elements that match the given truth test until the first one returns false', assert => {
   const array = given([1, 2, 3])
 
-  isArr(assert, array.until(2))
+  isArr(assert, array.until(2), array)
   assert.deepEqual(array.until(item => item === 4), [1, 2, 3])
   assert.deepEqual(array.until(item => item === 2), [1])
   assert.deepEqual(array.until(2), [1])
@@ -64,15 +67,16 @@ test('isEmpty() returns whether or not the array is empty', assert => {
 })
 
 test('pad() appends the remaining number of items to the array', assert => {
-  isArr(assert, given([1]).pad(1, 1))
-  assert.deepEqual(given([1]).pad(3, null), [1, null, null])
+  const array = given([1])
+  isArr(assert, array.pad(1, 1), array)
+  assert.deepEqual(array.pad(3, null), [1, null, null])
   assert.deepEqual(given([1, 2, 3]).pad(2, '!'), [1, 2, 3])
 })
 
 test('chunk() chunks the array into the given size', assert => {
   const array = given([1, 2, 3, 4, 5])
+  isArr(assert, array.chunk(2), array)
   isArr(assert, array.chunk(2)[0])
-  isArr(assert, array.chunk(2))
   assert.deepEqual(array.chunk(3), [
     [1, 2, 3],
     [4, 5]
@@ -81,7 +85,7 @@ test('chunk() chunks the array into the given size', assert => {
 
 test('forPage() returns the items for the given page and size', assert => {
   const array = given(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k'])
-  isArr(assert, array.forPage(1, 1))
+  isArr(assert, array.forPage(1, 1), array)
 
   assert.deepEqual(array.forPage(2, 2), ['c', 'd'])
   assert.deepEqual(array.forPage(3, 4), ['i', 'k'])
@@ -90,70 +94,74 @@ test('forPage() returns the items for the given page and size', assert => {
 
 test('pluck() returns all values for a given key', assert => {
   const array = given([ { id: 1}, { id: 2} ])
-  isArr(assert, array.pluck('id'))
+  isArr(assert, array.pluck('id'), array)
   assert.deepEqual(array.pluck('id'), [1, 2])
 })
 
 test('whereNot() removes given value from array', assert => {
-  isArr(assert, given([1, 2, 3, 1, 2, 3]).whereNot(1))
+  const array = given([1, 2, 3, 1, 2, 3])
+  isArr(assert, given([1, 2, 3, 1, 2, 3]).whereNot(1), array)
   assert.deepEqual(given([1, 1,2 ]).whereNot(1), [2])
 })
 
 test('where() filters array by given value', assert => {
-  isArr(assert, given([1, 2, 3, 1, 2, 3]).where(1))
+  const array = given([1, 2, 3, 1, 2, 3])
+  isArr(assert, array.where(1), array)
   assert.deepEqual(given([1, 1, 2 ]).where(1), [1, 1])
 })
 
 test('whereIn() filters array by given values', assert => {
-  isArr(assert, given([1, 2, 3, 1, 2, 3]).whereIn([1]))
+  const array = given([1, 2, 3, 1, 2, 3])
+  isArr(assert, array.whereIn([1]), array)
   assert.deepEqual(given([1, 1, 2, 3 ]).whereIn([1, 2]), [1, 1, 2])
 })
 
 test('whereNotIn() removes given values from array', assert => {
-  isArr(assert, given([1, 2, 3, 1, 2, 3]).whereNotIn([1]))
+  const array = given([1, 2, 3, 1, 2, 3])
+  isArr(assert, array.whereNotIn([1]), array)
   assert.deepEqual(given([1, 1, 2, 3 ]).whereNotIn([1, 2]), [3])
 })
 
 test('omit() omits the given keys from the object', assert => {
   const people = given([ { id: 1, age: 24, initials: 'mz' }, { id: 2, age: 64, initials: 'lz' } ])
-  isArr(assert, people.omit('age'))
-  assert.notEqual(people, people.omit('age'))
+  isArr(assert, people.omit('age'), people)
   assert.deepEqual(people.omit('initials'), [ { id: 1, age: 24 }, { id: 2, age: 64 } ])
   assert.deepEqual(people.omit(['initials', 'age']), [ { id: 1 }, { id: 2 } ])
 })
 
 test('whereNot() removes given value of given key from array', assert => {
   const cities = given([ { city: 'Ishigaki' }, { city: 'Naha'}, { city: 'Ishigaki' } ])
-  isArr(assert, cities.whereNot('city', 'Ishigaki'))
+  isArr(assert, cities.whereNot('city', 'Ishigaki'), cities)
   assert.deepEqual(cities.whereNot('city', 'Ishigaki'), [{ city: 'Naha'}])
 })
 
 test('where() filters array by given key / value pair', assert => {
   const cities = given([ { city: 'Ishigaki' }, { city: 'Naha'}, { city: 'Ishigaki' } ])
-  isArr(assert, cities.where('city', 'Naha'))
+  isArr(assert, cities.where('city', 'Naha'), cities)
   assert.deepEqual(cities.where('city', 'Naha'), [{ city: 'Naha'}])
 })
 
 test('whereIn() filters array by given key and values', assert => {
   const cities = given([ { city: 'Hokkaido' }, { city: 'Naha'}, { city: 'Ishigaki' } ])
-  isArr(assert, cities.whereIn('city', 'Naha'))
+  isArr(assert, cities.whereIn('city', 'Naha'), cities)
   assert.deepEqual(cities.whereIn('city', ['Naha', 'Hokkaido']), [{ city: 'Hokkaido'}, { city: 'Naha'}])
 })
 
 test('whereNotIn() filters out items in array by given key and values', assert => {
   const cities = given([ { city: 'Hokkaido' }, { city: 'Naha'}, { city: 'Ishigaki' } ])
-  isArr(assert, cities.whereNotIn('city', 'Naha'))
+  isArr(assert, cities.whereNotIn('city', 'Naha'), cities)
   assert.deepEqual(cities.whereNotIn('city', ['Naha', 'Hokkaido']), [{ city: 'Ishigaki' }])
 })
 
 test('unique() removes duplicate values', assert => {
-  isArr(assert, given([1, 2, 3, 1, 2, 3]).unique())
-  assert.deepEqual(given([1, 2, 3, 1, 2, 3]).unique(), [1, 2, 3])
+  const array = given([1, 2, 3, 1, 2, 3])
+  isArr(assert, array.unique(), array)
+  assert.deepEqual(array.unique(), [1, 2, 3])
 })
 
 test('unique() removes duplicate values by key when given', assert => {
   const cities = given([ { id: 1, city: 'Ishigaki' }, { city: 'Naha'}, { id: 3, city: 'Ishigaki' } ])
-  isArr(assert, cities.unique('city'))
+  isArr(assert, cities.unique('city'), cities)
   assert.deepEqual(cities.unique('city'), [{ id: 1, city: 'Ishigaki' }, { city: 'Naha' }])
 })
 
@@ -161,18 +169,19 @@ test('unique() removes duplicate values by return value when callback when given
   const cities = given([ { id: 1, city: 'ishigaki' }, { city: 'Naha'}, { id: 3, city: 'Ishigaki' } ])
   assert.deepEqual(cities.unique(item => item.city), cities)
 
-  isArr(assert, cities.unique(item => item.city.toLowerCase()))
+  isArr(assert, cities.unique(item => item.city.toLowerCase()), cities)
   assert.deepEqual(cities.unique(item => item.city.toLowerCase()), [{ id: 1, city: 'ishigaki' }, { city: 'Naha' }])
 })
 
 test('shuffle() shuffles the array randomly', assert => {
   const numbers = given([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
-  isArr(assert, numbers.shuffle())
+  isArr(assert, numbers.shuffle(), numbers)
   assert.notDeepEqual(numbers.shuffle(), numbers)
 })
 
 test('filled() only returns items that are not empty', assert => {
-  isArr(assert, given([1]).filled())
+  const array = given([1])
+  isArr(assert, given(array).filled(), array)
   assert.deepEqual(given([1, 0, '', null, undefined, 2]).filled(), [1, 2])
 })
 
@@ -180,7 +189,7 @@ test('groupBy() groups an array of objects by the given key', assert => {
   const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
   const result = given(users).groupBy('area').toJSON()
 
-  isArr(assert, result.LA)
+  isArr(assert, result.LA, users)
   assert.deepEqual(result, {
     'New York': [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}],
     'LA': [{ id: 3, area: 'LA' }]
@@ -208,7 +217,8 @@ test('sum() sums all the values in the array', assert => {
 
 test('when() can apply modifications conditionally', assert => {
   const callback = array => array.append('called')
-  isArr(assert, given([]).when(true, () => [1]))
+  const array = given([])
+  isArr(assert, array.when(true, () => [1]), array)
 
   assert.deepEqual(given([]).when(true, callback), ['called'])
   assert.deepEqual(given([]).when(false, callback), [])
@@ -237,8 +247,8 @@ test('partition() returns a tuple separating the items that pass the given truth
   const users = given([{ id: 1, active: false }, { id: 2, active: false }, { id: 3, active: true }])
 
   const [activeUsers, inactiveUsers] = users.partition(user => user.active)
-  isArr(assert, activeUsers)
-  isArr(assert, inactiveUsers)
+  isArr(assert, activeUsers, users)
+  isArr(assert, inactiveUsers, users)
 
   assert.deepEqual(inactiveUsers, [{ id: 1, active: false }, { id: 2, active: false }])
   assert.deepEqual(activeUsers, [{ id: 3, active: true }])
@@ -248,7 +258,7 @@ test('prepend() prepends the given items to the array and returns the entire arr
   const numbers = given([2, 3])
 
   const result = numbers.prepend(0, 1)
-  isArr(assert, result)
+  isArr(assert, result, numbers)
   assert.deepEqual(result, [0, 1, 2, 3])
 })
 
@@ -256,7 +266,7 @@ test('append() appends the given items to the array and returns the entire array
   const numbers = given([0, 1])
 
   const result = numbers.append(2, 3)
-  isArr(assert, result)
+  isArr(assert, result, numbers)
   assert.deepEqual(result, [0, 1, 2, 3])
 })
 
@@ -271,21 +281,22 @@ test('tap() lets you tap into the process without modifying the array', assert =
 })
 
 test('pipe() calls the callback and lets you continue the chain', assert => {
-  isArr(assert, given([]).pipe(array => [1]))
+  const array = given([])
+  isArr(assert, array.pipe(array => [1]), array)
   assert.deepEqual(given([]).pipe(arr => arr.append(1)), [1])
 })
 
 test('sortAsc() and sortDesc() do not mutate original array and return arrayable', assert => {
   const numbers = given([3, 1, 2])
-  isArr(assert, numbers.sortAsc())
+  isArr(assert, numbers.sortAsc(), numbers)
   assert.deepEqual(numbers, [3, 1, 2])
-  isArr(assert, numbers.sortDesc())
+  isArr(assert, numbers.sortDesc(), numbers)
   assert.deepEqual(numbers, [3, 1, 2])
 
   const numberObject = given([{ val: 3 }, { val: 1 }, { val: 2 }])
-  isArr(assert, numberObject.sortAsc('val'))
+  isArr(assert, numberObject.sortAsc('val'), numberObject)
   assert.deepEqual(numberObject, [{ val: 3 }, { val: 1 }, { val: 2 }])
-  isArr(assert, numberObject.sortDesc('val'))
+  isArr(assert, numberObject.sortDesc('val'), numberObject)
   assert.deepEqual(numberObject, [{ val: 3 }, { val: 1 }, { val: 2 }])
 })
 
@@ -312,8 +323,9 @@ test('can turn array into map', assert => {
 })
 
 test('can append items at specific pointer', (assert) => {
-  let abcd = given(['a', 'b', 'e']).at(1).append('c', 'd')
-  isArr(assert, abcd)
+  const array = given(['a', 'b', 'e'])
+  let abcd = array.at(1).append('c', 'd')
+  isArr(assert, abcd, array)
   assert.deepEqual(abcd, ['a', 'b', 'c', 'd', 'e'])
 
   abcd = given(['a', 'b', 'c']).at(-1).append('d')
@@ -324,8 +336,9 @@ test('can append items at specific pointer', (assert) => {
 })
 
 test('can prepend items at specific pointer', (assert) => {
-  let abcd = given(['a', 'b', 'e']).at(2).prepend('c', 'd')
-  isArr(assert, abcd)
+  const array = given(['a', 'b', 'e'])
+  let abcd = array.at(2).prepend('c', 'd')
+  isArr(assert, abcd, array)
   assert.deepEqual(abcd, ['a', 'b', 'c', 'd', 'e'])
 
   abcd = given(['a', 'b', 'd']).at(-1).prepend('c')
