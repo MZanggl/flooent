@@ -513,7 +513,7 @@ const cities = [
 given(cities).whereNotIn('name', ['Naha', 'Yoron']) // [{ id: 1, name: 'Munich' }]
 ```
 
-#### forget
+#### omit
 
 Omits given keys from objects in the array.
 
@@ -523,8 +523,8 @@ const people = [
   { id: 2, age: 64, initials: 'lz' }
 ]
 
-given(people).forget('initials') // [ { id: 1, age: 24 }, { id: 2, age: 64 } ])
-given(people).forget(['initials', 'age']) // [ { id: 1 }, { id: 2 } ])
+given(people).omit('initials') // [ { id: 1, age: 24 }, { id: 2, age: 64 } ])
+given(people).omit(['initials', 'age']) // [ { id: 1 }, { id: 2 } ])
 ```
 
 #### unique

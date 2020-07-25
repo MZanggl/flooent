@@ -168,7 +168,7 @@ class Arrayable<T> extends Array<T> {
         }, 0)
     }
 
-    forget(keys) {
+    omit(keys) {
         keys = Array.isArray(keys) ? keys : [keys]
         return (this as unknown as Object[]).map((item) => {
             return omit(item, keys)
