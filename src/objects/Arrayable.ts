@@ -97,6 +97,11 @@ class Arrayable<T> extends Array<T> {
 
         const array = this
         const pointer = {
+            set(item: T) {
+                const copy = array.constructor.from(array)
+                copy[index] = item
+                return copy
+            },
             append(...items: T[]) {
                 const [before, after] = array.partition((item, i) => i <= index)
                 return array.constructor.from([...before, ...items, ...after])

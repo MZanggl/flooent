@@ -419,6 +419,14 @@ Prepends given value to array in between the currently pointed item and its prev
 given(['music', 'tech']).at(1).prepend('video') // ['music', 'video', 'tech']
 ```
 
+#### set
+
+Sets the value at the current index and returns a new array.
+
+```javascript
+given(['music', 'tehc']).at(1).set('tech') // ['music', 'tech']
+```
+
 ### Methods for arrays of objects
 
 #### sum

@@ -348,11 +348,25 @@ test('can prepend items at specific pointer', (assert) => {
   assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
 })
 
+test('can set value at specific pointer', (assert) => {
+  const array = given(['a', 'b', 'c'])
+  let update = array.at(1).set('bb')
+  isArr(assert, array, update)
+  assert.deepEqual(update, ['a', 'bb', 'c'])
+  assert.deepEqual(array, ['a', 'b', 'c'])
+
+  abcd = given(['a', 'b', 'd']).at(-1).prepend('c')
+  assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
+
+  abcd = given(['b', 'c', 'd']).at(item => item === 'b').prepend('a')
+  assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
+})
+
 test('can mutate array', assert => {
   const array = given(['a', 'b', 'c'])
   array.mutate(array.at(0).append('aa'))
   assert.deepEqual(array, ['a', 'aa', 'b', 'c'])
 
   array.mutate(arr => arr.at(2).append('bb'))
-  assert.deepEqual(array, ['a', 'aa', 'b', 'c'])
+  assert.deepEqual(array, ['a', 'aa', 'b', 'bb', 'c'])
 })
