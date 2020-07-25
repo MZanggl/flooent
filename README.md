@@ -109,6 +109,18 @@ const users = [{ id: 1 }]
 given(users).is([{ id: 1 }]) // true
 ```
 
+#### mutate
+
+Mutates the original array
+
+```javascript
+const numbers = given(1, 2, 3)
+
+numbers.mutate(numbers.append(4))
+// or with a callback
+numbers.mutate(n => n.append(4))
+```
+
 #### sum
 
 Returns the sum of the array.

@@ -147,6 +147,13 @@ class Arrayable<T> extends Array<T> {
         return this.constructor.from(clonedeep([...this])) as Arrayable<T>
     }
 
+    mutate(newArrayOrFn: T[] | ((array: T[]) => T[])) {
+        const newArray = typeof newArrayOrFn === 'function' ? newArrayOrFn(this) : newArrayOrFn
+        this.splice(0)
+        this.splice(0, 0, ...newArray)
+        return this
+    }
+
     groupBy(key: string | Function) {
         const grouped = this.reduce<{ [key: string]: Arrayable<T> }>((result, item) => {
             const group = typeof key === "function" ? key(item) : item[key]
