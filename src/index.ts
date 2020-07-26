@@ -35,4 +35,20 @@ given.macro = function<T = unknown>(type: ObjectType<T>, key: string, callback: 
     typeMap.get(type).prototype[key] = callback
 }
 
-export { given, Stringable, Arrayable, Numberable, Mappable }
+function givenString(value) {
+    return new Stringable(value)
+}
+
+function givenArray<T>(value: T[]) {
+    return Arrayable.from<T>(value as Iterable<T>)
+}
+
+function givenNumber(value: number) {
+    return new Numberable(value)
+}
+
+function givenMap<K, V>(value) {
+    return new Mappable<K, V>(value)
+}
+
+export { given, Stringable, Arrayable, Numberable, Mappable, givenString, givenArray, givenNumber, givenMap }
