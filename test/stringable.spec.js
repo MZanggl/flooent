@@ -156,19 +156,11 @@ test('pipe() calls the callback and lets you continue the chain', assert => {
   assert.equal(given('hello').pipe(str => str.append('!')), 'hello!')
 })
 
-test('kebab(), title(), snake(), studly() and camel() turns string into respective case', assert => {
-  isStr(assert, given('').kebab())
+test('title() turns string into respective case', assert => {
   isStr(assert, given('').title())
-  isStr(assert, given('').snake())
-  isStr(assert, given('').camel())
-  isStr(assert, given('').studly())
 
-  assert.equal(given('Foo Bar').kebab(), 'foo-bar')
   assert.equal(given('foo bar').title(), 'Foo Bar')
   assert.equal(given('foo BAR').title(), 'Foo BAR')
-  assert.equal(given('Foo bar').snake(), 'foo_bar')
-  assert.equal(given('foo bar').studly(), 'FooBar')
-  assert.equal(given('--Foo-bar--').camel(), 'fooBar')
 })
 
 test('capitalize() capitalizes the first character', assert => {
@@ -199,18 +191,4 @@ test('slugify() turns string into URL friendly format', assert => {
   isStr(assert, given('Stringable Getting Started ♥').slug())
   assert.equal(given('Stringable Getting Started ♥').slug(), 'stringable-getting-started')
   assert.equal(given('Ä getting started').slug('+'), 'a+getting+started')
-})
-
-test('plural() return pluraized version of string', assert => {
-  isStr(assert, given('child').plural())
-  assert.equal(given('child').plural(), 'children')
-  assert.equal(given('snake').plural(2), 'snakes')
-  assert.equal(given('child').plural(1), 'child')
-})
-
-test('singular() return singular version of string', assert => {
-  isStr(assert, given('child').singular())
-  assert.equal(given('children').singular(), 'child')
-  assert.equal(given('snakes').singular(), 'snake')
-  assert.equal(given('child').singular(), 'child')
 })

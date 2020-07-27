@@ -1,54 +1,31 @@
-import { Stringable, Arrayable, Numberable, Mappable, typeMap, newupGivenValue } from './objects'
-import { ObjectType, GivenValue } from './types'
+import { Stringable, Arrayable, Numberable, Mappable } from './objects'
 
-type Callback = (result: any) => any
+type Callback<T> = (result: T) => any
 
-/**
- * Create either a flooent Number, Array, Map, or String depending on its type.
- * To create a flooent Map, either pass in a native Map, or an object.
- */
-function given(value: string): Stringable
-function given<T>(value: T[]): Arrayable<T>
-function given(value: number): Numberable
-function given<T = any, K = any>(value: Map<T, K>): Mappable<T, K>
-function given<T = any, K = any>(value: Object): Mappable<T, K>
-function given<T = any, K = any>(givenValue: GivenValue<T, K>, callback?: Callback) {
-    const result = newupGivenValue<T, K>(givenValue)
-
-    if (!callback) {
-        return result
-    }
-
+function givenString(value: string): Stringable;
+function givenString(value: string, callback: Callback<Stringable>): string;
+function givenString(value: string, callback?: Callback<Stringable>) {
+    const result = new Stringable(value)
+    if (!callback) return result
     const callbackResult = callback(result)
-    if (callbackResult instanceof Stringable || callbackResult instanceof Numberable) {
-        return callbackResult.valueOf()
-    }
-
-    return callbackResult
+    return (callbackResult instanceof Stringable) ? callbackResult.valueOf() : callbackResult
 }
+givenString.macro = (key: string, callback: Function) => Stringable.prototype[key] = callback
 
-/**
- * Extend flooent's native functionality.
- */
-given.macro = function<T = unknown>(type: ObjectType<T>, key: string, callback: Function) {
-    // @ts-ignore
-    typeMap.get(type).prototype[key] = callback
+function givenNumber(value: number): Numberable;
+function givenNumber(value: number, callback: Callback<Numberable>): number;
+function givenNumber(value: number, callback?: Callback<Numberable>) {
+    const result = new Numberable(value)
+    if (!callback) return result
+    const callbackResult = callback(result)
+    return (callbackResult instanceof Numberable) ? callbackResult.valueOf() : callbackResult
 }
+givenNumber.macro = (key: string, callback: Function) => Numberable.prototype[key] = callback
 
-function givenString(value) {
-    return new Stringable(value)
-}
+const givenArray = <T>(value: T[]) => Arrayable.from<T>(value)
+givenArray.macro = (key: string, callback: Function) => Arrayable.prototype[key] = callback
 
-function givenArray<T>(value: T[]) {
-    return Arrayable.from<T>(value as Iterable<T>)
-}
+const givenMap = <K, V>(value) => new Mappable<K, V>(value)
+givenMap.macro = (key: string, callback: Function) => Mappable.prototype[key] = callback
 
-function givenNumber(value: number) {
-    return new Numberable(value)
-}
-
-function givenMap<K, V>(value) {
-    return new Mappable<K, V>(value)
-}
-
-export { given, Stringable, Arrayable, Numberable, Mappable, givenString, givenArray, givenNumber, givenMap }
+export { Stringable, Arrayable, Numberable, Mappable, givenString, givenArray, givenNumber, givenMap }

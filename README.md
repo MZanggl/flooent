@@ -29,22 +29,22 @@ given(path)
 Use `given` to create either a flooent Number, Array, Map or String depending on its type.
 
 ```javascript
-import { given } from 'flooent'
+import { givenString, givenArray, givenNumber, givenMap } from 'flooent'
 
-given('hello') // instance of Stringable
-given([1, 2]) // instance of Arrayable
-given(1) // instance of Numberable
-given({ key: 'value' }) // instance of Mappable (not object)
+givenString('hello') // instance of Stringable
+givenArray([1, 2]) // instance of Arrayable
+givenNumber(1) // instance of Numberable
+givenMap({ key: 'value' }) // instance of Mappable (not object)
 ```
 
-Flooent objects simply extend the native functionality, so you can still execute any native method like `given('hello').includes('h')`.
+Flooent objects simply extend the native functionality, so you can still execute any native method like `givenString('hello').includes('h')`.
 
-To turn flooent strings and numbers back into their respective primitive form, use `given('hello').valueOf()`.
+To turn flooent strings and numbers back into their respective primitive form, use `givenString('hello').valueOf()`.
 
-`given` also accepts a callback as the second argument which will automatically apply `valueOf()` at the end.
+`givenString` and `givenNumber` also accept a callback as the second argument which will automatically apply `valueOf()` at the end.
 
 ```javascript
-const rawHelloWorld = given('hello', message => {
+const rawHelloWorld = givenString('hello', message => {
   return message.append(' world')
 })
 ```
@@ -56,15 +56,15 @@ The contraints that apply to flooent strings and numbers are the same that apply
 For one, the type will be `object` instead of `string`.
 
 ```javascript
-typeof given('') // object
+typeof givenString('') // object
 typeof '' // string
 ```
 
 Flooent strings and numbers are immutable. You can still do things like this:
 
 ```javascript
-given('?') + '!' // '?!'
-given(1) + 1 // 2
+givenString('?') + '!' // '?!'
+givenNumber(1) + 1 // 2
 ```
 
 which will return a primitive (not an instance of flooent).
@@ -72,28 +72,11 @@ which will return a primitive (not an instance of flooent).
 However you can not mutate flooent objects like this:
 
 ```javascript
-given('') += '!' // ERROR
-given(1) += 1 // ERROR
+givenString('') += '!' // ERROR
+givenNumber(1) += 1 // ERROR
 ```
 
 There are various fluent alternatives available.
-
-## Extending flooent
-
-Extending flooent's method is easy as pie thanks to `macro`.
-
-```javascript
-import { given } from 'flooent'
-
-// first argument can be String, Number, Map, or Array
-given.macro(String, 'scream', function() {
-  return this.toUpperCase()
-})
-
-given('hello').scream() // Stringable { 'HELLO' }
-```
-
-Define macros at a central place before your business logic. E.g. entry point or service provider
 
 ## Arrays
 
@@ -779,44 +762,12 @@ given('***others***').unwrap('***') // String { 'others' }
 given('<blink>oldschool</blink>').unwrap('<blink>', '</blink>') // String { 'oldschool' }
 ```
 
-#### camel
-
-Turns string into camel case.
-
-```javascript
-given('foo bar').camel() // String { 'fooBar' }
-```
-
 #### title
 
 Turns string into title case.
 
 ```javascript
 given('foo bar').title() // String { 'Foo Bar' }
-```
-
-#### studly
-
-Turns string into studly case.
-
-```javascript
-given('foo bar').studly() // String { 'FooBar' }
-```
-
-#### kebab
-
-Turns string into kebab case.
-
-```javascript
-given('foo bar').kebab() // String { 'foo-bar' }
-```
-
-#### snake
-
-Turns string into snake case.
-
-```javascript
-given('foo bar').snake() // String { 'foo_bar' }
 ```
 
 #### capitalize
@@ -844,25 +795,6 @@ Parses a string back into its original form.
 given('true').parse() // true
 given('23').parse() // 23
 given('{\"a\":1}').parse() // { a: 1 }
-```
-
-#### plural
-
-Turns a string into its plural form.
-
-```javascript
-given('child').plural() // String { 'children' }
-given('child').plural(3) // String { 'children' }
-given('child').plural(1) // String { 'child' }
-```
-
-#### singular
-
-Turns a string into its singular form.
-
-```javascript
-given('children').singular() // String { 'child' }
-given('child').singular() // String { 'child' }
 ```
 
 ## Map
@@ -1020,4 +952,93 @@ Always rounds its value down.
 
 ```javascript
 given(10.9).floor() // Number { 10 }
+```
+
+## Macros (extending flooent)
+
+Extending flooent's method is easy as pie thanks to `macro`.
+
+```javascript
+import { givenString } from 'flooent'
+
+givenString.macro('scream', function() {
+  return this.toUpperCase()
+})
+
+given('hello').scream() // String { 'HELLO' }
+```
+
+Define macros at a central place before your business logic. E.g. entry point or service provider
+
+### TypeScript
+
+For TypeScript support, you need to additionally declare the module.
+
+```typescript
+declare module 'flooent' {
+  interface Stringable {
+    scream: () => Stringable;
+  }
+}
+```
+
+### Common Macros
+
+These methods, while convenient, are not in the library by default to keep the bundle size small.
+
+## `String.plural` and `String.singular`
+
+```javascript
+import { givenString } from 'flooent'
+import pluralize from 'pluralize' // npm install pluralize
+
+givenString.macro('plural', function(count) {
+  return new this.constructor(pluralize(this, count, false))
+})
+
+givenString.macro('singular', function() {
+  return new this.constructor(singular(this))
+})
+```
+
+Then, use it like this:
+
+```javascript
+given('child').plural() // String { 'children' }
+given('child').plural(3) // String { 'children' }
+given('child').plural(1) // String { 'child' }
+
+given('children').singular() // String { 'child' }
+given('child').singular() // String { 'child' }
+```
+
+## `String.case`
+
+```javascript
+import { givenString } from 'flooent'
+import camelcase from "lodash.camelcase" // npm install lodash.camelcase
+import kebabcase from "lodash.kebabcase" // npm install lodash.kebabcase
+import snakecase from "lodash.snakecase" // npm install lodash.snakecase
+
+givenString.macro('case', function(type) {
+  if (type === 'camel') {
+    return new this.constructor(camelcase(this))
+  } else if (type === 'kebab') {
+    return new this.constructor(kebabcase(this))
+  } else if (type === 'snake') {
+    return new this.constructor(snakecase(this))
+  } else if (type === 'studly') {
+    return new this.constructor(camelcase(this.capitalize()))
+  }
+  throw new Error('unknown type passed')
+})
+```
+
+Then use it like this:
+
+```javascript
+givenString('foo bar').camel() // String { 'fooBar' }
+givenString('foo bar').studly() // String { 'FooBar' }
+givenString('foo bar').kebab() // String { 'foo-bar' }
+givenString('foo bar').snake() // String { 'foo_bar' }
 ```

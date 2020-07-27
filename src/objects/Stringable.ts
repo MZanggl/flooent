@@ -1,10 +1,6 @@
-import camelcase from "lodash.camelcase"
 import upperFirst from "lodash.upperfirst"
-import kebabcase from "lodash.kebabcase"
-import snakecase from "lodash.snakecase"
 import startcase from "lodash.startcase"
 import slugify from "slugify"
-import pluralize from "pluralize"
 
 const override = [
     "replace",
@@ -161,28 +157,12 @@ class Stringable extends String {
         return new this.constructor(truncated)
     }
 
-    camel() {
-        return new this.constructor(camelcase((this as unknown) as string))
-    }
-
-    snake() {
-        return new this.constructor(snakecase((this as unknown) as string))
-    }
-
-    kebab() {
-        return new this.constructor(kebabcase((this as unknown) as string))
-    }
-
     title() {
         return new this.constructor(startcase((this as unknown) as string))
     }
 
     capitalize() {
         return new this.constructor(upperFirst((this as unknown) as string))
-    }
-
-    studly() {
-        return this.camel().capitalize()
     }
 
     slug(replacement = "-") {
@@ -207,14 +187,6 @@ class Stringable extends String {
 
     parse() {
         return JSON.parse(this as any)
-    }
-
-    plural(count?: number) {
-        return new this.constructor(pluralize(this, count, false))
-    }
-
-    singular() {
-        return new this.constructor(pluralize.singular(this))
     }
 }
 
