@@ -116,9 +116,10 @@ Mutates the original array
 ```javascript
 const numbers = given(1, 2, 3)
 
-numbers.mutate(numbers.append(4))
-// or with a callback
-numbers.mutate(n => n.append(4))
+// with a callback
+numbers.mutate(n => n.append(4)) // [1, 2, 3, 4]
+// or, directly set the value
+numbers.mutate([1, 2, 3, 4]) // [1, 2, 3, 4]
 ```
 
 #### sum
