@@ -1,56 +1,20 @@
 const test = require('japa')
-const { Arrayable, Stringable, Numberable, Mappable, given } = require('../dist')
-
-test('creates Arrayable out of array or other iterables (except maps and strings)', assert => {
-  assert.instanceOf(given([]), Arrayable)
-  assert.instanceOf(given(new Set([1, 2])), Arrayable)
-})
-
-test('creates Mappable out of maps or objects', assert => {
-  assert.instanceOf(given({}), Mappable)
-  assert.instanceOf(given(new Map()), Mappable)
-})
-
-test('creates Stringable out of strings', assert => {
-  assert.instanceOf(given(''), Stringable)
-})
-
-test('creates Numberable out of numbers', assert => {
-  assert.instanceOf(given(2), Numberable)
-})
-
-test('can pass callback which will call valueOf() at the end', assert => {
-  assert.notInstanceOf(given(2, num => num), Numberable)
-  assert.equal(given(2, num => num), 2)
-
-  assert.instanceOf(given([], arr => arr), Arrayable)
-  assert.deepEqual(given([], arr => arr), [])
-})
-
-test('throws error when passing invalid types', assert => {
-  assert.plan(1)
-
-  try {
-    given(true)
-  } catch(error) {
-    assert.equal(error.message, 'can not create flooent object given [boolean] "true"')
-  }
-})
+const { givenString, givenArray, givenNumber } = require('../dist')
 
 test('can extend flooent objects by replacing the types', assert => {
-  given.macro(String, 'scream', function() {
+  givenString.macro('scream', function() {
     return this.toUpperCase()
   })
 
-  given.macro(Array, 'stringify', function() {
+  givenArray.macro('stringify', function() {
     return this.toString()
   })
 
-  given.macro(Number, 'stringify', function() {
+  givenNumber.macro('stringify', function() {
     return this.toString()
   })
 
-  assert.equal(given('hello').scream(), 'HELLO')
-  assert.equal(given([1]).stringify(), '1')
-  assert.equal(given(1).stringify(), '1')
+  assert.equal(givenString('hello').scream(), 'HELLO')
+  assert.equal(givenArray([1]).stringify(), '1')
+  assert.equal(givenNumber(1).stringify(), '1')
 })

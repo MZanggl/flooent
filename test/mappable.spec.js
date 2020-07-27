@@ -1,5 +1,5 @@
 const test = require('japa')
-const { Mappable, given, Arrayable } = require('../dist')
+const { Mappable, givenMap, Arrayable } = require('../dist')
 
 function isMap(assert, result) {
   assert.instanceOf(result, Mappable)
@@ -10,36 +10,36 @@ function isArr(assert, result) {
 }
 
 test('it can create Mappable from Map or object', (assert) => {
-  isMap(assert, given(new Map([['key', 'value']])))
-  isMap(assert, given({ key: 'value' }))
+  isMap(assert, givenMap(new Map([['key', 'value']])))
+  isMap(assert, givenMap({ key: 'value' }))
 
-  assert.equal(given({ key: 'value' }).get('key'), 'value')
-  assert.equal(given(new Map([['key', 'value']])).get('key'), 'value')
+  assert.equal(givenMap({ key: 'value' }).get('key'), 'value')
+  assert.equal(givenMap(new Map([['key', 'value']])).get('key'), 'value')
   assert.equal(new Mappable([['key', 'value']]).get('key'), 'value')
 
   // only first layer gets mapped
-  assert.equal(given({ user: { city: 'Munich' } }).get('user').city, 'Munich')
+  assert.equal(givenMap({ user: { city: 'Munich' } }).get('user').city, 'Munich')
 })
 
 test('toJSON() turns the map back into an object', assert => {
-  assert.deepEqual(given({ key: 'value' }).toJSON(), { key: 'value' })
+  assert.deepEqual(givenMap({ key: 'value' }).toJSON(), { key: 'value' })
 })
 
 test('keys(), values() and entries() return instances of Arrayable', assert => {
-  const map = given({ key: 'value' })
+  const map = givenMap({ key: 'value' })
   isArr(assert, map.entries())
   isArr(assert, map.keys())
   isArr(assert, map.values())
 })
 
 test('pull() returns the value for the given key and removes it from the map', assert => {
-  const map = given({ key: 'value' })
+  const map = givenMap({ key: 'value' })
   assert.equal(map.pull('key'), 'value')
   assert.isFalse(map.has('key'))
 })
 
 test('mapKeys() iterates the entries through the given callback and assigns each result as the key', assert => {
-  const map = given({ a: 1 })
+  const map = givenMap({ a: 1 })
   const newMap = map.mapKeys((value, key) => key + value)
 
   assert.isTrue(newMap.has('a1'))
@@ -47,7 +47,7 @@ test('mapKeys() iterates the entries through the given callback and assigns each
 })
 
 test('mapValues() iterates the entries through the given callback and assigns each result as the value', assert => {
-  const map = given({ a: '1' })
+  const map = givenMap({ a: '1' })
   const newMap = map.mapValues((value, key) => key + value)
 
   assert.isTrue(newMap.has('a'))
@@ -55,24 +55,24 @@ test('mapValues() iterates the entries through the given callback and assigns ea
 })
 
 test('clone() returns a completely new map', assert => {
-  const map = given({ numbers: [1, 2, 3] })
+  const map = givenMap({ numbers: [1, 2, 3] })
   const clone = map.clone()
 
   assert.notEqual(map.get('numbers'), clone.get('numbers'))
 })
 
 test('arrange() arranges the map according to the given keys', assert => {
-  const map = given({ strings: 2, numbers: 1, functions: 4 }).arrange('numbers', 'functions')
+  const map = givenMap({ strings: 2, numbers: 1, functions: 4 }).arrange('numbers', 'functions')
 
   assert.deepEqual(map.keys(), ['numbers', 'functions', 'strings'])
 })
 
 test('only() returns a new map with only the given keys', assert => {
-  const map = given({ one: 1, two: 2, three: 3 }).only(['one', 'two'])
+  const map = givenMap({ one: 1, two: 2, three: 3 }).only(['one', 'two'])
   assert.deepEqual(map.keys(), ['one', 'two'])
 })
 
 test('except() returns a new map with all keys except for the given keys', assert => {
-  const map = given({ one: 1, two: 2, three: 3 }).except(['one', 'two'])
+  const map = givenMap({ one: 1, two: 2, three: 3 }).except(['one', 'two'])
   assert.deepEqual(map.keys(), ['three'])
 })
