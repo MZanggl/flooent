@@ -1,18 +1,5 @@
 # flooent
 
-## Index
-
-- [Get Started](#get-started)
-- [Arrays](#arrays)
-- [String](#strings)
-- [Maps](#maps)
-- [Numbers](#numbers)
-- [Macros (Extending flooent)](macros-extending-flooent)
-
-## Get Started
-
-> `npm install flooent`
-
 Fluent interface to provide an expressive syntax for common manipulations.
 
 Given you have logical, procedural, "hard to visualize" code like this:
@@ -35,7 +22,22 @@ givenString(path)
   .capitalize()
 ```
 
-## given
+## Index
+
+- [Get Started](#get-started)
+- [Arrays](#arrays)
+- [String](#strings)
+- [Maps](#maps)
+- [Numbers](#numbers)
+- [Macros (Extending flooent)](macros-extending-flooent)
+
+## Get Started
+
+### Installation
+
+> `npm install flooent`
+
+### given
 
 Use `given` to create either a flooent Number, Array, Map or String depending on its type.
 
@@ -60,7 +62,7 @@ const rawHelloWorld = givenString('hello', message => {
 })
 ```
 
-## Constraints
+### Constraints
 
 The contraints that apply to flooent strings and numbers are the same that apply to when you new up a native string/number using new (`new String('')`) and is just how JavaScript works.
 
