@@ -543,10 +543,9 @@ Omits given keys from objects in the array.
 ```javascript
 const people = [
   { id: 1, age: 24, initials: 'mz' },
-  { id: 2, age: 64, initials: 'lz' }
+  { id: 2, age: 2, initials: 'lz' }
 ]
 
-givenArray(people).omit('initials') // [ { id: 1, age: 24 }, { id: 2, age: 64 } ])
 givenArray(people).omit(['initials', 'age']) // [ { id: 1 }, { id: 2 } ])
 ```
 

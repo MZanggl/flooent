@@ -124,8 +124,7 @@ test('whereNotIn() removes given values from array', assert => {
 
 test('omit() omits the given keys from the object', assert => {
   const people = givenArray([ { id: 1, age: 24, initials: 'mz' }, { id: 2, age: 64, initials: 'lz' } ])
-  isArr(assert, people.omit('age'), people)
-  assert.deepEqual(people.omit('initials'), [ { id: 1, age: 24 }, { id: 2, age: 64 } ])
+  isArr(assert, people.omit(['age']), people)
   assert.deepEqual(people.omit(['initials', 'age']), [ { id: 1 }, { id: 2 } ])
 })
 

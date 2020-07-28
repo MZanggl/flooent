@@ -1,9 +1,7 @@
 import uniqby from "lodash.uniqby"
 import isequal from "lodash.isequal"
 import clonedeep from "lodash.clonedeep"
-import omit from "lodash.omit"
 import shuffle from "lodash.shuffle"
-import uniq from "lodash.uniq"
 import chunk from "lodash.chunk"
 import { Mappable } from '../index'
 import { CopyFunction } from '../types'
@@ -180,10 +178,11 @@ class Arrayable<T> extends Array<T> {
         }, 0)
     }
 
-    omit(keys) {
-        keys = Array.isArray(keys) ? keys : [keys]
+    omit(keys: string[]) {
         return (this as unknown as Object[]).map((item) => {
-            return omit(item, keys)
+            const copy = {...item}
+            keys.forEach(key => delete copy[key])
+            return copy
         }) as Arrayable<T>
     }
 
@@ -192,11 +191,10 @@ class Arrayable<T> extends Array<T> {
     }
 
     unique(key?: string | ((item: T) => any)) {
-        if (!key) {
-            return this.constructor.from(uniq(this)) as Arrayable<T>
+        let compareFn = undefined
+        if (key) {
+            compareFn = typeof key === "function" ? key : (item) => item[key]
         }
-
-        const compareFn = typeof key === "function" ? key : (item) => item[key]
         return this.constructor.from(uniqby(this, compareFn)) as Arrayable<T>
     }
 
