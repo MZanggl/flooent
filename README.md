@@ -1,5 +1,16 @@
 # flooent
 
+## Index
+
+- [Get Started](#get-started)
+- [Arrays](#arrays)
+- [String](#strings)
+- [Maps](#maps)
+- [Numbers](#numbers)
+- [Macros (Extending flooent)](macros-extending-flooent)
+
+## Get Started
+
 > `npm install flooent`
 
 Fluent interface to provide an expressive syntax for common manipulations.
@@ -79,6 +90,12 @@ givenNumber(1) += 1 // ERROR
 There are various fluent alternatives available.
 
 ## Arrays
+
+<small>
+
+[Back to top](#index)
+
+</small>
 
 You have access to [everything from the native Array object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array).
 
@@ -586,6 +603,12 @@ givenArray(items).groupBy(item => item.name.toUpperCase()) // result is:
 
 ## Strings
 
+<small>
+
+[Back to top](#index)
+
+</small>
+
 You have access to [everything from the native String object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String).
 
 #### is
@@ -797,7 +820,13 @@ givenString('23').parse() // 23
 givenString('{\"a\":1}').parse() // { a: 1 }
 ```
 
-## Map
+## Maps
+
+<small>
+
+[Back to top](#index)
+
+</small>
 
 You have access to [everything from the native Map object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map).
 
@@ -881,6 +910,12 @@ givenMap({ strings: 2, numbers: 1, functions: 4 })
 ```
 
 ## Numbers
+
+<small>
+
+[Back to top](#index)
+
+</small>
 
 You have access to [everything from the native Number object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number).
 
@@ -984,6 +1019,12 @@ declare module 'flooent' {
 
 ### Common Macros
 
+<small>
+
+[Back to top](#index)
+
+</small>
+
 These methods, while convenient, are not in the library by default to keep the bundle size small.
 
 ## `String.plural` and `String.singular`
@@ -1037,8 +1078,8 @@ givenString.macro('case', function(type) {
 Then use it like this:
 
 ```javascript
-givenString('foo bar').camel() // String { 'fooBar' }
-givenString('foo bar').studly() // String { 'FooBar' }
-givenString('foo bar').kebab() // String { 'foo-bar' }
-givenString('foo bar').snake() // String { 'foo_bar' }
+givenString('foo bar').case('camel') // String { 'fooBar' }
+givenString('foo bar').case('kebab') // String { 'foo-bar' }
+givenString('foo bar').case('snake') // String { 'foo_bar' }
+givenString('foo bar').case('studly') // String { 'FooBar' }
 ```

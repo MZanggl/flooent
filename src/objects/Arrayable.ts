@@ -1,9 +1,9 @@
-import uniq from "lodash.uniq"
 import uniqby from "lodash.uniqby"
-import shuffle from "lodash.shuffle"
-import omit from "lodash.omit"
-import clonedeep from "lodash.clonedeep"
 import isequal from "lodash.isequal"
+import clonedeep from "lodash.clonedeep"
+import omit from "lodash.omit"
+import shuffle from "lodash.shuffle"
+import uniq from "lodash.uniq"
 import chunk from "lodash.chunk"
 import { Mappable } from '../index'
 import { CopyFunction } from '../types'
