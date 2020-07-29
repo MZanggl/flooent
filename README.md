@@ -118,10 +118,8 @@ Mutates the original array
 ```javascript
 const numbers = givenArray(1, 2, 3)
 
-// with a callback
 numbers.mutate(n => n.append(4)) // [1, 2, 3, 4]
-// or, directly set the value
-numbers.mutate([1, 2, 3, 4]) // [1, 2, 3, 4]
+numbers  // [1, 2, 3, 4]
 ```
 
 #### sum
@@ -427,7 +425,7 @@ givenArray(['music', 'tech']).at(1).prepend('video') // ['music', 'video', 'tech
 Sets the value at the current index and returns a new array.
 
 ```javascript
-givenArray(['music', 'tehc']).at(1).set('tech') // ['music', 'tech']
+givenArray(['music', 'tec']).at(1).set(item => item + 'h') // ['music', 'tech']
 ```
 
 ### Methods for arrays of objects

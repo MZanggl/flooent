@@ -95,9 +95,9 @@ class Arrayable<T> extends Array<T> {
 
         const array = this
         const pointer = {
-            set(item: T) {
+            set(callback: (item: T) => T) {
                 const copy = array.constructor.from(array)
-                copy[index] = item
+                copy[index] = callback(copy[index])
                 return copy
             },
             append(...items: T[]) {
@@ -150,10 +150,10 @@ class Arrayable<T> extends Array<T> {
         return this.constructor.from(clonedeep([...this])) as Arrayable<T>
     }
 
-    mutate(newArrayOrFn: T[] | ((array: T[]) => T[])) {
-        const newArray = typeof newArrayOrFn === 'function' ? newArrayOrFn(this) : newArrayOrFn
+    mutate(callback: ((array: T[]) => T[])) {
+        const mutation = callback(this)
         this.splice(0)
-        this.splice(0, 0, ...newArray)
+        this.splice(0, 0, ...mutation)
         return this
     }
 
