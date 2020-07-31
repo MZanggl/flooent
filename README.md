@@ -160,7 +160,7 @@ givenArray([1]).isEmpty() // false
 Turns an array in the structure of `[ ['key', 'value'] ]` into a flooent map.
 
 ```javascript
-givenArray({ key: 'value' }).entries().toMap()
+givenMap({ key: 'value' }).entries().toMap()
 ```
 
 ### Fluent methods
@@ -990,6 +990,12 @@ givenNumber(10.9).floor() // Number { 10 }
 
 ## Macros (extending flooent)
 
+<small>
+
+[Back to top](#index)
+
+</small>
+
 Extending flooent's method is easy as pie thanks to `macro`.
 
 ```javascript
@@ -1017,12 +1023,6 @@ declare module 'flooent' {
 ```
 
 ### Common Macros
-
-<small>
-
-[Back to top](#index)
-
-</small>
 
 These methods, while convenient, are not in the library by default to keep the bundle size small.
 

@@ -1,7 +1,5 @@
-import uniqby from "lodash.uniqby"
 import isequal from "lodash.isequal"
 import clonedeep from "lodash.clonedeep"
-import shuffle from "lodash.shuffle"
 import chunk from "lodash.chunk"
 import { Mappable } from '../index'
 import { CopyFunction } from '../types'
@@ -190,16 +188,39 @@ class Arrayable<T> extends Array<T> {
         return this.map((item) => item[key]) as Arrayable<T>
     }
 
-    unique(key?: string | ((item: T) => any)) {
-        let compareFn = undefined
-        if (key) {
-            compareFn = typeof key === "function" ? key : (item) => item[key]
+    unique(key?: string | ((item: T) => string)) {
+        if (!key) {
+            return this.constructor.from([...new Set(this)])
         }
-        return this.constructor.from(uniqby(this, compareFn)) as Arrayable<T>
+
+        const cache = new Map()
+        const unique = new Arrayable;
+        if (typeof key === "function") {
+            for (const item of this) {
+                const value = key(item)
+                if (!cache.has(value)) {
+                    cache.set(value, 1)
+                    unique.push(item)
+                }
+            }
+            return unique
+        }
+
+        for (const item of this) {
+            if (cache.has(item[key])) continue;
+            cache.set(item[key], 1)
+            unique.push(item)
+        }
+        return unique
     }
 
     shuffle() {
-        return this.constructor.from(shuffle(this)) as Arrayable<T>
+        const array = this.constructor.from(this)
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array
     }
 
     is(compareWith) {
