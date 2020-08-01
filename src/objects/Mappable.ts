@@ -1,5 +1,5 @@
 import fromEntries from 'fromentries'
-import { Arrayable } from './index'
+import Arrayable from './Arrayable'
 
 function entries(obj) {
   var ownProps = Object.keys( obj ),
@@ -24,7 +24,7 @@ class Mappable<K = any, V = any> extends Map<K, V> {
   }
   
   /**
-   * Turns the map back into an object.
+   * Turns the map into an object.
    */
   toJSON() {
     return fromEntries(this.entries())

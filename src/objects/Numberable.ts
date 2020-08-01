@@ -1,4 +1,4 @@
-import { Arrayable } from '../index'
+import Arrayable from './Arrayable'
 
 class Numberable extends Number {
     ["constructor"]!: typeof Numberable

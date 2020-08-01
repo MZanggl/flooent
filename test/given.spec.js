@@ -1,20 +1,20 @@
 const test = require('japa')
-const { givenString, givenArray, givenNumber } = require('../dist')
+const { given } = require('../dist')
 
-test('can extend flooent objects by replacing the types', assert => {
-  givenString.macro('scream', function() {
+test('can extend flooent objects through macros', assert => {
+  given.string.macro('scream', function() {
     return this.toUpperCase()
   })
 
-  givenArray.macro('stringify', function() {
+  given.array.macro('stringify', function() {
     return this.toString()
   })
 
-  givenNumber.macro('stringify', function() {
+  given.number.macro('stringify', function() {
     return this.toString()
   })
 
-  assert.equal(givenString('hello').scream(), 'HELLO')
-  assert.equal(givenArray([1]).stringify(), '1')
-  assert.equal(givenNumber(1).stringify(), '1')
+  assert.equal(given.string('hello').scream(), 'HELLO')
+  assert.equal(given.array([1]).stringify(), '1')
+  assert.equal(given.number(1).stringify(), '1')
 })
