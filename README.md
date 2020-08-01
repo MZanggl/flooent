@@ -1017,7 +1017,7 @@ For TypeScript support, you need to additionally declare the module.
 ```typescript
 declare module 'flooent' {
   interface Stringable {
-    scream: () => Stringable;
+    scream(): Stringable;
   }
 }
 ```

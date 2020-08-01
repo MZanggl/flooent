@@ -1,5 +1,5 @@
 const test = require('japa')
-const { Numberable, givenNumber } = require('../dist')
+const { Numberable, givenNumber, Arrayable } = require('../dist')
 
 function isNum(assert, result) {
   assert.instanceOf(result, Numberable)
@@ -11,8 +11,8 @@ test('times() loops and maps through callback x times', assert => {
     count++
     return i
   })
-
   
+  assert.instanceOf(mapped, Arrayable)
   assert.equal(count, 3)
   assert.deepEqual(mapped, [0, 1, 2])
 })
