@@ -21,11 +21,8 @@ const override = [
     "charCodeAt",
 ]
 
-const symbol = Symbol("Stringable")
-
 class Stringable extends String {
     ["constructor"]!: typeof Stringable
-    _symbol = symbol
 
     constructor(value) {
         super(value)
@@ -83,7 +80,7 @@ class Stringable extends String {
         }
     }
 
-    when(comparison, then: Function) {
+    when<T>(comparison, then: (value: Stringable) => T) {
         const isBoolean = typeof comparison === "boolean"
 
         if (isBoolean && !comparison) {
@@ -101,9 +98,11 @@ class Stringable extends String {
         return this.when(this.is(""), then)
     }
 
-    pipe(callback: Function): Stringable {
+    pipe<T>(callback: (value: Stringable) => T): T {
         const result = callback(this)
-        return result._symbol === symbol ? result : ((new this.constructor(result) as unknown) as Stringable)
+        if (result instanceof Stringable || typeof result !== 'string') return result
+
+        return new this.constructor(result) as unknown as T
     }
 
     wrap(start: string, end = start) {

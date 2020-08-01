@@ -15,7 +15,7 @@ test('it can create Mappable from Map or object', (assert) => {
 
   assert.equal(given.map({ key: 'value' }).get('key'), 'value')
   assert.equal(given.map(new Map([['key', 'value']])).get('key'), 'value')
-  assert.equal(new Mappable([['key', 'value']]).get('key'), 'value')
+  assert.equal(given.map([['key', 'value']]).get('key'), 'value')
 
   // only first layer gets mapped
   assert.equal(given.map({ user: { city: 'Munich' } }).get('user').city, 'Munich')

@@ -364,7 +364,7 @@ given.array([3, 1, 2]).sortDesc() // [3, 2, 1]
 
 #### pipe
 
-Executes callback and transforms result back into a flooent array.
+Executes callback and transforms result back into a flooent array if the result is an array.
 
 ```javascript
 const someMethodToBePipedThrough = array => array.append(1)
@@ -724,7 +724,7 @@ given.string('Hello').limit(10) // Hello
 
 #### pipe
 
-Executes callback and transforms result back into a flooent string.
+Executes callback and transforms result back into a flooent string if the result is a string.
 
 ```javascript
 given.string('').pipe(str => str.append('!')) // String { '!' }

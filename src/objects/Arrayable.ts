@@ -236,11 +236,12 @@ class Arrayable<T> extends Array<T> {
         return this
     }
 
-    pipe(callback: Function) {
-        return this.constructor.from(callback(this)) as Arrayable<T>
+    pipe<P>(callback: (value: Arrayable<T>) => P): P {
+        const result = callback(this)
+        return Array.isArray(result) ? this.constructor.from<T>(result) as unknown as P : result
     }
 
-    when(comparison, then: Function) {
+    when<P>(comparison, then: ((value: Arrayable<T>) => P)) {
         const isBoolean = typeof comparison === "boolean"
 
         if (isBoolean && !comparison) {

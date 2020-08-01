@@ -283,6 +283,7 @@ test('pipe() calls the callback and lets you continue the chain', assert => {
   const array = given.array([])
   isArr(assert, array.pipe(array => [1]), array)
   assert.deepEqual(given.array([]).pipe(arr => arr.append(1)), [1])
+  assert.deepEqual(given.array([]).pipe(arr => 1), 1)
 })
 
 test('sortAsc() and sortDesc() do not mutate original array and return arrayable', assert => {
