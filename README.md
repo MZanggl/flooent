@@ -1096,6 +1096,12 @@ given.string('child').singular() // String { 'child' }
 
 ## given.raw
 
+<small>
+
+[Back to top](#index)
+
+</small>
+
 Unlike `given.string`, etc. the argument provided in the callback will not be a flooent variant, but instead just the raw value that was passed in.
 
 This is just a little helper function to group common logic together and to avoid temporary variables. 
