@@ -31,7 +31,7 @@ given.string(path)
 - [Maps](#maps)
 - [Numbers](#numbers)
 - [Macros (Extending flooent)](macros-extending-flooent)
-- [given.raw](given-raw)
+- [given.raw helper](#givenraw)
 
 ## Get Started
 
