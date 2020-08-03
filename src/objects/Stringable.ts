@@ -1,4 +1,3 @@
-import upperFirst from "lodash.upperfirst"
 import startcase from "lodash.startcase"
 import slugify from "slugify"
 
@@ -110,9 +109,9 @@ class Stringable extends String {
     }
 
     unwrap(start: string, end = start) {
-        return this.when(this.startsWith(start), (str) => str.substring(start.length)).when(this.endsWith(end), (str) =>
-            str.substring(0, str.length - end.length)
-        )
+        return this
+            .when(this.startsWith(start), (str) => str.substring(start.length))
+            .when(this.endsWith(end), (str) => str.substring(0, str.length - end.length))
     }
 
     append(part: string) {
@@ -160,8 +159,27 @@ class Stringable extends String {
         return new this.constructor(startcase((this as unknown) as string))
     }
 
+    kebab() {
+        return this.title().toLowerCase().replace(/\s/g, '-')
+    }
+
+    snake() {
+        return this.title().toLowerCase().replace(/\s/g, '_')
+    }
+
+    studly() {
+        return this.title().replace(/\s/g, '')
+    }
+
+    camel() {
+        const studly =  this.studly()
+        if (studly.length === 0) return studly
+        return new this.constructor(studly[0].toLowerCase() + studly.substring(1))
+    }
+
     capitalize() {
-        return new this.constructor(upperFirst((this as unknown) as string))
+        if (this.length === 0) return this
+        return new this.constructor(this[0].toUpperCase() + this.substring(1))
     }
 
     slug(replacement = "-") {

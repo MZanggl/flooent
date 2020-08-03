@@ -158,9 +158,19 @@ test('pipe() calls the callback and lets you continue the chain', assert => {
 
 test('title() turns string into respective case', assert => {
   isStr(assert, given.string('').title())
+  isStr(assert, given.string('').camel())
+  isStr(assert, given.string('').studly())
+  isStr(assert, given.string('').snake())
+  isStr(assert, given.string('').kebab())
 
   assert.equal(given.string('foo bar').title(), 'Foo Bar')
+  assert.equal(given.string('foo-bar').title(), 'Foo Bar')
   assert.equal(given.string('foo BAR').title(), 'Foo BAR')
+  assert.equal(given.string('foo bar').studly(), 'FooBar')
+  assert.equal(given.string('foo-bar').studly(), 'FooBar')
+  assert.equal(given.string('--Foo-bar--').camel(), 'fooBar')
+  assert.equal(given.string('Foo Bar').kebab(), 'foo-bar')
+  assert.equal(given.string('Foo bar').snake(), 'foo_bar')
 })
 
 test('capitalize() capitalizes the first character', assert => {

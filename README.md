@@ -784,6 +784,14 @@ given.string('***others***').unwrap('***') // String { 'others' }
 given.string('<blink>oldschool</blink>').unwrap('<blink>', '</blink>') // String { 'oldschool' }
 ```
 
+#### camel
+
+Turns string into camel case.
+
+```javascript
+given('foo bar').camel() // String { 'fooBar' }
+```
+
 #### title
 
 Turns string into title case.
@@ -792,12 +800,36 @@ Turns string into title case.
 given.string('foo bar').title() // String { 'Foo Bar' }
 ```
 
+#### studly
+
+Turns string into studly case.
+
+```javascript
+given('foo bar').studly() // String { 'FooBar' }
+```
+
 #### capitalize
 
 Capitalizes first character.
 
 ```javascript
 given.string('foo bar').capitalize() // String { 'Foo bar' }
+```
+
+#### kebab
+
+Turns string into kebab case.
+
+```javascript
+given('foo bar').kebab() // String { 'foo-bar' }
+```
+
+#### snake
+
+Turns string into snake case.
+
+```javascript
+given('foo bar').snake() // String { 'foo_bar' }
 ```
 
 #### slug
@@ -1050,35 +1082,4 @@ given.string('child').plural(1) // String { 'child' }
 
 given.string('children').singular() // String { 'child' }
 given.string('child').singular() // String { 'child' }
-```
-
-## `String.case`
-
-```javascript
-import { given.string } from 'flooent'
-import camelcase from "lodash.camelcase" // npm install lodash.camelcase
-import kebabcase from "lodash.kebabcase" // npm install lodash.kebabcase
-import snakecase from "lodash.snakecase" // npm install lodash.snakecase
-
-given.string.macro('case', function(type) {
-  if (type === 'camel') {
-    return new this.constructor(camelcase(this))
-  } else if (type === 'kebab') {
-    return new this.constructor(kebabcase(this))
-  } else if (type === 'snake') {
-    return new this.constructor(snakecase(this))
-  } else if (type === 'studly') {
-    return new this.constructor(camelcase(this.capitalize()))
-  }
-  throw new Error('unknown type passed')
-})
-```
-
-Then use it like this:
-
-```javascript
-given.string('foo bar').case('camel') // String { 'fooBar' }
-given.string('foo bar').case('kebab') // String { 'foo-bar' }
-given.string('foo bar').case('snake') // String { 'foo_bar' }
-given.string('foo bar').case('studly') // String { 'FooBar' }
 ```
