@@ -31,5 +31,7 @@ array.macro = (key: string, callback: Function) => Arrayable.prototype[key] = ca
 const map = <K, V>(value) => new Mappable<K, V>(value)
 map.macro = (key: string, callback: Function) => Mappable.prototype[key] = callback
 
-const given = { string, number, array, map }
+const raw = <T, K>(value: T, callback: (value: T) => K) => callback(value);
+
+const given = { string, number, array, map, raw }
 export { Stringable, Arrayable, Numberable, Mappable, given }

@@ -31,6 +31,7 @@ given.string(path)
 - [Maps](#maps)
 - [Numbers](#numbers)
 - [Macros (Extending flooent)](macros-extending-flooent)
+- [given.raw](given-raw)
 
 ## Get Started
 
@@ -1091,4 +1092,25 @@ given.string('child').plural(1) // String { 'child' }
 
 given.string('children').singular() // String { 'child' }
 given.string('child').singular() // String { 'child' }
+```
+
+## given.raw
+
+Unlike `given.string`, etc. the argument provided in the callback will not be a flooent variant, but instead just the raw value that was passed in.
+
+This is just a little helper function to group common logic together and to avoid temporary variables. 
+
+Turning
+
+```javascript
+const user = User.first()
+const titleMatches = expect(user.name).toBe('test name')
+```
+
+into
+
+```javascript
+const titleMatches = given.raw(User.first(), user => {
+  return expect(user.name).toBe('test name')
+})
 ```
