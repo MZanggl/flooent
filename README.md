@@ -25,6 +25,7 @@ given.string(path)
 ## Index
 
 - [Get Started](#get-started)
+- [Constraints](#constraints)
 - [Arrays](#arrays)
 - [String](#strings)
 - [Maps](#maps)
@@ -32,6 +33,8 @@ given.string(path)
 - [Macros (Extending flooent)](macros-extending-flooent)
 
 ## Get Started
+
+[Migration from Version 1 to Version 2](/MZanggl/flooent/releases/tag/v2.0.0)
 
 ### Installation
 
@@ -62,7 +65,13 @@ const rawHelloWorld = given.string('hello', message => {
 })
 ```
 
-### Constraints
+## Constraints
+
+<small>
+
+[Back to top](#index)
+
+</small>
 
 The contraints that apply to flooent strings and numbers are the same that apply to when you new up a native string/number using new (`new String('')`) and is just how JavaScript works.
 
