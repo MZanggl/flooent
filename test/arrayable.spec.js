@@ -186,6 +186,26 @@ test('groupBy() groups an array of objects by the given key', assert => {
   })
 })
 
+test('groupBy() maintains key type (string)', assert => {
+  const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
+  const groupByType = 'string'
+  const result = given(users).groupBy('area')
+
+  result.keys().map(k => {
+    assert.equal(typeof k, groupByType)
+  })
+})
+
+test('groupBy() maintains key type (number)', assert => {
+  const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
+  const groupByType = 'number'
+  const result = given(users).groupBy('id')
+
+  result.keys().map(k => {
+    assert.equal(typeof k, groupByType)
+  })
+})
+
 test('groupBy() groups an array of object by the given key transformation', assert => {
   const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
   const result = given(users).groupBy(item => item.area.toLowerCase()).toJSON()
