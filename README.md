@@ -1038,7 +1038,7 @@ given.number(10.9).floor() // Number { 10 }
 
 </small>
 
-Extending flooent's method is easy as pie thanks to `macro`.
+Extending flooent methods is easy as pie thanks to `macro`.
 
 ```javascript
 import { given.string } from 'flooent'
@@ -1064,7 +1064,7 @@ declare module 'flooent' {
 }
 ```
 
-### Common Macros
+### More examples
 
 These methods, while convenient, are not in the library by default to keep the bundle size small.
 
