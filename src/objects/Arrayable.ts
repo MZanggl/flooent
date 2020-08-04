@@ -154,7 +154,7 @@ class Arrayable<T> extends Array<T> {
                 const newItem = new this.constructor(...result.get(group), item)
                 result.set(group, newItem)
             } else {
-                result.set(group, new this.constructor(item))
+                result.set(group, this.constructor.from([item]))
             }
             return result
         }, new Mappable<K, Arrayable<T>>())
