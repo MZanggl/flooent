@@ -155,15 +155,16 @@ class Arrayable<T> extends Array<T> {
         return this
     }
 
-    groupBy(key: string | Function) {
-        const grouped = this.reduce<{ [key: string]: Arrayable<T> }>((result, item) => {
+    groupBy<K extends keyof T>(key: K | ((item: T) => T[K]) ) {
+        return this.reduce<Mappable<T[K], Arrayable<T>>>((result, item) => {
             const group = typeof key === "function" ? key(item) : item[key]
-            result[group] = result[group] || new this.constructor()
-            result[group].push(item)
+            if (result.has(group)) {
+                result.get(group).push(item)
+            } else {
+                result.set(group, this.constructor.from([item]))
+            }
             return result
-        }, {})
-
-        return new Mappable(grouped)
+        }, new Mappable<T[K], Arrayable<T>>())
     }
 
     sum(key?: string | ((item: T) => number)) {
