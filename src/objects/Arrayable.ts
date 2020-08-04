@@ -151,7 +151,7 @@ class Arrayable<T> extends Array<T> {
         return this.reduce<Mappable<K, Arrayable<T>>>((result, item) => {
             const group = typeof key === "function" ? key(item) : item[key]
             if (result.has(group)) {
-                const newItem = new this.constructor(...result.get(group), item)
+                result.get(group).push(item)
                 result.set(group, newItem)
             } else {
                 result.set(group, this.constructor.from([item]))
