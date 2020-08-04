@@ -191,7 +191,7 @@ test('groupBy() maintains key type (string)', assert => {
   const groupByType = 'string'
   const result = given(users).groupBy('area')
 
-  Array.from(result.keys()).map(k => {
+  result.keys().map(k => {
     assert.equal(typeof k, groupByType)
   })
 })
@@ -201,7 +201,7 @@ test('groupBy() maintains key type (number)', assert => {
   const groupByType = 'number'
   const result = given(users).groupBy('id')
 
-  Array.from(result.keys()).map(k => {
+  result.keys().map(k => {
     assert.equal(typeof k, groupByType)
   })
 })

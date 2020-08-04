@@ -152,7 +152,6 @@ class Arrayable<T> extends Array<T> {
             const group = typeof key === "function" ? key(item) : item[key]
             if (result.has(group)) {
                 result.get(group).push(item)
-                result.set(group, newItem)
             } else {
                 result.set(group, this.constructor.from([item]))
             }
