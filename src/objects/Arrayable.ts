@@ -147,15 +147,17 @@ class Arrayable<T> extends Array<T> {
         return this.constructor.from(clonedeep([...this])) as Arrayable<T>
     }
 
-    groupBy(key: string | Function) {
-        const grouped = this.reduce<{ [key: string]: Arrayable<T> }>((result, item) => {
+    groupBy<K>(key: string | Function) {
+        return this.reduce<Mappable<K, Arrayable<T>>>((result, item) => {
             const group = typeof key === "function" ? key(item) : item[key]
-            result[group] = result[group] || new this.constructor()
-            result[group].push(item)
+            if (result.has(group)) {
+                const newItem = new this.constructor(...result.get(group), item)
+                result.set(group, newItem)
+            } else {
+                result.set(group, new this.constructor(item))
+            }
             return result
-        }, {})
-
-        return new Mappable(grouped)
+        }, new Mappable<K, Arrayable<T>>())
     }
 
     sum(key?: string | ((item: T) => number)) {
