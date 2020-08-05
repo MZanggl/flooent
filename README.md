@@ -51,7 +51,8 @@ import { given } from 'flooent'
 given.string('hello') // instance of Stringable
 given.array([1, 2]) // instance of Arrayable
 given.number(1) // instance of Numberable
-given.map({ key: 'value' }) // instance of Mappable (not object)
+given.map({ key: 'value' }) // or given.map([['key', 'value']]), or given.map(new Map(...)) | instance of Mappable
+given.any('anything') // helper class with useful methods for any data type
 ```
 
 Flooent objects simply extend the native functionality, so you can still execute any native method like `given.string('hello').includes('h')`.
@@ -113,7 +114,7 @@ You have access to [everything from the native Array object](https://developer.m
 
 #### is / quacksLike
 
-Deep-compares the given value with the array
+Deep-compares the given value with the array.
 
 ```javascript
 const users = [{ id: 1 }]
@@ -123,7 +124,7 @@ given.array(users).is([{ id: 1 }]) // true
 
 #### mutate
 
-Mutates the original array
+Mutates the original array with the return value of the given callback.
 
 ```javascript
 const numbers = given.array(1, 2, 3)
@@ -144,7 +145,7 @@ given.array([2, 2, 1]).sum() // 5
 
 #### when
 
-Executes callback if first given value evaluates to true. Result will get transformed back into a flooent array.
+Executes callback if first given value evaluates to true. Result will get transformed back into a flooent array if it is an array.
 
 ```javascript
 // can be a boolean
@@ -225,7 +226,7 @@ given.array(numbers).whereNotIn([2, 3]) // [1, 1]
 
 #### first
 
-Returns first (x) element(s) in array or undefined.
+Returns the first (x) element(s) in the array or undefined.
 
 ```javascript
 given.array([1, 2, 3]).first() // 1
@@ -234,7 +235,7 @@ given.array([1, 2, 3]).first(2) // [1, 2]
 
 #### second
 
-Returns second element in array or undefined.
+Returns the second element in the array or undefined.
 
 ```javascript
 given.array([1, 2, 3]).second() // 2
@@ -294,7 +295,7 @@ given.array([1, 1, 2]).unique() // [1, 2]
 
 ### chunk
 
-Breaks the array into multiple, smaller arrays of a given size:
+Breaks the array into multiple, smaller arrays of a given size.
 
 ```javascript
 given.array([1, 2, 3, 4, 5]).chunk(3) // [[1, 2, 3], [4, 5]]
@@ -477,7 +478,7 @@ given.array(numbers).sortDesc(item => item.val) // [{ val: 3 }, { val: 2 }, { va
 
 #### pluck
 
-Pluck given field out an object of arrays.
+Pluck the given field out of each object in the array.
 
 ```javascript
 const cities = [
@@ -546,7 +547,7 @@ given.array(cities).whereNotIn('name', ['Naha', 'Yoron']) // [{ id: 1, name: 'Mu
 
 #### omit
 
-Omits given keys from objects in the array.
+Omits given keys from all objects in the array.
 
 ```javascript
 const people = [
@@ -584,7 +585,7 @@ given.array(items).filled('name') // [{ id: 1, name: 'music' }, { id: 2, name: '
 
 #### groupBy
 
-Groups an array by the given key and returns a flooent map
+Groups an array by the given key and returns a flooent map.
 
 ```javascript
 const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 3, name: 'music' }]
@@ -754,7 +755,7 @@ given.string('')
 
 #### when
 
-Executes callback if first given value evaluates to true. Result will get transformed back into a flooent string.
+Executes callback if first given value evaluates to true. Result will get transformed back into a flooent string if it is a raw string.
 
 ```javascript
 // can be a boolean
@@ -768,7 +769,7 @@ given.string('hi').when(str => str.endsWith('hello'), str => str.append(' world'
 
 #### whenEmpty
 
-Executes callback if string is empty. Result will get transformed back into a flooent string.
+Executes callback if string is empty. Result will get transformed back into a flooent string if it is a raw string.
 
 ```javascript
 given.string('').whenEmpty(str => str.append('!')) // String { '!' }
@@ -932,7 +933,7 @@ Inverse of `only`. Returns a new map with all keys except for the given keys.
 
 #### clone
 
-Deep clones a map.
+Deep clones the map.
 
 ```javascript
 const map = given.map({ numbers: [1, 2, 3] })
@@ -962,7 +963,7 @@ You have access to [everything from the native Number object](https://developer.
 
 #### times
 
-Executes callback for number of base values' times and returns an array with the result of each iteration.
+Executes callback for number of base values' times and returns a flooent array with the result of each iteration.
 
 ```javascript
 given.number(3).times(i => i) // [0, 1, 2]
