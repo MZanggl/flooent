@@ -2,6 +2,7 @@ import Arrayable from './objects/Arrayable'
 import Stringable from './objects/Stringable'
 import Numberable from './objects/Numberable'
 import Mappable from './objects/Mappable'
+import Any from './objects/Any'
 
 type Callback<T> = (result: T) => any
 
@@ -31,7 +32,8 @@ array.macro = (key: string, callback: Function) => Arrayable.prototype[key] = ca
 const map = <K, V>(value) => new Mappable<K, V>(value)
 map.macro = (key: string, callback: Function) => Mappable.prototype[key] = callback
 
-const raw = <T, K>(value: T, callback: (value: T) => K) => callback(value);
+const any = <T>(value: T) => new Any(value)
+any.macro = (key: string, callback: Function) => Any.prototype[key] = callback
 
-const given = { string, number, array, map, raw }
-export { Stringable, Arrayable, Numberable, Mappable, given }
+const given = { string, number, array, map, any }
+export { Stringable, Arrayable, Numberable, Mappable, given, Any }

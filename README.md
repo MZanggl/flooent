@@ -30,8 +30,8 @@ given.string(path)
 - [String](#strings)
 - [Maps](#maps)
 - [Numbers](#numbers)
+- [Any](#any)
 - [Macros (Extending flooent)](macros-extending-flooent)
-- [given.raw helper](#givenraw)
 
 ## Get Started
 
@@ -1030,6 +1030,37 @@ Always rounds its value down.
 given.number(10.9).floor() // Number { 10 }
 ```
 
+## Any
+
+<small>
+
+[Back to top](#index)
+
+</small>
+
+A generic helper class for any kind of data types.
+
+#### do
+
+Executes and returns the result of a callback.
+
+This is useful for grouping common logic together and avoiding temporary variables. 
+
+Before
+
+```javascript
+const user = User.first() // varialbe "user" is only used here
+const nameMatches = expect(user.name).toBe('test name')
+```
+
+After
+
+```javascript
+const nameMatches = given.any(User.first()).do(user => {
+  return expect(user.name).toBe('test name')
+})
+```
+
 ## Macros (extending flooent)
 
 <small>
@@ -1092,31 +1123,4 @@ given.string('child').plural(1) // String { 'child' }
 
 given.string('children').singular() // String { 'child' }
 given.string('child').singular() // String { 'child' }
-```
-
-## given.raw
-
-<small>
-
-[Back to top](#index)
-
-</small>
-
-Unlike `given.string`, etc. the argument provided in the callback will not be a flooent variant, but instead just the raw value that was passed in.
-
-This is just a little helper function to group common logic together and to avoid temporary variables. 
-
-Turning
-
-```javascript
-const user = User.first()
-const titleMatches = expect(user.name).toBe('test name')
-```
-
-into
-
-```javascript
-const titleMatches = given.raw(User.first(), user => {
-  return expect(user.name).toBe('test name')
-})
 ```
