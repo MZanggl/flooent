@@ -1,6 +1,5 @@
 import isequal from "lodash.isequal"
 import clonedeep from "lodash.clonedeep"
-import chunk from "lodash.chunk"
 import { Mappable } from '../index'
 import { CopyFunction } from '../types'
 
@@ -77,7 +76,12 @@ class Arrayable<T> extends Array<T> {
      * Breaks the array into multiple, smaller arrays of a given size.
      */
     chunk(n) {
-        return this.constructor.from(chunk(this, n)).map(item => this.constructor.from(item as any[]))
+        const remaining = [...this]
+        const chunks = this.constructor.from([])
+        while (remaining.length > 0) {
+            chunks.push(this.constructor.from(remaining.splice(0, n)))
+        }
+        return chunks
     }
 
     /**
