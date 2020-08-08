@@ -36,6 +36,7 @@ given.string(path)
 ## Get Started
 
 [Migration from Version 1 to Version 2](/MZanggl/flooent/releases/tag/v2.0.0)
+[Documentation for Version 1](https://github.com/MZanggl/flooent/tree/1.0)
 
 ### Installation
 
