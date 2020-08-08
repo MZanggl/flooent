@@ -25,11 +25,8 @@
   },
   "author": "Michael Zanggl",
   "license": "ISC",
-  "dependencies": {
-    "lodash.startcase": "^4.4.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/lodash.startcase": "^4.4.6",
     "japa": "^3.0.1",
     "typescript": "^3.8.3"
   }

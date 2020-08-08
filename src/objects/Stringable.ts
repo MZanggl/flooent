@@ -1,4 +1,4 @@
-import startcase from "lodash.startcase"
+import { splitWord } from '../utils'
 
 const override = [
     "replace",
@@ -219,7 +219,8 @@ class Stringable extends String {
      * Turns string into title case.
      */
     title() {
-        return new this.constructor(startcase((this as unknown) as string))
+        const words = splitWord(this).map(word => word.substring(0, 1).toUpperCase() + word.substring(1))
+        return new this.constructor(words.join(' '))
     }
 
     /**
@@ -233,21 +234,23 @@ class Stringable extends String {
      * Turns string into snake case.
      */
     snake(replacement = '_') {
-        return this.title().toLowerCase().replace(/\s/g, replacement)
+        const words = splitWord(this).join(replacement).toLowerCase()
+        return new this.constructor(words)
     }
 
     /**
      * Turns string into studly case.
      */
     studly() {
-        return this.title().replace(/\s/g, '')
+        const words = splitWord(this).map(word => word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase())
+        return new this.constructor(words.join(''))
     }
 
     /**
      * Turns string into camel case.
      */
     camel() {
-        const studly =  this.studly()
+        const studly = this.studly()
         if (studly.length === 0) return studly
         return new this.constructor(studly[0].toLowerCase() + studly.substring(1))
     }
