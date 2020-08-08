@@ -1,6 +1,9 @@
 # flooent
 
-Fluent interface to provide an expressive syntax for common manipulations.
+![npm bundle size](https://img.shields.io/bundlephobia/min/flooent?style=for-the-badge)
+
+Fluent interface to provide an **expressive syntax** for common manipulations.
+Rather than enforcing a different paradigm, flooent **builds upon and extends the native capabilities** of various JavaScript objects.
 
 Given you have logical, procedural, "hard to visualize" code like this:
 
@@ -1070,7 +1073,7 @@ declare module 'flooent' {
 
 ### More examples
 
-These methods, while convenient, are not in the library by default to keep the bundle size small.
+These methods, while convenient, are not in the core since they are not all too common yet quadruply the bundle size.
 
 <details>
 <summary>Array.is</summary>
@@ -1121,7 +1124,7 @@ given.map([['key', 'value']]).clone()
 </details>
 
 <details>
-<summary>String.plural && String.singular</summary>
+<summary>String.plural & String.singular</summary>
 Turns string into plural/singular form.
 
 ```javascript
