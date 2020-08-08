@@ -330,12 +330,13 @@ class Arrayable<T> extends Array<T> {
     }
 
     /**
-     * Executes callback and transforms result back into a flooent array if the result is an array.
+     * Executes callback and transforms result back into a flooent array if it is an array.
      */
     pipe(callback: (value: Arrayable<T>) => T[]): Arrayable<T>
-    pipe<P>(callback: (value: Arrayable<T>) => P): P {
+    pipe<P>(callback: (value: Arrayable<T>) => P): P
+    pipe(callback) {
         const result = callback(this)
-        return Array.isArray(result) ? this.constructor.from<T>(result) as unknown as P : result
+        return Array.isArray(result) ? this.constructor.from<T>(result) : result
     }
 
     /**

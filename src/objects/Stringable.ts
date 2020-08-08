@@ -130,11 +130,12 @@ class Stringable extends String {
      * Executes callback and transforms result back into a flooent string if the result is a string.
      */
     pipe(callback: (value: Stringable) => string): Stringable
-    pipe<T>(callback: (value: Stringable) => T): T {
+    pipe<T>(callback: (value: Stringable) => T): T
+    pipe(callback) {
         const result = callback(this)
         if (result instanceof Stringable || typeof result !== 'string') return result
 
-        return new this.constructor(result) as unknown as T
+        return new this.constructor(result)
     }
 
     /**
