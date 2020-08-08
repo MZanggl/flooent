@@ -1,4 +1,3 @@
-import fromEntries from 'fromentries'
 import Arrayable from './Arrayable'
 
 function entries(obj) {
@@ -27,7 +26,9 @@ class Mappable<K = any, V = any> extends Map<K, V> {
    * Turns the map into an object.
    */
   toJSON() {
-    return fromEntries(this.entries())
+    const obj = {}
+    this.forEach((value, key) => obj[key as unknown as string] = value)
+    return obj
   }
 
   entries() {

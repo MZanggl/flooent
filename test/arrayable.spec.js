@@ -227,8 +227,8 @@ test('when() can apply modifications conditionally', assert => {
 
   assert.deepEqual(given.array([]).when(true, callback), ['called'])
   assert.deepEqual(given.array([]).when(false, callback), [])
-  assert.deepEqual(given.array([]).when(array => array.is([]), callback), ['called'])
-  assert.deepEqual(given.array([]).when(array => array.is(['called']), callback), [])
+  assert.deepEqual(given.array([]).when(array => true, callback), ['called'])
+  assert.deepEqual(given.array([]).when(array => false, callback), [])
 })
 
 test('clone() copies an array recursively', assert => {
