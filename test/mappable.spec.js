@@ -62,9 +62,11 @@ test('clone() returns a completely new map', assert => {
 })
 
 test('arrange() arranges the map according to the given keys', assert => {
-  const map = given.map({ strings: 2, numbers: 1, functions: 4 }).arrange('numbers', 'functions')
+  const map = given.map({ strings: 2, numbers: 1, functions: 4 })
+  const arranged = map.arrange('numbers', 'functions')
 
-  assert.deepEqual(map.keys(), ['numbers', 'functions', 'strings'])
+  assert.deepEqual(map.keys(), ['strings', 'numbers', 'functions'])
+  assert.deepEqual(arranged.keys(), ['numbers', 'functions', 'strings'])
 })
 
 test('only() returns a new map with only the given keys', assert => {

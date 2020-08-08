@@ -75,9 +75,9 @@ class Mappable<K = any, V = any> extends Map<K, V> {
    * Rearranges the map to the given keys. Any unmentioned keys will be appended to the end.
    */
   arrange(...keys: K[]) {
-    const clone = this.clone()
-    const entries = keys.map(key => [key, clone.pull(key)])
-    return new this.constructor(entries.concat(clone.entries()))
+    const shallowClone = this.entries().toMap()
+    const entries = keys.map(key => [key, shallowClone.pull(key)])
+    return new this.constructor(entries.concat(shallowClone.entries()))
   }
 
   /**
