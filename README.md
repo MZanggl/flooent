@@ -31,11 +31,12 @@ given.string(path)
 - [Maps](#maps)
 - [Numbers](#numbers)
 - [Any](#any)
-- [Macros (Extending flooent)](macros-extending-flooent)
+- [Macros (Extending flooent)](#macros-extending-flooent)
 
 ## Get Started
 
 [Migration from Version 1 to Version 2](/MZanggl/flooent/releases/tag/v2.0.0)
+
 [Documentation for Version 1](https://github.com/MZanggl/flooent/tree/1.0)
 
 ### Installation
@@ -144,8 +145,8 @@ given.array([]).when(true, str => str.append(1)) // [1]
 given.array([]).when(false, str => str.append(1)) // []
 
 // or a method
-given.array([]).when(array => array.is([]), array => array.append('called!')) // ['called']
-given.array([]).when(array => array.is([1]), array => array.append('called!')) // []
+given.array([]).when(array => array.length === 0), array => array.append('called!')) // ['called']
+given.array([]).when(array => array.length === 1, array => array.append('called!')) // []
 ```
 
 #### isEmpty
@@ -1071,8 +1072,8 @@ declare module 'flooent' {
 
 These methods, while convenient, are not in the library by default to keep the bundle size small.
 
-## `Array.is`
-
+<details>
+<summary>Array.is</summary>
 Deep compares an array with the given callback.
 
 ```javascript
@@ -1090,9 +1091,37 @@ Then, use it like this:
 const users = [{ id: 1 }]
 given.array(users).is([{ id: 1 }]) // true
 ```
+</details>
 
-## `String.plural` and `String.singular`
+<details>
+<summary>Array.clone</summary>
+Deep clone an array and map.
 
+```javascript
+import { given } from 'flooent'
+import clonedeep from 'lodash.clonedeep' // npm install lodash.clonedeep
+
+given.array.macro('clone', function() {
+  // lodash does array.constructor(length) which doesn't work on subclassed arrays
+  const clone = clonedeep([...this])
+  return this.constructor.from(clone)
+})
+
+given.map.macro('clone', function() {
+  return this.entries().clone().toMap()
+})
+```
+
+Then, use it like this:
+
+```javascript
+given.array([['key', 'value']]).clone()
+given.map([['key', 'value']]).clone()
+```
+</details>
+
+<details>
+<summary>String.plural && String.singular</summary>
 Turns string into plural/singular form.
 
 ```javascript
@@ -1119,3 +1148,4 @@ given.string('child').plural(1) // String { 'child' }
 given.string('children').singular() // String { 'child' }
 given.string('child').singular() // String { 'child' }
 ```
+</details>
