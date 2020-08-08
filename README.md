@@ -845,11 +845,11 @@ given('foo bar').snake() // String { 'foo_bar' }
 
 #### slug
 
-Turns string into URL friendly slug.
+Turns string into URI conform slug.
 
 ```javascript
-given.string('Foo Bar').slug() // String { 'foo-bar' }
-given.string('foo bar').slug('+') // String { 'foo+bar' }
+given.string('Foo Bar ♥').slug() // String { 'foo-bar' }
+given.string('foo bär').slug('+') // String { 'foo+bar' }
 ```
 
 #### parse

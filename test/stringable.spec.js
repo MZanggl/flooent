@@ -197,7 +197,7 @@ test('parse() converts a stringified version back into original', assert => {
   assert.deepEqual(given.string(stringified).parse(), { a: 1 })
 })
 
-test('slugify() turns string into URL friendly format', assert => {
+test('slug() turns string into URI conform format', assert => {
   isStr(assert, given.string('Stringable Getting Started ♥').slug())
   assert.equal(given.string('Stringable Getting Started ♥').slug(), 'stringable-getting-started')
   assert.equal(given.string('Ä getting started').slug('+'), 'a+getting+started')

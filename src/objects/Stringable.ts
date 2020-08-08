@@ -1,5 +1,4 @@
 import startcase from "lodash.startcase"
-import slugify from "slugify"
 
 const override = [
     "replace",
@@ -227,14 +226,14 @@ class Stringable extends String {
      * Turns string into kebab case.
      */
     kebab() {
-        return this.title().toLowerCase().replace(/\s/g, '-')
+        return this.snake('-')
     }
 
     /**
      * Turns string into snake case.
      */
-    snake() {
-        return this.title().toLowerCase().replace(/\s/g, '_')
+    snake(replacement = '_') {
+        return this.title().toLowerCase().replace(/\s/g, replacement)
     }
 
     /**
@@ -262,21 +261,15 @@ class Stringable extends String {
     }
 
     /**
-     * Turns string into URL friendly slug.
+     * Turns string into URI conform slug.
      */
     slug(replacement = "-") {
         const value = this.valueOf()
             .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/[^a-zA-Z0-9\s]/g, "")
+            .replace(/[\u0300-\u036f]/g, "") // e.g. è -> e
+            .replace(/[^a-zA-Z0-9\s]/g, "") // only keep numbers and alphabet
 
-        return new this.constructor(
-            slugify(value, {
-                replacement,
-                lower: true,
-                strict: true,
-            })
-        )
+        return new this.constructor(value).snake(replacement)
     }
 
     /**
