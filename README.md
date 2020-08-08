@@ -112,16 +112,6 @@ There are various fluent alternatives available.
 
 You have access to [everything from the native Array object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array).
 
-#### is / quacksLike
-
-Deep-compares the given value with the array.
-
-```javascript
-const users = [{ id: 1 }]
-
-given.array(users).is([{ id: 1 }]) // true
-```
-
 #### mutate
 
 Mutates the original array with the return value of the given callback.
@@ -1073,7 +1063,7 @@ const nameMatches = given.any(User.first()).do(user => {
 Extending flooent methods is easy as pie thanks to `macro`.
 
 ```javascript
-import { given.string } from 'flooent'
+import { given } from 'flooent'
 
 given.string.macro('scream', function() {
   return this.toUpperCase()
@@ -1100,18 +1090,41 @@ declare module 'flooent' {
 
 These methods, while convenient, are not in the library by default to keep the bundle size small.
 
-## `String.plural` and `String.singular`
+## `Array.is`
+
+Deep compares an array with the given callback.
 
 ```javascript
-import { given.string } from 'flooent'
+import { given } from 'flooent'
+import isequal from 'lodash.isequal' // npm install lodash.isequal
+
+given.array.macro('is', function(compareWith) {
+  return isequal(this, compareWith)
+})
+```
+
+Then, use it like this:
+
+```javascript
+const users = [{ id: 1 }]
+given.array(users).is([{ id: 1 }]) // true
+```
+
+## `String.plural` and `String.singular`
+
+Turns string into plural/singular form.
+
+```javascript
+import { given } from 'flooent'
 import pluralize from 'pluralize' // npm install pluralize
 
 given.string.macro('plural', function(count) {
-  return new this.constructor(pluralize(this, count, false))
+  const plural = pluralize(this, count, false)
+  return new this.constructor(plural) // new up again because pluralize returns raw string.
 })
 
 given.string.macro('singular', function() {
-  return new this.constructor(singular(this))
+  return new this.constructor(pluralize.singular(this))
 })
 ```
 

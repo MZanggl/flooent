@@ -240,14 +240,6 @@ test('clone() copies an array recursively', assert => {
   assert.deepEqual(users, cloned)
 })
 
-test('is() / quacksLike() deep-checks if the given value is the same', assert => {
-  const users = given.array([{ id: 1 }, { id: 2 }, { id: 3 }])
-
-  assert.isTrue(users.is([{ id: 1 }, { id: 2 }, { id: 3 }]))
-  assert.isFalse(users.is([{ id: 1 }, { id: 2 }]))
-  assert.isFalse(users.quacksLike([{ id: 11 }, { id: 2 }, { id: 3 }]))
-})
-
 test('partition() returns a tuple separating the items that pass the given truth test', assert => {
   const users = given.array([{ id: 1, active: false }, { id: 2, active: false }, { id: 3, active: true }])
 

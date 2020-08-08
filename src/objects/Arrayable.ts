@@ -1,4 +1,3 @@
-import isequal from "lodash.isequal"
 import clonedeep from "lodash.clonedeep"
 import { Mappable } from '../index'
 import { CopyFunction } from '../types'
@@ -309,20 +308,6 @@ class Arrayable<T> extends Array<T> {
             [array[i], array[j]] = [array[j], array[i]];
         }
         return array
-    }
-
-    /**
-     * Deep-compares the given value with the array.
-     */
-    is(compareWith) {
-        return isequal(this, compareWith)
-    }
-
-    /**
-     * Deep-compares the given value with the array.
-     */
-    quacksLike(duck) {
-        return this.is(duck)
     }
 
     /**
