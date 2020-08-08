@@ -54,13 +54,6 @@ test('mapValues() iterates the entries through the given callback and assigns ea
   assert.equal(newMap.get('a'), 'a1')
 })
 
-test('clone() returns a completely new map', assert => {
-  const map = given.map({ numbers: [1, 2, 3] })
-  const clone = map.clone()
-
-  assert.notEqual(map.get('numbers'), clone.get('numbers'))
-})
-
 test('arrange() arranges the map according to the given keys', assert => {
   const map = given.map({ strings: 2, numbers: 1, functions: 4 })
   const arranged = map.arrange('numbers', 'functions')

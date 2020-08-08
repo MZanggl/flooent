@@ -385,16 +385,6 @@ given.array([])
   // ...
 ```
 
-#### clone
-
-Deep clones an array.
-
-```javascript
-const items = [{ id: 1, name: 'music' }]
-const clone = given.array(items).clone() // [{ id: 1, name: 'music' }]
-console.log(items[0] === clone[0]) // false
-```
-
 ### Pointer API
 
 Let's you point to a specific index inside the array to do further actions on it.
@@ -919,16 +909,6 @@ Inverse of `only`. Returns a new map with all keys except for the given keys.
 
 ```javascript
   given.map({ one: 1, two: 2, three: 3 }).except(['one', 'two']) // Map { "three" → 3 }
-```
-
-#### clone
-
-Deep clones the map.
-
-```javascript
-const map = given.map({ numbers: [1, 2, 3] })
-const clone = map.clone()
-console.log(map.get('numbers') === clone.get('numbers')) // false
 ```
 
 #### arrange

@@ -231,15 +231,6 @@ test('when() can apply modifications conditionally', assert => {
   assert.deepEqual(given.array([]).when(array => false, callback), [])
 })
 
-test('clone() copies an array recursively', assert => {
-  const users = given.array([{ id: 1 }, { id: 2 }, { id: 3 }])
-  const cloned = users.clone()
-
-  isArr(assert, cloned)
-  assert.notEqual(users[0], cloned[0])
-  assert.deepEqual(users, cloned)
-})
-
 test('partition() returns a tuple separating the items that pass the given truth test', assert => {
   const users = given.array([{ id: 1, active: false }, { id: 2, active: false }, { id: 3, active: true }])
 

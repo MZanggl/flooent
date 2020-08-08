@@ -1,4 +1,3 @@
-import clonedeep from "lodash.clonedeep"
 import { Mappable } from '../index'
 import { CopyFunction } from '../types'
 
@@ -201,14 +200,6 @@ class Arrayable<T> extends Array<T> {
         }
 
         return this.filter((item) => !!item[key]) as Arrayable<T>
-    }
-
-    /**
-     * Deep clones the array.
-     */
-    clone() {
-        // lodash does array.constructor(lenght) which doesn't work on subclassed arrays
-        return this.constructor.from(clonedeep([...this])) as Arrayable<T>
     }
 
     /**

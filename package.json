@@ -26,13 +26,11 @@
   "author": "Michael Zanggl",
   "license": "ISC",
   "dependencies": {
-    "lodash.clonedeep": "^4.5.0",
     "lodash.startcase": "^4.4.0"
   },
   "devDependencies": {
-    "typescript": "^3.8.3",
-    "@types/lodash.clonedeep": "^4.5.6",
     "@types/lodash.startcase": "^4.4.6",
-    "japa": "^3.0.1"
+    "japa": "^3.0.1",
+    "typescript": "^3.8.3"
   }
 }

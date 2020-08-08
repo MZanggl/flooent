@@ -66,13 +66,6 @@ class Mappable<K = any, V = any> extends Map<K, V> {
   }
 
   /**
-   * Deep clones a map.
-   */
-  clone() {
-    return this.entries().clone().toMap()
-  }
-
-  /**
    * Rearranges the map to the given keys. Any unmentioned keys will be appended to the end.
    */
   arrange(...keys: K[]) {
