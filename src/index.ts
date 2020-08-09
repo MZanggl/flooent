@@ -3,6 +3,7 @@ import Stringable from "./objects/Stringable"
 import Numberable from "./objects/Numberable"
 import Mappable from "./objects/Mappable"
 import Any from "./objects/Any"
+import { MapValue } from './types'
 
 type Callback<T> = (result: T) => any
 
@@ -41,7 +42,7 @@ array.macro = (key: string, callback: Function) => (Arrayable.prototype[key] = c
 /**
  * Create a flooent map. You have access to [everything from the native Map object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map).
  */
-const map = <K, V>(value) => new Mappable<K, V>(value)
+const map = <K, V>(value: MapValue<K, V>) => new Mappable<K, V>(value)
 map.macro = (key: string, callback: Function) => (Mappable.prototype[key] = callback)
 
 /**
