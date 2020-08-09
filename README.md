@@ -1,6 +1,6 @@
 # flooent
 
-![npm bundle size](https://img.shields.io/bundlephobia/min/flooent?style=for-the-badge)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/flooent?style=for-the-badge)
 
 Fluent interface to provide an **expressive syntax** for common manipulations.
 Rather than enforcing a different paradigm, flooent **builds upon and extends the native capabilities** of various JavaScript objects.
