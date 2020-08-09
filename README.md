@@ -30,7 +30,7 @@ given.string(path)
 - [Get Started](#get-started)
 - [Constraints](#constraints)
 - [Arrays](#arrays)
-- [String](#strings)
+- [Strings](#strings)
 - [Maps](#maps)
 - [Numbers](#numbers)
 - [Any](#any)
@@ -38,7 +38,7 @@ given.string(path)
 
 ## Get Started
 
-[Migration from Version 1 to Version 2](/MZanggl/flooent/releases/tag/v2.0.0)
+[Migration from Version 1 to Version 2](https://github.com/MZanggl/flooent/releases/tag/v2.0.0)
 
 [Documentation for Version 1](https://github.com/MZanggl/flooent/tree/1.0)
 
