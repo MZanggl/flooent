@@ -1152,3 +1152,7 @@ given.string('children').singular() // String { 'child' }
 given.string('child').singular() // String { 'child' }
 ```
 </details>
+
+## Future considerations
+
+- Drop CJS once ES modules are widely supported in Node. ES modules are much lighter.
