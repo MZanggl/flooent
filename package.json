@@ -10,7 +10,8 @@
     "copymeta": "cp README.md package.json dist",
     "build": "npm run clean && tsc && npm run copymeta",
     "publish:dist": "npm run build && cd dist && npm publish",
-    "publish:beta": "npm run build && cd dist && npm publish --tag beta"
+    "publish:beta": "npm run build && cd dist && npm publish --tag beta",
+    "coverage": "nyc --reporter=lcov npm test"
   },
   "keywords": [
     "array",
@@ -28,6 +29,7 @@
   "dependencies": {},
   "devDependencies": {
     "japa": "^3.0.1",
+    "nyc": "^13.3.0",
     "typescript": "^3.8.3"
   }
 }
