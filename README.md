@@ -2,6 +2,7 @@
 
 ![npm bundle size](https://badgen.net/bundlephobia/minzip/flooent)
 ![latest version](https://badgen.net/npm/v/flooent?icon=npm&label=)
+[![Coverage Status](https://coveralls.io/repos/github/MZanggl/flooent/badge.svg?branch=2.0)](https://coveralls.io/github/MZanggl/flooent?branch=2.0)
 
 Fluent interface to provide an **expressive syntax** for common manipulations.
 Rather than enforcing a different paradigm, flooent **builds upon and extends the native capabilities** of various JavaScript objects.
