@@ -109,6 +109,257 @@ given.number(1) += 1 // ERROR
 
 There are various fluent alternatives available.
 
+## Strings
+
+<small>
+
+[Back to top](#index)
+
+</small>
+
+You have access to [everything from the native String object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String).
+
+#### pipe
+
+Executes callback and transforms result back into a flooent string if it is a string.
+
+```javascript
+given.string('').pipe(str => str.append('!')) // String { '!' }
+```
+
+#### is
+
+Compares given value with the raw string.
+
+```javascript
+given.string('flooent').is('flooent') // true
+```
+
+#### includedIn
+
+Checks if string is included in the given array.
+
+```javascript
+given.string('flooent').includedIn(['flooent', 'string'])
+```
+
+### Fluent methods
+
+#### after
+
+Returns the remaining text after the first occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
+
+```javascript
+given.string('sub.domain.com').after('.') // String { 'domain.com' }
+```
+
+#### afterLast
+
+Returns the remaining text after the last occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
+
+```javascript
+given.string('sub.domain.com').afterLast('.') // String { 'com' }
+```
+
+#### before
+
+Returns the text before the first occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
+
+```javascript
+given.string('sub.domain.com').before('.') // String { 'sub' }
+```
+
+#### beforeLast
+
+Returns the text before the last occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
+
+```javascript
+given.string('sub.domain.com').beforeLast('.') // String { 'sub.domain' }
+```
+
+#### between
+
+Returns the text between two given values.
+
+```javascript
+given.string('some@email.com').between('@').and('.') // String { 'email' }
+given.string('some@sub.email.com').between('@').andLast('.') // String { 'sub.email' }
+```
+
+#### betweenLast
+
+Returns the text between the last occurrence of given value and second function respectively.
+
+```javascript
+given.string('john.doe@email.com:123456').betweenLast('.').and(':') // String { 'com' }
+given.string('App/Models/payment.method.js').betweenLast('/').andLast('.') // String { 'payment.method' }
+```
+
+#### append
+
+Alias for `concat`. Appends given value to string.
+
+```javascript
+given.string('hello').append(' world') // String { 'hello world' }
+```
+
+#### prepend
+
+Prepends given value to string.
+
+```javascript
+given.string('world').prepend('hello ') // String { 'hello world' }
+```
+
+#### endWith
+
+Appends given value only if string doesn't already end with it.
+
+```javascript
+given.string('hello').endWith(' world') // String { 'hello world' }
+given.string('hello world').endWith(' world') // String { 'hello world' }
+```
+
+#### startWith
+
+Prepends given value only if string doesn't already start with it.
+
+```javascript
+given.string('world').startWith('hello ') // String { 'hello world' }
+given.string('hello world').startWith('hello ') // String { 'hello world' }
+```
+
+#### limit
+
+Truncates text to given length and appends second argument if string got truncated.
+
+```javascript
+given.string('The quick brown fox jumps over the lazy dog').limit(9) // The quick...
+given.string('The quick brown fox jumps over the lazy dog').limit(9, ' (Read more)') // The quick (Read more)
+given.string('Hello').limit(10) // Hello
+```
+
+#### tap
+
+Tap into the chain without modifying the string.
+
+```javascript
+given.string('')
+  .append('!')
+  .tap(str => console.log(str))
+  .append('!')
+  // ...
+```
+
+#### when
+
+Executes callback if first given value evaluates to true. Result will get transformed back into a flooent string if it is a raw string.
+
+```javascript
+// can be a boolean
+given.string('').when(true, str => str.append('!')) // String { '!' }
+given.string('').when(false, str => str.append('!')) // String { '' }
+
+// or a method
+given.string('hello').when(str => str.endsWith('hello'), str => str.append(' world')) // String { 'hello world' }
+given.string('hi').when(str => str.endsWith('hello'), str => str.append(' world')) // String { 'hello' }
+```
+
+#### whenEmpty
+
+Executes callback if string is empty. Result will get transformed back into a flooent string if it is a raw string.
+
+```javascript
+given.string('').whenEmpty(str => str.append('!')) // String { '!' }
+given.string('hello').whenEmpty(str => str.append('!')) // String { 'hello' }
+```
+
+#### wrap
+
+Wraps a string with given value.
+
+```javascript
+given.string('others').wrap('***') // String { '***others***' }
+given.string('oldschool').wrap('<blink>', '</blink>') // String { '<blink>oldschool</blink>' }
+```
+
+#### unwrap
+
+Unwraps a string with given value.
+
+
+```javascript
+given.string('***others***').unwrap('***') // String { 'others' }
+given.string('<blink>oldschool</blink>').unwrap('<blink>', '</blink>') // String { 'oldschool' }
+```
+
+#### camel
+
+Turns string into camel case.
+
+```javascript
+given('foo bar').camel() // String { 'fooBar' }
+```
+
+#### title
+
+Turns string into title case.
+
+```javascript
+given.string('foo bar').title() // String { 'Foo Bar' }
+```
+
+#### studly
+
+Turns string into studly case.
+
+```javascript
+given('foo bar').studly() // String { 'FooBar' }
+```
+
+#### capitalize
+
+Capitalizes first character.
+
+```javascript
+given.string('foo bar').capitalize() // String { 'Foo bar' }
+```
+
+#### kebab
+
+Turns string into kebab case.
+
+```javascript
+given('foo bar').kebab() // String { 'foo-bar' }
+```
+
+#### snake
+
+Turns string into snake case.
+
+```javascript
+given('foo bar').snake() // String { 'foo_bar' }
+```
+
+#### slug
+
+Turns string into URI conform slug.
+
+```javascript
+given.string('Foo Bar ♥').slug() // String { 'foo-bar' }
+given.string('foo bär').slug('+') // String { 'foo+bar' }
+```
+
+#### parse
+
+Parses a string back into its original form.
+
+```javascript
+given.string('true').parse() // true
+given.string('23').parse() // 23
+given.string('{\"a\":1}').parse() // { a: 1 }
+```
+
 ## Arrays
 
 <small>
@@ -119,9 +370,19 @@ There are various fluent alternatives available.
 
 You have access to [everything from the native Array object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array).
 
+#### pipe
+
+Executes callback and transforms result back into a flooent array if the result is an array.
+
+```javascript
+const someMethodToBePipedThrough = array => array.append(1)
+
+given.array([]).pipe(someMethodToBePipedThrough) // [1]
+```
+
 #### mutate
 
-Mutates the original array with the return value of the given callback.
+Mutates the original array with the return value of the given callback. This is an escape hatch for when you need it and usually not recommended.
 
 ```javascript
 const numbers = given.array(1, 2, 3)
@@ -370,16 +631,6 @@ given.array([3, 1, 2]).sortDesc() // [3, 2, 1]
 
 > See usage for [arrays of objects](#sortasc--sortdesc-1).
 
-#### pipe
-
-Executes callback and transforms result back into a flooent array if the result is an array.
-
-```javascript
-const someMethodToBePipedThrough = array => array.append(1)
-
-given.array([]).pipe(someMethodToBePipedThrough) // [1]
-```
-
 #### tap
 
 Tap into the chain without modifying the array.
@@ -596,257 +847,6 @@ given.array(items).groupBy(item => item.name.toUpperCase()) // result is:
   MOVIE: [{ id: 2, name: 'movie' }]
 }
 */
-```
-
-## Strings
-
-<small>
-
-[Back to top](#index)
-
-</small>
-
-You have access to [everything from the native String object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String).
-
-#### is
-
-Compares given value with the raw string.
-
-```javascript
-given.string('flooent').is('flooent') // true
-```
-
-#### includedIn
-
-Checks if string is included in the given array.
-
-```javascript
-given.string('flooent').includedIn(['flooent', 'string'])
-```
-
-### Fluent methods
-
-#### after
-
-Returns the remaining text after the first occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
-
-```javascript
-given.string('sub.domain.com').after('.') // String { 'domain.com' }
-```
-
-#### afterLast
-
-Returns the remaining text after the last occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
-
-```javascript
-given.string('sub.domain.com').afterLast('.') // String { 'com' }
-```
-
-#### before
-
-Returns the text before the first occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
-
-```javascript
-given.string('sub.domain.com').before('.') // String { 'sub' }
-```
-
-#### beforeLast
-
-Returns the text before the last occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
-
-```javascript
-given.string('sub.domain.com').beforeLast('.') // String { 'sub.domain' }
-```
-
-#### between
-
-Returns the text between two given values.
-
-```javascript
-given.string('some@email.com').between('@').and('.') // String { 'email' }
-given.string('some@sub.email.com').between('@').andLast('.') // String { 'sub.email' }
-```
-
-#### betweenLast
-
-Returns the text between the last occurrence of given value and second function respectively.
-
-```javascript
-given.string('john.doe@email.com:123456').betweenLast('.').and(':') // String { 'com' }
-given.string('App/Models/payment.method.js').betweenLast('/').andLast('.') // String { 'payment.method' }
-```
-
-#### append
-
-Alias for `concat`. Appends given value to string.
-
-```javascript
-given.string('hello').append(' world') // String { 'hello world' }
-```
-
-#### prepend
-
-Prepends given value to string.
-
-```javascript
-given.string('world').prepend('hello ') // String { 'hello world' }
-```
-
-#### endWith
-
-Appends given value only if string doesn't already end with it.
-
-```javascript
-given.string('hello').endWith(' world') // String { 'hello world' }
-given.string('hello world').endWith(' world') // String { 'hello world' }
-```
-
-#### startWith
-
-Prepends given value only if string doesn't already start with it.
-
-```javascript
-given.string('world').startWith('hello ') // String { 'hello world' }
-given.string('hello world').startWith('hello ') // String { 'hello world' }
-```
-
-#### limit
-
-Truncates text to given length and appends second argument if string got truncated.
-
-```javascript
-given.string('The quick brown fox jumps over the lazy dog').limit(9) // The quick...
-given.string('The quick brown fox jumps over the lazy dog').limit(9, ' (Read more)') // The quick (Read more)
-given.string('Hello').limit(10) // Hello
-```
-
-#### pipe
-
-Executes callback and transforms result back into a flooent string if the result is a string.
-
-```javascript
-given.string('').pipe(str => str.append('!')) // String { '!' }
-```
-
-#### tap
-
-Tap into the chain without modifying the string.
-
-```javascript
-given.string('')
-  .append('!')
-  .tap(str => console.log(str))
-  .append('!')
-  // ...
-```
-
-#### when
-
-Executes callback if first given value evaluates to true. Result will get transformed back into a flooent string if it is a raw string.
-
-```javascript
-// can be a boolean
-given.string('').when(true, str => str.append('!')) // String { '!' }
-given.string('').when(false, str => str.append('!')) // String { '' }
-
-// or a method
-given.string('hello').when(str => str.endsWith('hello'), str => str.append(' world')) // String { 'hello world' }
-given.string('hi').when(str => str.endsWith('hello'), str => str.append(' world')) // String { 'hello' }
-```
-
-#### whenEmpty
-
-Executes callback if string is empty. Result will get transformed back into a flooent string if it is a raw string.
-
-```javascript
-given.string('').whenEmpty(str => str.append('!')) // String { '!' }
-given.string('hello').whenEmpty(str => str.append('!')) // String { 'hello' }
-```
-
-#### wrap
-
-Wraps a string with given value.
-
-```javascript
-given.string('others').wrap('***') // String { '***others***' }
-given.string('oldschool').wrap('<blink>', '</blink>') // String { '<blink>oldschool</blink>' }
-```
-
-#### unwrap
-
-Unwraps a string with given value.
-
-
-```javascript
-given.string('***others***').unwrap('***') // String { 'others' }
-given.string('<blink>oldschool</blink>').unwrap('<blink>', '</blink>') // String { 'oldschool' }
-```
-
-#### camel
-
-Turns string into camel case.
-
-```javascript
-given('foo bar').camel() // String { 'fooBar' }
-```
-
-#### title
-
-Turns string into title case.
-
-```javascript
-given.string('foo bar').title() // String { 'Foo Bar' }
-```
-
-#### studly
-
-Turns string into studly case.
-
-```javascript
-given('foo bar').studly() // String { 'FooBar' }
-```
-
-#### capitalize
-
-Capitalizes first character.
-
-```javascript
-given.string('foo bar').capitalize() // String { 'Foo bar' }
-```
-
-#### kebab
-
-Turns string into kebab case.
-
-```javascript
-given('foo bar').kebab() // String { 'foo-bar' }
-```
-
-#### snake
-
-Turns string into snake case.
-
-```javascript
-given('foo bar').snake() // String { 'foo_bar' }
-```
-
-#### slug
-
-Turns string into URI conform slug.
-
-```javascript
-given.string('Foo Bar ♥').slug() // String { 'foo-bar' }
-given.string('foo bär').slug('+') // String { 'foo+bar' }
-```
-
-#### parse
-
-Parses a string back into its original form.
-
-```javascript
-given.string('true').parse() // true
-given.string('23').parse() // 23
-given.string('{\"a\":1}').parse() // { a: 1 }
 ```
 
 ## Maps
