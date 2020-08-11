@@ -6,11 +6,11 @@
   "types": "index.d.ts",
   "scripts": {
     "clean": "rm -rf dist",
-    "test": "node japaFile.js",
     "copymeta": "cp README.md package.json dist",
     "build": "npm run clean && tsc && npm run copymeta",
     "publish:dist": "npm run build && cd dist && npm publish",
     "publish:beta": "npm run build && cd dist && npm publish --tag beta",
+    "test": "node japaFile.js",
     "coverage": "nyc --reporter=lcov npm test"
   },
   "keywords": [

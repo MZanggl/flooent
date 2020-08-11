@@ -1,0 +1,38 @@
+name: NPM publish CD pipeline
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Get Release Info
+      id: latest_version
+      uses: abatilo/release-info-action@v1.2.0
+      with:
+        owner: MZanggl
+        repo: flooent
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ steps.latest_version.outputs.target_commitish }}
+    - name: Use Node.js 12
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+        registry-url: https://registry.npmjs.org/
+    - run: npm ci
+    - run: git config --global user.name "GitHub CD bot"
+    - run: git config --global user.email "github-cd-bot@example.com"
+    - run: npm version ${{ steps.latest_version.outputs.latest_tag }}
+    - run: npm run build
+    - run: npm test
+    - run: npm run publish:dist
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - run: git push
+      env:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
