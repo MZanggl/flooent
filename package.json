@@ -26,6 +26,9 @@
   },
   "author": "Michael Zanggl",
   "license": "ISC",
+  "publishConfig": {
+    "tag": "latest"
+  },
   "dependencies": {},
   "devDependencies": {
     "japa": "^3.0.1",
