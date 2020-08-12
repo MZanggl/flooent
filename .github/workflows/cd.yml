@@ -14,8 +14,8 @@ jobs:
       id: latest_version
       uses: abatilo/release-info-action@v1.2.0
       with:
-        owner: MZanggl
-        repo: flooent
+        owner: ${{ github.event.repository.owner.name }}
+        repo: ${{ github.event.repository.name }}
     - uses: actions/checkout@v2
       with:
         ref: ${{ steps.latest_version.outputs.target_commitish }}
