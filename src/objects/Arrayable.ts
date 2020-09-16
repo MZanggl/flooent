@@ -1,5 +1,6 @@
 import { Mappable } from '../index'
 import { CopyFunction } from '../types'
+import { getNthIndex } from '../utils'
 
 class Arrayable<T> extends Array<T> {
     ["constructor"]!: typeof Arrayable
@@ -49,10 +50,7 @@ class Arrayable<T> extends Array<T> {
      * Returns element at given index or undefined. If given value is negative, it searches from behind.
      */
     nth(index: number) {
-        if (index < 0) {
-            index = this.length + index
-        }
-        return this[index]
+        return this[getNthIndex(this, index)]
     }
 
     /**
@@ -110,13 +108,7 @@ class Arrayable<T> extends Array<T> {
      * Points to a specific index inside the array to do further actions on it.
      */
     at(indexOrFn: number | ((item: T) => boolean)) {
-        let index: number
-
-        if (typeof indexOrFn === 'number') {
-            index = indexOrFn < 0 ? this.length + indexOrFn : indexOrFn
-        } else {
-            index = this.findIndex(indexOrFn)
-        }
+        const index = getNthIndex(this, indexOrFn)
 
         const array = this
         const pointer = {

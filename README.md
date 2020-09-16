@@ -50,7 +50,7 @@ given.string(path)
 
 ### given
 
-Use `given` to create either a flooent Number, Array, Map or String depending on its type.
+Use `given` to create either a flooent Number, Array, Map or String.
 
 ```javascript
 import { given } from 'flooent'
@@ -1075,7 +1075,7 @@ declare module 'flooent' {
 
 ### More examples
 
-These methods, while convenient, are not in the core since they are not all too common yet quadruply the bundle size.
+These methods, while convenient, are not in the core since they are not all too common yet quadruply the bundle size among other reasons.
 
 <details>
 <summary>Array.is</summary>
