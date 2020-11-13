@@ -27,6 +27,8 @@ given.string(path)
   .capitalize()
 ```
 
+[Try it out online!](https://codesandbox.io/s/flooent-28fkv?file=/src/index.js)
+
 ## Index
 
 - [Get Started](#get-started)
