@@ -531,7 +531,7 @@ given.array(['a', 'b', 'c']).nth(-1) // 'c'
 Return all items that don't pass the given truth test. Inverse of `Array.filter`.
 
 ```javascript
-given.array([{ id: 1, disabled: true }]).reject(item => item.disabled)
+given.array([{ id: 1, disabled: true }]).reject(item => item.disabled) // []
 ```
 
 ### until
