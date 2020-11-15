@@ -1,4 +1,4 @@
-import { Mappable } from '../index'
+import { given, Mappable } from '../index'
 import { CopyFunction } from '../types'
 import { getNthIndex } from '../utils'
 
@@ -66,6 +66,13 @@ class Arrayable<T> extends Array<T> {
           newArray.push(item)
         }
         return newArray
+    }
+    
+    /**
+     * Return all items that don't pass the given truth test. Inverse of `Array.filter`
+     */
+    reject(callback: (item: T) => boolean) {
+        return this.filter(item => !callback(item))
     }
 
     /**

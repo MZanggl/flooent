@@ -356,3 +356,8 @@ test('can mutate array', assert => {
   array.mutate(arr => arr.append('d'))
   assert.deepEqual(array, ['a', 'b', 'c', 'd'])
 })
+
+test('reject() is the inverse of Array.filter', assert => {
+  const array = given.array(['a', 'aa', 'b']).reject(item => item.startsWith('a'))
+  assert.deepEqual(array, ['b'])
+})

@@ -526,6 +526,14 @@ given.array(['a', 'b', 'c']).nth(5) // undefined
 given.array(['a', 'b', 'c']).nth(-1) // 'c'
 ```
 
+### reject
+
+Return all items that don't pass the given truth test. Inverse of `Array.filter`.
+
+```javascript
+given.array([{ id: 1, disabled: true }]).reject(item => item.disabled)
+```
+
 ### until
 
 Returns the items until either the given value is found, or the given callback returns `true`.
