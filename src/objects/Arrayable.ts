@@ -71,8 +71,8 @@ class Arrayable<T> extends Array<T> {
     /**
      * Return all items that don't pass the given truth test. Inverse of `Array.filter`
      */
-    reject(callback: (item: T) => boolean) {
-        return this.filter(item => !callback(item))
+    reject(callback: (item: T, index?: number) => boolean) {
+        return this.filter((item, index) => !callback(item, index))
     }
 
     /**
