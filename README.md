@@ -697,7 +697,7 @@ given.array(['music', 'tech']).at(1).value() // ['music', 'tech']
 
 #### step
 
-Steps forward or backward given the number of steps.
+Steps forward or backwards given the number of steps.
 
 ```javascript
 given.array(['music', 'tec']).at(1).step(-1).value() // ['music']
