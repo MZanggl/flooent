@@ -71,3 +71,11 @@ test('except() returns a new map with all keys except for the given keys', asser
   const map = given.map({ one: 1, two: 2, three: 3 }).except(['one', 'two'])
   assert.deepEqual(map.keys(), ['three'])
 })
+
+test('rename() renames a key if found', assert => {
+  const map = given.map({ one: 1, to: 2, three: 3 }).rename('to', 'two')
+  assert.deepEqual(map.keys(), ['one', 'two', 'three'])
+
+  const map2 = given.map({ one: 1, two: 2, three: 3 }).rename('for', 'four')
+  assert.deepEqual(map2.keys(), ['one', 'two', 'three'])
+})

@@ -964,6 +964,16 @@ given.map({ strings: 2, numbers: 1, functions: 4 })
   .keys() // ['numbers', 'functions', 'strings']
 ```
 
+### rename
+
+Renames the given key with the new key if found, keeping the original insertion order.
+
+```javascript
+given.map({ one: 1, to: 2, three: 3 })
+  .rename('to', 'two')
+  .keys() // ['one', 'two', 'three']
+```
+
 ## Numbers
 
 <small>

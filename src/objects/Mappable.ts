@@ -55,6 +55,15 @@ class Mappable<K = any, V = any> extends Map<K, V> {
   }
 
   /**
+   * Renames the given key with the new key if found, keeping the original insertion order.
+   */
+  rename(oldKey: K, newKey: K) {
+    return this.mapKeys((_, key) => {
+      return (key === oldKey) ? newKey : key
+    })
+  }
+
+  /**
    * Iterates the entries through the given callback and assigns each result as the value.
    */
   mapValues<N>(callback: ((value: V, key: K) => N)) {
