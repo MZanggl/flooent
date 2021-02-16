@@ -703,6 +703,16 @@ Steps forward or backward given the number of steps.
 given.array(['music', 'tec']).at(1).step(-1).value() // ['music']
 ```
 
+#### move
+
+Moves an item in the array using the given source index to either "before" or "after" the given target.
+
+```javascript
+given.array(['b', 'a', 'c']).move(0, 'after', 1) // ['a', 'b', 'c']
+given.array(['b', 'a', 'c']).move(0, 'before', 2) // ['a', 'b', 'c']
+given.array(['b', 'a', 'c']).move(1, 'before', 0) // ['a', 'b', 'c']
+```
+
 ### Methods for arrays of objects
 
 #### sum

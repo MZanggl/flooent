@@ -379,3 +379,19 @@ test('reject() is the inverse of Array.filter', assert => {
   const array2 = given.array(['a', 'aa', 'b']).reject((item, index) => index === 1)
   assert.deepEqual(array2, ['a', 'b'])
 })
+
+test('move() with position "after" moves an element inside the array after the target', assert => {
+  assert.deepEqual(given.array(['b', 'a', 'c']).move(0, 'after', 1), ['a', 'b', 'c'])
+  assert.deepEqual(given.array(['c', 'a', 'b']).move(0, 'after', 5), ['a', 'b', 'c'])
+  assert.deepEqual(given.array(['a', 'c', 'b']).move(1, 'after', 2), ['a', 'b', 'c'])
+  assert.deepEqual(given.array(['a', 'c', 'b']).move(2, 'after', 0), ['a', 'b', 'c'])
+  assert.deepEqual(given.array(['a', 'b', 'c']).move(1, 'after', 1), ['a', 'b', 'c'])
+})
+
+test('move() with position "before" moves an element inside the array before the target', assert => {
+  assert.deepEqual(given.array(['b', 'a', 'c']).move(1, 'before', 0), ['a', 'b', 'c'])
+  assert.deepEqual(given.array(['b', 'a', 'c']).move(1, 'before', -5), ['a', 'b', 'c'])
+  assert.deepEqual(given.array(['a', 'c', 'b']).move(2, 'before', 1), ['a', 'b', 'c'])
+  assert.deepEqual(given.array(['b', 'a', 'c']).move(0, 'before', 2), ['a', 'b', 'c'])
+  assert.deepEqual(given.array(['a', 'b', 'c']).move(1, 'before', 1), ['a', 'b', 'c'])
+})

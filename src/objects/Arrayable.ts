@@ -74,6 +74,23 @@ class Arrayable<T> extends Array<T> {
     reject(callback: (item: T, index?: number) => boolean) {
         return this.filter((item, index) => !callback(item, index))
     }
+    
+    /**
+     * Moves an item in the array using the given source index to either "before" or "after" the given target.
+     */
+    move(source: number, position: 'before' | 'after', target: number) {
+        if (source === target) {
+            return this
+        }
+        
+        const comparison = position === 'before' ? (_, index) => index < target : (_, index) => index <= target
+        const [before, after] = this.partition(comparison)
+        
+        const result = before.concat(this[source], ...after)
+        const newSourceIndex = source > target ? source + 1 : source
+        result.splice(newSourceIndex, 1)
+        return result
+    }
 
     /**
      * Breaks the array into multiple, smaller arrays of a given size.
