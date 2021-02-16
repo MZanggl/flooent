@@ -140,6 +140,18 @@ class Arrayable<T> extends Array<T> {
             prepend(...items: T[]) {
                 const [before, after] = array.partition((item, i) => i < index)
                 return array.constructor.from([...before, ...items, ...after])
+            },
+            /**
+             * Returns value for current pointer position.
+             */
+            value() {
+                return array[index]
+            },
+            /**
+             * Steps forward or backward given the number of steps.
+             */
+            step(steps: number) {
+                return array.at(index + steps)
             }
         }
 

@@ -687,6 +687,22 @@ Sets the value at the current index and returns a new array.
 given.array(['music', 'tec']).at(1).set(item => item + 'h') // ['music', 'tech']
 ```
 
+#### value
+
+Returns the value for current pointer position.
+
+```javascript
+given.array(['music', 'tech']).at(1).value() // ['music', 'tech']
+```
+
+#### step
+
+Steps forward or backward given the number of steps.
+
+```javascript
+given.array(['music', 'tec']).at(1).step(-1).value() // ['music']
+```
+
 ### Methods for arrays of objects
 
 #### sum
