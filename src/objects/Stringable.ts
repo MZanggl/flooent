@@ -16,7 +16,6 @@ const override = [
     "toLowerCase",
     "toUpperCase",
     "charAt",
-    "charCodeAt",
 ]
 
 class Stringable extends String {

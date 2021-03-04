@@ -33,7 +33,6 @@ test('it returns instance of Stringable for existing methods', assert => {
   isStr(assert, given.string('test toLowerCase').toLowerCase())
   isStr(assert, given.string('test toUpperCase').toUpperCase())
   isStr(assert, given.string('test charAt').charAt(1))
-  isStr(assert, given.string('test charCodeAt').charCodeAt(1))
 })
 
 test('after() returns all remaining text after the first haystack', assert => {
