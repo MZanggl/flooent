@@ -22,7 +22,8 @@ refactor it into plain English
 ```javascript
 // given we have const path = 'App/Controllers/user.js'
 given.string(path)
-  .betweenLast('/').andLast('.')
+  .afterLast('/')
+  .beforeLast('.')
   .endWith('Controller')
   .capitalize()
 ```
@@ -177,24 +178,6 @@ Returns the text before the last occurrence of the given value. If the value doe
 
 ```javascript
 given.string('sub.domain.com').beforeLast('.') // String { 'sub.domain' }
-```
-
-#### between
-
-Returns the text between two given values.
-
-```javascript
-given.string('some@email.com').between('@').and('.') // String { 'email' }
-given.string('some@sub.email.com').between('@').andLast('.') // String { 'sub.email' }
-```
-
-#### betweenLast
-
-Returns the text between the last occurrence of given value and second function respectively.
-
-```javascript
-given.string('john.doe@email.com:123456').betweenLast('.').and(':') // String { 'com' }
-given.string('App/Models/payment.method.js').betweenLast('/').andLast('.') // String { 'payment.method' }
 ```
 
 #### append

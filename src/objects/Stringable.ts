@@ -81,6 +81,7 @@ class Stringable extends String {
 
     /**
      * Returns the text between two given values.
+     * @deprecated Use after('a').before('b') or after('a').beforeLast('b')
      */
     between(start: string) {
         return {
@@ -91,6 +92,7 @@ class Stringable extends String {
 
     /**
      * Returns the text between the last occurrence of given value and second function respectively.
+     * @deprecated Use afterLast('a').before('b') or afterLast('a').beforeLast('b')
      */
     betweenLast(start: string) {
         return {
