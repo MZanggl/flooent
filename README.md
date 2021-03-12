@@ -1226,7 +1226,7 @@ This is useful for grouping common logic together and avoiding temporary variabl
 Before
 
 ```javascript
-const user = User.first() // varialbe "user" is only used here
+const user = User.first() // variable "user" is only used here
 const nameMatches = expect(user.name).toBe('test name')
 ```
 
