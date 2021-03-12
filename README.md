@@ -112,6 +112,24 @@ given.number(1) += 1 // ERROR
 
 There are various fluent alternatives available.
 
+## Functional API
+
+If you only need to do a single thing, you can also import most functions individually. The result of these functions will not be turned into a flooent object.
+
+```javascript
+import { afterLast } from 'flooent/string'
+afterLast('www.example.com', '.') // 'com'
+
+import { move } from 'flooent/array'
+move(['music', 'tech', 'sports'], 0, 'after', 1) // ['tech', 'music', 'sports']
+
+import { times } from 'flooent/number'
+times(3, i => i) // [0, 1, 2]
+
+import { rename } from 'flooent/map'
+rename(new Map([['item_id', 1]]), 'item_id', 'itemId') // Map { itemId → 1 }
+```
+
 ## Strings
 
 <small>
@@ -124,7 +142,9 @@ You have access to [everything from the native String object](https://developer.
 
 #### pipe
 
-Executes callback and transforms result back into a flooent string if it is a string.
+<!-- string.pipe -->
+Executes the callback and transforms the result back into a flooent string if it is a string.
+<!-- end -->
 
 ```javascript
 given.string('').pipe(str => str.append('!')) // String { '!' }
@@ -132,7 +152,9 @@ given.string('').pipe(str => str.append('!')) // String { '!' }
 
 #### is
 
-Compares given value with the raw string.
+<!-- string.is -->
+Compares the given value with the raw string.
+<!-- end -->
 
 ```javascript
 given.string('flooent').is('flooent') // true
@@ -140,7 +162,9 @@ given.string('flooent').is('flooent') // true
 
 #### includedIn
 
-Checks if string is included in the given array.
+<!-- string.includedIn -->
+Checks if the string is included in the given array.
+<!-- end -->
 
 ```javascript
 given.string('flooent').includedIn(['flooent', 'string'])
@@ -150,7 +174,9 @@ given.string('flooent').includedIn(['flooent', 'string'])
 
 #### after
 
+<!-- string.after -->
 Returns the remaining text after the first occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
+<!-- end -->
 
 ```javascript
 given.string('sub.domain.com').after('.') // String { 'domain.com' }
@@ -158,7 +184,9 @@ given.string('sub.domain.com').after('.') // String { 'domain.com' }
 
 #### afterLast
 
+<!-- string.afterLast -->
 Returns the remaining text after the last occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
+<!-- end -->
 
 ```javascript
 given.string('sub.domain.com').afterLast('.') // String { 'com' }
@@ -166,7 +194,9 @@ given.string('sub.domain.com').afterLast('.') // String { 'com' }
 
 #### before
 
+<!-- string.before -->
 Returns the text before the first occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
+<!-- end -->
 
 ```javascript
 given.string('sub.domain.com').before('.') // String { 'sub' }
@@ -174,7 +204,9 @@ given.string('sub.domain.com').before('.') // String { 'sub' }
 
 #### beforeLast
 
+<!-- string.beforeLast -->
 Returns the text before the last occurrence of the given value. If the value does not exist in the string, the entire string is returned unchanged.
+<!-- end -->
 
 ```javascript
 given.string('sub.domain.com').beforeLast('.') // String { 'sub.domain' }
@@ -182,7 +214,9 @@ given.string('sub.domain.com').beforeLast('.') // String { 'sub.domain' }
 
 #### append
 
-Alias for `concat`. Appends given value to string.
+<!-- string.append -->
+Alias for `concat`. Appends the given value to string.
+<!-- end -->
 
 ```javascript
 given.string('hello').append(' world') // String { 'hello world' }
@@ -190,7 +224,9 @@ given.string('hello').append(' world') // String { 'hello world' }
 
 #### prepend
 
-Prepends given value to string.
+<!-- string.prepend -->
+Prepends the given value to string.
+<!-- end -->
 
 ```javascript
 given.string('world').prepend('hello ') // String { 'hello world' }
@@ -198,7 +234,9 @@ given.string('world').prepend('hello ') // String { 'hello world' }
 
 #### endWith
 
-Appends given value only if string doesn't already end with it.
+<!-- string.endWith -->
+Appends the given value only if string doesn't already end with it.
+<!-- end -->
 
 ```javascript
 given.string('hello').endWith(' world') // String { 'hello world' }
@@ -207,7 +245,9 @@ given.string('hello world').endWith(' world') // String { 'hello world' }
 
 #### startWith
 
-Prepends given value only if string doesn't already start with it.
+<!-- string.startWith -->
+Prepends the given value only if string doesn't already start with it.
+<!-- end -->
 
 ```javascript
 given.string('world').startWith('hello ') // String { 'hello world' }
@@ -216,7 +256,9 @@ given.string('hello world').startWith('hello ') // String { 'hello world' }
 
 #### limit
 
+<!-- string.limit -->
 Truncates text to given length and appends second argument if string got truncated.
+<!-- end -->
 
 ```javascript
 given.string('The quick brown fox jumps over the lazy dog').limit(9) // The quick...
@@ -226,7 +268,9 @@ given.string('Hello').limit(10) // Hello
 
 #### tap
 
+<!-- string.tap -->
 Tap into the chain without modifying the string.
+<!-- end -->
 
 ```javascript
 given.string('')
@@ -238,7 +282,9 @@ given.string('')
 
 #### when
 
-Executes callback if first given value evaluates to true. Result will get transformed back into a flooent string if it is a raw string.
+<!-- string.when -->
+Executes the callback if first given value evaluates to true. Result will get transformed back into a flooent string if it is a raw string.
+<!-- end -->
 
 ```javascript
 // can be a boolean
@@ -252,7 +298,9 @@ given.string('hi').when(str => str.endsWith('hello'), str => str.append(' world'
 
 #### whenEmpty
 
-Executes callback if string is empty. Result will get transformed back into a flooent string if it is a raw string.
+<!-- string.whenEmpty -->
+Executes the callback if string is empty. Result will get transformed back into a flooent string if it is a raw string.
+<!-- end -->
 
 ```javascript
 given.string('').whenEmpty(str => str.append('!')) // String { '!' }
@@ -261,7 +309,9 @@ given.string('hello').whenEmpty(str => str.append('!')) // String { 'hello' }
 
 #### wrap
 
-Wraps a string with given value.
+<!-- string.wrap -->
+Wraps a string with the given value.
+<!-- end --> 
 
 ```javascript
 given.string('others').wrap('***') // String { '***others***' }
@@ -270,7 +320,9 @@ given.string('oldschool').wrap('<blink>', '</blink>') // String { '<blink>oldsch
 
 #### unwrap
 
-Unwraps a string with given value.
+<!-- string.unwrap -->
+Unwraps a string with the given value.
+<!-- end --> 
 
 
 ```javascript
@@ -280,7 +332,9 @@ given.string('<blink>oldschool</blink>').unwrap('<blink>', '</blink>') // String
 
 #### camel
 
-Turns string into camel case.
+<!-- string.camel -->
+Turns the string into camel case.
+<!-- end -->
 
 ```javascript
 given('foo bar').camel() // String { 'fooBar' }
@@ -288,7 +342,9 @@ given('foo bar').camel() // String { 'fooBar' }
 
 #### title
 
-Turns string into title case.
+<!-- string.title -->
+Turns the string into title case.
+<!-- end -->
 
 ```javascript
 given.string('foo bar').title() // String { 'Foo Bar' }
@@ -296,7 +352,9 @@ given.string('foo bar').title() // String { 'Foo Bar' }
 
 #### studly
 
-Turns string into studly case.
+<!-- string.studly -->
+Turns the string into studly case.
+<!-- end -->
 
 ```javascript
 given('foo bar').studly() // String { 'FooBar' }
@@ -304,7 +362,9 @@ given('foo bar').studly() // String { 'FooBar' }
 
 #### capitalize
 
-Capitalizes first character.
+<!-- string.capitalize -->
+Capitalizes the first character.
+<!-- end -->
 
 ```javascript
 given.string('foo bar').capitalize() // String { 'Foo bar' }
@@ -312,7 +372,9 @@ given.string('foo bar').capitalize() // String { 'Foo bar' }
 
 #### kebab
 
-Turns string into kebab case.
+<!-- string.kebab -->
+Turns the string into kebab case.
+<!-- end -->
 
 ```javascript
 given('foo bar').kebab() // String { 'foo-bar' }
@@ -320,7 +382,9 @@ given('foo bar').kebab() // String { 'foo-bar' }
 
 #### snake
 
-Turns string into snake case.
+<!-- string.snake -->
+Turns the string into snake case.
+<!-- end -->
 
 ```javascript
 given('foo bar').snake() // String { 'foo_bar' }
@@ -328,7 +392,9 @@ given('foo bar').snake() // String { 'foo_bar' }
 
 #### slug
 
-Turns string into URI conform slug.
+<!-- string.slug -->
+Turns the string into URI conform slug.
+<!-- end -->
 
 ```javascript
 given.string('Foo Bar ♥').slug() // String { 'foo-bar' }
@@ -337,7 +403,9 @@ given.string('foo bär').slug('+') // String { 'foo+bar' }
 
 #### parse
 
+<!-- string.parse -->
 Parses a string back into its original form.
+<!-- end -->
 
 ```javascript
 given.string('true').parse() // true
@@ -357,7 +425,9 @@ You have access to [everything from the native Array object](https://developer.m
 
 #### pipe
 
+<!-- array.pipe -->
 Executes callback and transforms result back into a flooent array if the result is an array.
+<!-- end -->
 
 ```javascript
 const someMethodToBePipedThrough = array => array.append(1)
@@ -367,7 +437,9 @@ given.array([]).pipe(someMethodToBePipedThrough) // [1]
 
 #### mutate
 
+<!-- array.mutate -->
 Mutates the original array with the return value of the given callback. This is an escape hatch for when you need it and usually not recommended.
+<!-- end -->
 
 ```javascript
 const numbers = given.array(1, 2, 3)
@@ -378,7 +450,9 @@ numbers  // [1, 2, 3, 4]
 
 #### sum
 
+<!-- array.sum -->
 Returns the sum of the array.
+<!-- end -->
 
 ```javascript
 given.array([2, 2, 1]).sum() // 5
@@ -411,7 +485,9 @@ given.array([1]).isEmpty() // false
 
 #### toMap
 
+<!-- array.toMap -->
 Turns an array in the structure of `[ ['key', 'value'] ]` into a flooent map.
+<!-- end -->
 
 ```javascript
 given.map({ key: 'value' }).entries().toMap()
@@ -421,7 +497,9 @@ given.map({ key: 'value' }).entries().toMap()
 
 #### where
 
-Filters array by given value.
+<!-- array.where -->
+Filters array by given key / value pair.
+<!-- end -->
 
 ```javascript
 const numbers = [1, 1, 2, 3]
@@ -433,7 +511,9 @@ given.array(numbers).where(1) // [1, 1]
 
 #### whereIn
 
+<!-- array.whereIn -->
 Filters array by given values.
+<!-- end -->
 
 ```javascript
 const numbers = [1, 1, 2, 3]
@@ -457,7 +537,9 @@ given.array(numbers).whereNot(1) // [2, 3]
 
 #### whereNotIn
 
+<!-- array.whereNotIn -->
 Removes given values from array.
+<!-- end -->
 
 ```javascript
 const numbers = [1, 1, 2, 3]
@@ -469,7 +551,9 @@ given.array(numbers).whereNotIn([2, 3]) // [1, 1]
 
 #### first
 
+<!-- array.first -->
 Returns the first (x) element(s) in the array or undefined.
+<!-- end -->
 
 ```javascript
 given.array([1, 2, 3]).first() // 1
@@ -478,7 +562,9 @@ given.array([1, 2, 3]).first(2) // [1, 2]
 
 #### second
 
+<!-- array.second -->
 Returns the second element in the array or undefined.
+<!-- end -->
 
 ```javascript
 given.array([1, 2, 3]).second() // 2
@@ -486,14 +572,18 @@ given.array([1, 2, 3]).second() // 2
 
 #### last
 
+<!-- array.last -->
 Returns last (x) element(s) in array or undefined.
+<!-- end -->
 
 ```javascript
 given.array([1, 2, 3]).last() // 3
 given.array([1, 2, 3]).last(2) // [2, 3]
 ```
 
+<!-- array.last2 -->
 Alternatively, pass in a callback to get the last item that passes the given truth test (inverse of `find`).
+<!-- end -->
 
 ```javascript
 given.array([1, 2, 3]).last(item => item > 1) // 3
@@ -501,7 +591,9 @@ given.array([1, 2, 3]).last(item => item > 1) // 3
 
 #### nth
 
+<!-- array.nth -->
 Returns element at given index or undefined. If given value is negative, it searches from behind.
+<!-- end -->
 
 ```javascript
 given.array(['a', 'b', 'c']).nth(1) // 'b'
@@ -511,7 +603,9 @@ given.array(['a', 'b', 'c']).nth(-1) // 'c'
 
 ### reject
 
+<!-- array.reject -->
 Return all items that don't pass the given truth test. Inverse of `Array.filter`.
+<!-- end -->
 
 ```javascript
 given.array([{ id: 1, disabled: true }]).reject(item => item.disabled) // []
@@ -519,7 +613,9 @@ given.array([{ id: 1, disabled: true }]).reject(item => item.disabled) // []
 
 ### until
 
+<!-- array.until -->
 Returns the items until either the given value is found, or the given callback returns `true`.
+<!-- end -->
 
 ```javascript
 given.array(['a', 'b', 'c']).until('c') // ['a', 'b']
@@ -528,7 +624,9 @@ given.array(['a', 'b', 'c']).until(item => item === 'c') // ['a', 'b']
 
 #### shuffle
 
+<!-- array.shuffle -->
 Shuffles the array.
+<!-- end -->
 
 ```javascript
 given.array([1, 2, 3]).shuffle() // ?, maybe: [1, 3, 2]
@@ -536,7 +634,9 @@ given.array([1, 2, 3]).shuffle() // ?, maybe: [1, 3, 2]
 
 #### unique
 
+<!-- array.unique -->
 Returns array of unique values.
+<!-- end -->
 
 ```javascript
 given.array([1, 1, 2]).unique() // [1, 2]
@@ -546,7 +646,9 @@ given.array([1, 1, 2]).unique() // [1, 2]
 
 ### chunk
 
+<!-- array.chunk -->
 Breaks the array into multiple, smaller arrays of a given size.
+<!-- end -->
 
 ```javascript
 given.array([1, 2, 3, 4, 5]).chunk(3) // [[1, 2, 3], [4, 5]]
@@ -554,7 +656,9 @@ given.array([1, 2, 3, 4, 5]).chunk(3) // [[1, 2, 3], [4, 5]]
 
 ### forPage
 
+<!-- array.forPage -->
 Returns the items for the given page and size.
+<!-- end -->
 
 ```javascript
 given.array(['a', 'b', 'c', 'd', 'e', 'f', 'g']).forPage(1, 3) // ['a', 'b', 'c']
@@ -565,7 +669,9 @@ given.array(['a', 'b', 'c', 'd', 'e', 'f', 'g']).forPage(4, 3) // []
 
 ### pad
 
+<!-- array.pad -->
 Fills up the array with the given value.
+<!-- end -->
 
 ```javascript
 given.array([1, 2, 3]).pad(5, 0) // [1, 2, 3, 0, 0]
@@ -573,7 +679,9 @@ given.array([1, 2, 3]).pad(5, 0) // [1, 2, 3, 0, 0]
 
 #### filled
 
+<!-- array.filled -->
 Only returns items which are not empty.
+<!-- end -->
 
 ```javascript
 given.array([0, '', null, undefined, 1, 2]).filled() // [1, 2]
@@ -583,7 +691,9 @@ given.array([0, '', null, undefined, 1, 2]).filled() // [1, 2]
 
 #### partition
 
+<!-- array.partition -->
 Returns a tuple separating the items that pass the given truth test.
+<!-- end -->
 
 ```javascript
 const users = given.array([{ id: 1, active: false }, { id: 2, active: false }, { id: 3, active: true }])
@@ -593,7 +703,9 @@ const [activeUsers, inactiveUsers] = users.partition(user => user.active)
 
 #### prepend
 
+<!-- array.prepend -->
 Prepends the given items to the array. Unlike `unshift`, it is immutable and returns a new array.
+<!-- end -->
 
 ```javascript
 const numbers = given.array([2, 3])
@@ -604,7 +716,9 @@ To prepend items at a specific index, check out the [Pointer API](#pointer-api).
 
 #### append
 
+<!-- array.append -->
 Appends the given items to the array. Unlike `push`, it is immutable and returns a new array.
+<!-- end -->
 
 ```javascript
 const numbers = given.array([0, 1])
@@ -626,7 +740,9 @@ given.array([3, 1, 2]).sortDesc() // [3, 2, 1]
 
 #### tap
 
+<!-- array.tap -->
 Tap into the chain without modifying the array.
+<!-- end -->
 
 ```javascript
 given.array([])
@@ -638,7 +754,9 @@ given.array([])
 
 ### Pointer API
 
-Let's you point to a specific index inside the array to do further actions on it.
+<!-- array.at -->
+Points to a specific index inside the array to do further actions on it.
+<!-- end -->
 
 ```javascript
 given.array(['music', 'video', 'tech']).at(1) // returns pointer pointing to 'video'
@@ -648,7 +766,9 @@ given.array(['music', 'video', 'tech']).at(item => item === 'music') // returns 
 
 #### append
 
+<!-- array.at.append -->
 Appends given value to array in between the currently pointed item and its next item and returns a new array.
+<!-- end -->
 
 ```javascript
 given.array(['music', 'tech']).at(0).append('video') // ['music', 'video', 'tech']
@@ -656,7 +776,9 @@ given.array(['music', 'tech']).at(0).append('video') // ['music', 'video', 'tech
 
 #### prepend
 
+<!-- array.at.prepend -->
 Prepends given value to array in between the currently pointed item and its previous item and returns a new array.
+<!-- end -->
 
 ```javascript
 given.array(['music', 'tech']).at(1).prepend('video') // ['music', 'video', 'tech']
@@ -664,7 +786,9 @@ given.array(['music', 'tech']).at(1).prepend('video') // ['music', 'video', 'tec
 
 #### set
 
+<!-- array.at.set -->
 Sets the value at the current index and returns a new array.
+<!-- end -->
 
 ```javascript
 given.array(['music', 'tec']).at(1).set(item => item + 'h') // ['music', 'tech']
@@ -672,7 +796,9 @@ given.array(['music', 'tec']).at(1).set(item => item + 'h') // ['music', 'tech']
 
 #### value
 
+<!-- array.at.value -->
 Returns the value for current pointer position.
+<!-- end -->
 
 ```javascript
 given.array(['music', 'tech']).at(1).value() // ['music', 'tech']
@@ -680,7 +806,9 @@ given.array(['music', 'tech']).at(1).value() // ['music', 'tech']
 
 #### step
 
+<!-- array.at.step -->
 Steps forward or backwards given the number of steps.
+<!-- end -->
 
 ```javascript
 given.array(['music', 'tec']).at(1).step(-1).value() // ['music']
@@ -688,7 +816,9 @@ given.array(['music', 'tec']).at(1).step(-1).value() // ['music']
 
 #### move
 
+<!-- array.at.move -->
 Moves an item in the array using the given source index to either "before" or "after" the given target.
+<!-- end -->
 
 ```javascript
 given.array(['b', 'a', 'c']).move(0, 'after', 1) // ['a', 'b', 'c']
@@ -700,7 +830,9 @@ given.array(['b', 'a', 'c']).move(1, 'before', 0) // ['a', 'b', 'c']
 
 #### sum
 
+<!-- array.sum2 -->
 Returns the sum of the given field/result of callback in the array.
+<!-- end -->
 
 ```javascript
   const users = [{ id: 1, points: 10 }, { id: 2, points: 10 }, { id: 3, points: 10 }]
@@ -735,7 +867,9 @@ given.array(numbers).sortDesc(item => item.val) // [{ val: 3 }, { val: 2 }, { va
 
 #### pluck
 
+<!-- array.pluck -->
 Pluck the given field out of each object in the array.
+<!-- end -->
 
 ```javascript
 const cities = [
@@ -748,7 +882,9 @@ given.array(cities).pluck('name') // ['Munich', 'Naha']
 
 #### where
 
+<!-- array.where -->
 Filters array by given key / value pair.
+<!-- end -->
 
 ```javascript
 const cities = [
@@ -762,7 +898,9 @@ given.array(cities).where('name', 'Munich') // [{ id: 1, name: 'Munich' }]
 
 #### whereNot
 
+<!-- array.whereNot -->
 Removes items from array by the given key / value pair.
+<!-- end -->
 
 ```javascript
 const cities = [
@@ -833,7 +971,9 @@ given.array(items).unique(item => item.name.toLowerCase()) // [{ id: 1, name: 'm
 
 #### filled
 
-Only returns items which the value of the given key is not empty.
+<!-- array.filled -->
+Only returns items which are not empty.
+<!-- end -->
 
 ```javascript
 const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 3, name: '' }]
@@ -842,7 +982,9 @@ given.array(items).filled('name') // [{ id: 1, name: 'music' }, { id: 2, name: '
 
 #### groupBy
 
+<!-- array.groupBy -->
 Groups an array by the given key and returns a flooent map.
+<!-- end -->
 
 ```javascript
 const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 3, name: 'music' }]
@@ -884,7 +1026,9 @@ The native methods `keys()`, `entries()` and `values()` will return an instance 
 
 #### toJSON
 
+<!-- map.toJSON -->
 Turns the map into an object.
+<!-- end -->
 
 ```javascript
 const map = given.map({ key: 'value' }) // Map { key → "value" }
@@ -903,7 +1047,9 @@ map.has('key') // false
 
 #### mapKeys
 
+<!-- map.mapKeys -->
 Iterates the entries through the given callback and assigns each result as the key.
+<!-- end -->
 
 ```javascript
 const map = given.map({ a: 1 }).mapKeys((value, key) => key + value)
@@ -913,7 +1059,9 @@ map.get('a1') // 1
 
 #### mapValues
 
+<!-- map.mapValues -->
 Iterates the entries through the given callback and assigns each result as the value.
+<!-- end -->
 
 ```javascript
 const map = given.map({ a: '1' }).mapValues((value, key) => key + value)
@@ -923,7 +1071,9 @@ map.get('a') // a1
 
 #### only
 
+<!-- map.only -->
 Returns a new map with only the given keys.
+<!-- end -->
 
 ```javascript
   given.map({ one: 1, two: 2, three: 3 }).only(['one', 'two']) // Map { "one" → 1, "two" → 2 }
@@ -931,7 +1081,9 @@ Returns a new map with only the given keys.
 
 #### except
 
+<!-- map.except -->
 Inverse of `only`. Returns a new map with all keys except for the given keys.
+<!-- end -->
 
 ```javascript
   given.map({ one: 1, two: 2, three: 3 }).except(['one', 'two']) // Map { "three" → 3 }
@@ -939,7 +1091,9 @@ Inverse of `only`. Returns a new map with all keys except for the given keys.
 
 #### arrange
 
+<!-- map.arrange -->
 Rearranges the map to the given keys. Any unmentioned keys will be appended to the end.
+<!-- end -->
 
 ```javascript
 given.map({ strings: 2, numbers: 1, functions: 4 })
@@ -949,7 +1103,9 @@ given.map({ strings: 2, numbers: 1, functions: 4 })
 
 ### rename
 
+<!-- map.rename -->
 Renames the given key with the new key if found, keeping the original insertion order.
+<!-- end -->
 
 ```javascript
 given.map({ one: 1, to: 2, three: 3 })
@@ -969,7 +1125,9 @@ You have access to [everything from the native Number object](https://developer.
 
 #### times
 
-Executes callback for number of base values' times and returns a flooent array with the result of each iteration.
+<!-- number.times -->
+Executes the callback for number of base values' times and returns a flooent array with the result of each iteration.
+<!-- end -->
 
 ```javascript
 given.number(3).times(i => i) // [0, 1, 2]
@@ -977,7 +1135,9 @@ given.number(3).times(i => i) // [0, 1, 2]
 
 #### pad
 
+<!-- number.pad -->
 Fills up the number with zeroes.
+<!-- end -->
 
 ```javascript
 given.number(40).pad(4) // '0040'
@@ -985,7 +1145,9 @@ given.number(40).pad(4) // '0040'
 
 #### ordinal
 
-Returns number with ordinal suffix. Only supports English.
+<!-- number.ordinal -->
+Returns the number with its ordinal suffix. Only supports English.
+<!-- end -->
 
 ```javascript
 given.number(1).ordinal() // '1st'
@@ -994,7 +1156,9 @@ given.number(9).ordinal() // '9th'
 
 ### isBetween / isBetweenOr
 
-Check if the number is between two given numbers. `isBetweenOr` is inclusive, while `isBetween` is exclusive.
+<!-- number.isBetween -->
+Checks if the number is between two given numbers. `isBetweenOr` is inclusive, while `isBetween` is exclusive.
+<!-- end -->
 
 ```javascript
 given.number(5).isBetween(1, 10) // true
@@ -1014,7 +1178,9 @@ given.number(300).of(750).inPercent() // Number { 40 }
 
 #### round
 
+<!-- number.round -->
 Rounds down until .4 and up from .5.
+<!-- end -->
 
 ```javascript
 given.number(10.4).round() // Number { 10 }
@@ -1023,7 +1189,9 @@ given.number(10.5).round() // Number { 11 }
 
 #### ceil
 
+<!-- number.ceil -->
 Always rounds its value up to the next largest whole number or integer.
+<!-- end -->
 
 ```javascript
 given.number(10.2).ceil() // Number { 11 }
@@ -1031,7 +1199,9 @@ given.number(10.2).ceil() // Number { 11 }
 
 #### floor
 
+<!-- number.floor -->
 Always rounds its value down.
+<!-- end -->
 
 ```javascript
 given.number(10.9).floor() // Number { 10 }

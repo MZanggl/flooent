@@ -1,21 +1,12 @@
 import Arrayable from './Arrayable'
-
-function entries(obj) {
-  var ownProps = Object.keys( obj ),
-      i = ownProps.length,
-      resArray = new Array(i); // preallocate the Array
-  while (i--)
-    resArray[i] = [ownProps[i], obj[ownProps[i]]];
-  
-  return resArray;
-}
+import * as MapUtils from '../map'
 
 class Mappable<K = any, V = any> extends Map<K, V> {
   ["constructor"]!: typeof Mappable
 
   constructor(value?: Map<K, V> | Object) {
     if (value && !(value instanceof Map) && !Array.isArray(value)) {
-      value = entries(value)
+      value = MapUtils.toEntries(value)
     }
 
     // @ts-ignore
@@ -26,9 +17,7 @@ class Mappable<K = any, V = any> extends Map<K, V> {
    * Turns the map into an object.
    */
   toJSON() {
-    const obj = {}
-    this.forEach((value, key) => obj[key as unknown as string] = value)
-    return obj
+    return MapUtils.toJSON(this)
   }
 
   entries() {
@@ -47,63 +36,49 @@ class Mappable<K = any, V = any> extends Map<K, V> {
    * Iterates the entries through the given callback and assigns each result as the key.
    */
   mapKeys<N>(callback: ((value: V, key: K) => N)) {
-    return this
-      .entries()
-      .map(([key, value]) => [callback(value, key), value])
-        // @ts-ignore
-      .toMap()
+    return new this.constructor(MapUtils.mapKeys(this, callback))
   }
 
   /**
    * Renames the given key with the new key if found, keeping the original insertion order.
    */
   rename(oldKey: K, newKey: K) {
-    return this.mapKeys((_, key) => {
-      return (key === oldKey) ? newKey : key
-    })
+    return new this.constructor(MapUtils.rename(this, oldKey, newKey))
   }
 
   /**
    * Iterates the entries through the given callback and assigns each result as the value.
    */
   mapValues<N>(callback: ((value: V, key: K) => N)) {
-    return this
-      .entries()
-      .map(([key, value]) => [key, callback(value, key)])
-        // @ts-ignore
-      .toMap()
+    return new this.constructor(MapUtils.mapValues(this, callback))
   }
 
   /**
    * Rearranges the map to the given keys. Any unmentioned keys will be appended to the end.
    */
   arrange(...keys: K[]) {
-    const shallowClone = this.entries().toMap()
-    const entries = keys.map(key => [key, shallowClone.pull(key)])
-    return new this.constructor(entries.concat(shallowClone.entries()))
+    return new this.constructor(MapUtils.arrange<K, V>(this, ...keys))
   }
 
   /**
    * Returns the value for the given key and deletes the key value pair from the map (mutation).
    */
-  pull(key?: any) {
-    const value = this.get(key)
-    this.delete(key)
-    return value
+  pull(key: any) {
+    return MapUtils.pull<K, V>(this, key)
   }
 
   /**
    * Returns a new map with only the given keys.
    */
   only(keys: K[]) {
-    return this.entries().filter(([key]) => keys.indexOf(key) >= 0).toMap()
+    return new this.constructor(MapUtils.only(this, keys)) as Mappable<K, V>
   }
   
   /**
    * Inverse of `only`. Returns a new map with all keys except for the given keys.
    */
   except(keys: K[]) {
-    return this.entries().filter(([key]) => keys.indexOf(key) === -1).toMap()
+    return new this.constructor(MapUtils.except(this, keys)) as Mappable<K, V>
   }
 }
 

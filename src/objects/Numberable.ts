@@ -1,5 +1,5 @@
 import Arrayable from './Arrayable'
-
+import * as NumberUtils from '../number'
 class Numberable extends Number {
     ["constructor"]!: typeof Numberable
 
@@ -41,59 +41,56 @@ class Numberable extends Number {
      * Returns number with ordinal suffix. Only supports English.
      */
     ordinal() {
-        const finalDigit = this.toString().slice(-1)
-        return this.toString() + (["th", "st", "nd", "rd"][finalDigit] || "th")
+        return NumberUtils.ordinal(this.valueOf())
     }
 
     /**
      * Fills up the number with zeroes.
      */
     pad(size: number) {
-        let value = this.toString()
-        while (value.length < size) value = "0" + value
-        return value
+        return NumberUtils.pad(this.valueOf(), size)
     }
 
     /**
      * Executes callback for number of base values' times and returns a flooent array with the result of each iteration.
      */
     times<T = void>(callback: (index: number) => T[]) {
-        return Arrayable.from({ length: (this as unknown) as number }, (value, i) => callback(i))
+        return Arrayable.from(NumberUtils.times(this.valueOf(), callback))
     }
 
     /**
      * Check if the number is between two given numbers (Exclusive).
      */
-    isBetween(start, end) {
-        return this > start && this < end
+    isBetween(start: number, end: number) {
+        return NumberUtils.isBetween(this.valueOf(), start, end)
     }
 
     /**
      * Check if the number is between two given numbers (Inclusive).
      */
-    isBetweenOr(start, end) {
-        return this >= start && this <= end
+     isBetweenOr(start: number, end: number) {
+        return NumberUtils.isBetweenOr(this.valueOf(), start, end)
     }
 
     /**
      * Rounds down until .4 and up from .5.
      */
     round() {
-        return new this.constructor(Math.round((this as unknown) as number))
+        return new this.constructor(NumberUtils.round(this.valueOf()))
     }
 
     /**
      * Always rounds its value up to the next largest whole number or integer.
      */
     ceil() {
-        return new this.constructor(Math.ceil((this as unknown) as number))
+        return new this.constructor(NumberUtils.ceil(this.valueOf()))
     }
 
     /**
      * Always rounds its value down.
      */
     floor() {
-        return new this.constructor(Math.floor((this as unknown) as number))
+        return new this.constructor(NumberUtils.floor(this.valueOf()))
     }
 }
 

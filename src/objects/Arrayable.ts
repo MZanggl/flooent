@@ -1,6 +1,7 @@
-import { given, Mappable } from '../index'
+import { Mappable } from '../index'
 import { CopyFunction } from '../types'
 import { getNthIndex } from '../utils'
+import * as Arr from '../array'
 
 class Arrayable<T> extends Array<T> {
     ["constructor"]!: typeof Arrayable
@@ -16,18 +17,14 @@ class Arrayable<T> extends Array<T> {
      * Pass number as argument to return the first x elements.
      */
     first(count?: number) {
-        if (count) {
-            return (this.slice(0, count) as unknown) as Arrayable<T>
-        }
-
-        return this[0]
+        return Arr.first(this, count)
     }
 
     /**
      * Returns the second element in the array or undefined.
      */
     second() {
-        return this[1]
+        return Arr.second(this)
     }
 
     /**
@@ -36,96 +33,64 @@ class Arrayable<T> extends Array<T> {
      * Pass callback as argument to return the last element that matches the given truth test (inverse of `find`).
      */
     last(countOrFn?: number | ((value: any) => any[])) {
-        if (typeof countOrFn === 'number') {
-            return this.slice(this.length - countOrFn) as Arrayable<T>
-        } else if (typeof countOrFn === 'function') {
-            const filteredItems = this.filter(countOrFn)
-            return filteredItems[filteredItems.length - 1]
-        }
-
-        return this[this.length - 1]
+        return Arr.last(this, countOrFn)
     }
 
     /**
      * Returns element at given index or undefined. If given value is negative, it searches from behind.
      */
     nth(index: number) {
-        return this[getNthIndex(this, index)]
+        return Arr.nth(this, index)
     }
 
     /**
      * Returns the items until either the given value is found, or the given callback returns `true`.
      */
     until(comparison) {
-        const newArray = this.constructor.from([])
-        for (const item of this) {
-          const reachedEnd = (typeof comparison === "function" && comparison(item)) || item === comparison
-          if (reachedEnd) {
-            break
-          }
-          newArray.push(item)
-        }
-        return newArray
+        return this.constructor.from<T>(Arr.until(this, comparison))
     }
     
     /**
      * Return all items that don't pass the given truth test. Inverse of `Array.filter`
      */
     reject(callback: (item: T, index?: number) => boolean) {
-        return this.filter((item, index) => !callback(item, index))
+        return Arr.reject(this, callback) as Arrayable<T>
     }
     
     /**
      * Moves an item in the array using the given source index to either "before" or "after" the given target.
      */
     move(source: number, position: 'before' | 'after', target: number) {
-        if (source === target) {
-            return this
-        }
-        
-        const comparison = position === 'before' ? (_, index) => index < target : (_, index) => index <= target
-        const [before, after] = this.partition(comparison)
-        
-        const result = before.concat(this[source], ...after)
-        const newSourceIndex = source > target ? source + 1 : source
-        result.splice(newSourceIndex, 1)
-        return result
+        return Arr.move(this, source, position, target) as Arrayable<T>
     }
 
     /**
      * Breaks the array into multiple, smaller arrays of a given size.
      */
-    chunk(n) {
-        const remaining = [...this]
-        const chunks = this.constructor.from([])
-        while (remaining.length > 0) {
-            chunks.push(this.constructor.from(remaining.splice(0, n)))
-        }
-        return chunks
+    chunk(size: number) {
+        const chunked = this.constructor.from(Arr.chunk(this, size))
+        return chunked.map(chunk => this.constructor.from<T>(chunk))
     }
 
     /**
      * Returns the items for the given page and size.
      */
     forPage(page: number, size: number) {
-        const from = ((page - 1) * size)
-        return this.slice(from, from + size)
+        return Arr.forPage(this, page, size) as Arrayable<T>
     }
 
     /**
      * Fills up the array with the given value.
      */
-    pad(size: number, value) {
-        const copy = this.constructor.from(this)
-        while (copy.length < size) copy.push(value)
-        return copy
+    pad(size: number, value: T) {
+        return Arr.pad(this, size, value) as Arrayable<T>
     }
 
     /**
      * Returns a boolean whether the array is empty or not.
      */
     isEmpty() {
-        return this.length < 1
+        return Arr.isEmpty(this)
     }
 
     /**
@@ -178,81 +143,51 @@ class Arrayable<T> extends Array<T> {
     /**
      * Filters array by given value or key/value pair.
      */
-    where(key, value = key) {
-        if (arguments.length === 1) {
-            return this.filter((item) => item === value) as Arrayable<T>
-        }
-
-        return this.filter((item) => item[key] === value) as Arrayable<T>
+    where(key: keyof T, value) {
+        return Arr.where(this, key, value) as Arrayable<T>
     }
     
     /**
      * Removes items from array by the given key or key/value pair.
      */
-    whereNot(key, value = key) {
-        if (arguments.length === 1) {
-            return this.filter((item) => item !== value) as Arrayable<T>
-        }
-
-        return this.filter((item) => item[key] !== value) as Arrayable<T>
+    whereNot(key: keyof T, value) {
+        return Arr.whereNot(this, key, value) as Arrayable<T>
     }
 
     /**
      * Filters array by given values or key/values pair.
      */
-    whereIn(key, value = key) {
-        if (arguments.length === 1) {
-            return this.filter((item) => value.includes(item)) as Arrayable<T>
-        }
-
-        return this.filter((item) => value.includes(item[key])) as Arrayable<T>
+    whereIn(key: keyof T, value) {
+        return Arr.whereIn(this, key, value) as Arrayable<T>
     }
 
     /**
      * Removes items from array by the given value or key/values pair.
      */
-    whereNotIn(key, value = key) {
-        if (arguments.length === 1) {
-            return this.filter((item) => !value.includes(item)) as Arrayable<T>
-        }
-
-        return this.filter((item) => !value.includes(item[key])) as Arrayable<T>
+    whereNotIn(key: keyof T, value) {
+        return Arr.whereNotIn(this, key, value) as Arrayable<T>
     }
 
     /**
      * Only returns items which are not empty.
      */
     filled(key?: string) {
-        if (!key) {
-            return this.filter((value) => !!value) as Arrayable<T>
-        }
-
-        return this.filter((item) => !!item[key]) as Arrayable<T>
+        return Arr.filled(this, key) as Arrayable<T>
     }
 
     /**
      * Mutates the original array with the return value of the given callback.
      */
     mutate(callback: ((array: T[]) => T[])) {
-        const mutation = callback(this)
-        this.splice(0)
-        this.splice(0, 0, ...mutation)
-        return this
+        return Arr.mutate(this, callback) as Arrayable<T>
     }
 
     /**
      * Groups an array by the given key and returns a flooent map.
      */
     groupBy<K extends keyof T>(key: K | ((item: T) => T[K]) ) {
-        return this.reduce<Mappable<T[K], Arrayable<T>>>((result, item) => {
-            const group = typeof key === "function" ? key(item) : item[key]
-            if (result.has(group)) {
-                result.get(group).push(item)
-            } else {
-                result.set(group, this.constructor.from([item]))
-            }
-            return result
-        }, new Mappable<T[K], Arrayable<T>>())
+        const grouped = Arr.groupBy(this, key)
+        return new Mappable<T[K], Arrayable<T>>(grouped)
     }
 
     /**
@@ -260,31 +195,21 @@ class Arrayable<T> extends Array<T> {
      * For arrays of objects: Pass field or callback as argument.
      */
     sum(key?: string | ((item: T) => number)) {
-        return this.reduce<number>((result, item) => {
-            let number = item
-            if (key) {
-                number = typeof key === "function" ? key(item) : item[key]
-            }
-            return result + (number as unknown as number)
-        }, 0)
+        return Arr.sum(this, key)
     }
 
     /**
      * Omits given keys from all objects in the array.
      */
     omit(keys: string[]) {
-        return (this as unknown as Object[]).map((item) => {
-            const copy = {...item}
-            keys.forEach(key => delete copy[key])
-            return copy
-        }) as Arrayable<T>
+        return Arr.omit(this, keys) as Arrayable<T>
     }
 
     /**
      * Pluck the given field out of each object in the array.
      */
-    pluck(key: string) {
-        return this.map((item) => item[key]) as Arrayable<T>
+    pluck(key: keyof T) {
+        return Arr.pluck(this, key)
     }
 
     /**
@@ -292,41 +217,14 @@ class Arrayable<T> extends Array<T> {
      * For array ob objects: Pass key or callback to use it for the comparison.
      */
     unique(key?: string | ((item: T) => string)) {
-        if (!key) {
-            return this.constructor.from([...new Set(this)])
-        }
-
-        const cache = new Map()
-        const unique = new Arrayable
-        if (typeof key === "function") {
-            for (const item of this) {
-                const value = key(item)
-                if (!cache.has(value)) {
-                    cache.set(value, 1)
-                    unique.push(item)
-                }
-            }
-            return unique
-        }
-
-        for (const item of this) {
-            if (cache.has(item[key])) continue
-            cache.set(item[key], 1)
-            unique.push(item)
-        }
-        return unique
+        return this.constructor.from(Arr.unique(this, key))
     }
 
     /**
      * Shuffles and returns a new array.
      */
     shuffle() {
-        const array = this.constructor.from(this)
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array
+        return Arr.shuffle(this)
     }
 
     /**
@@ -368,28 +266,22 @@ class Arrayable<T> extends Array<T> {
      * Returns a tuple separating the items that pass the given truth test.
      */
     partition(callback: Function) {
-        const tuple = [this.constructor.from([]), this.constructor.from([])] as [Arrayable<T>, Arrayable<T>]
-
-        this.forEach((item, index) => {
-            const tupleIndex = callback(item, index) ? 0 : 1
-            tuple[tupleIndex].push(item)
-        })
-
-        return tuple
+        const partitioned = this.constructor.from(Arr.partition(this, callback))
+        return partitioned.map(item => this.constructor.from(item))
     }
 
     /**
      * Prepends the given items to the array. Unlike `unshift`, it is immutable and returns a new array.
      */
-    prepend(...items): Arrayable<T> {
-        return this.constructor.from([...items, ...this])
+    prepend(...items: T[]): Arrayable<T> {
+        return this.constructor.from(Arr.prepend(this, ...items))
     }
 
     /**
      * Appends the given items to the array. Unlike `push`, it is immutable and returns a new array.
      */
-    append(...items): Arrayable<T> {
-        return this.constructor.from([...this, ...items])
+    append(...items: T[]): Arrayable<T> {
+        return this.constructor.from(Arr.append(this, ...items))
     }
 
     /**
@@ -397,7 +289,7 @@ class Arrayable<T> extends Array<T> {
      * For array of objects: Pass index, field or callback to use it for sorting.
      */
     sortDesc(key?: string | number | ((item: T) => any)) {
-        return this.sortAsc(key).reverse()
+        return this.constructor.from(Arr.sortDesc(this, key)) as Arrayable<T>
     }
 
     /**
@@ -405,19 +297,7 @@ class Arrayable<T> extends Array<T> {
      * For array of objects: Pass index, field or callback to use it for sorting.
      */
     sortAsc(key?: string | number | ((item: T, index: number) => any)) {
-        if (!key) {
-            return this.constructor.from(this).sort() as Arrayable<T>
-        }
-
-         if (typeof key === 'function') {
-            return this.map((item, index) => {
-                return { sortKey: key(item, index), item }
-            })
-            .sort((a, b) => a.sortKey - b.sortKey)
-            .map(item => item.item) as Arrayable<T>
-        }
-        
-        return this.constructor.from(this).sort((a, b) => a[key] - b[key]) as Arrayable<T>
+        return this.constructor.from(Arr.sortAsc(this, key)) as Arrayable<T>
     }
 
     /**
