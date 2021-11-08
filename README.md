@@ -67,13 +67,17 @@ given.any('anything') // helper class with useful methods for any data type
 
 Flooent objects simply extend the native functionality, so you can still execute any native method like `given.string('hello').includes('h')`.
 
-To turn flooent strings and numbers back into their respective primitive form, use `given.string('hello').valueOf()`.
-
-`given.string` and `given.number` also accept a callback as the second argument which will automatically apply `valueOf()` at the end.
+To turn flooent objects back into their respective primitive form, use the `valueOf()` method.
 
 ```javascript
-const rawHelloWorld = given.string('hello', message => {
-  return message.append(' world')
+given.string('hello').valueOf()
+```
+
+When newing up a flooent object, you can also provide a callback as the second argument which will automatically turn the object back into its primitive form.
+
+```javascript
+const rawHelloWorld = given.array([1, 2, 3, 4], numbers => {
+  return numbers.shuffle()
 })
 ```
 

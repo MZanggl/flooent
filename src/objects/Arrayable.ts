@@ -13,6 +13,13 @@ class Arrayable<T> extends Array<T> {
     }
 
     /**
+     * Returns a raw array
+     */
+    valueOf() {
+        return [...this]
+    }
+
+    /**
      * Returns the first element in the array.
      * Pass number as argument to return the first x elements.
      */

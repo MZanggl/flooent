@@ -13,6 +13,12 @@ function isMap(assert, result) {
 }
 
 test.group('Arrayable', () => {
+  test('valueOf() returns the raw array', (assert) => {
+    const array = Arrayable.from([1]).valueOf()
+    assert.notInstanceOf(array, Arrayable)
+    assert.instanceOf(array, Array)
+  })
+
   test('it can create Arrayable from array', (assert) => {
     assert.deepEqual(Arrayable.from([1,2]), [1,2])
     assert.deepEqual(Arrayable.of(1,2), [1,2])

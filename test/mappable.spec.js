@@ -21,6 +21,12 @@ test.group('Mappable', () => {
     // only first layer gets mapped
     assert.equal(given.map({ user: { city: 'Munich' } }).get('user').city, 'Munich')
   })
+
+  test('valueOf() returns the raw map', (assert) => {
+    const map = new Mappable({ }).valueOf()
+    assert.notInstanceOf(map, Mappable)
+    assert.instanceOf(map, Map)
+  })
   
   test('toJSON() turns the map back into an object', assert => {
     assert.deepEqual(given.map({ key: 'value' }).toJSON(), { key: 'value' })

@@ -12,6 +12,13 @@ class Mappable<K = any, V = any> extends Map<K, V> {
     // @ts-ignore
     super(value)
   }
+
+  /**
+     * Returns a raw map
+    */
+   valueOf() {
+    return new Map(this)
+  }
   
   /**
    * Turns the map into an object.
