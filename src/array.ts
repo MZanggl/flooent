@@ -119,7 +119,7 @@ export function pad<T>(value: T[], size: number, paddedValue: T) {
 /**
  * Points to a specific index inside the array to do further actions on it.
  */
-export function at<T>(value: T[], indexOrFn: number | ((item: T) => boolean)) {
+export function point<T>(value: T[], indexOrFn: number | ((item: T) => boolean)) {
     const index = getNthIndex(value, indexOrFn)
 
     const array = value
@@ -156,12 +156,17 @@ export function at<T>(value: T[], indexOrFn: number | ((item: T) => boolean)) {
          * Steps forward or backward given the number of steps.
          */
         step(steps: number) {
-            return at(array, index + steps)
+            return point(array, index + steps)
         }
     }
 
     return pointer
 }
+
+/**
+ * @deprecated Alias for point
+ */
+export const at = point
 
 /**
  * Filters array by given value or key/value pair.

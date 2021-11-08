@@ -101,9 +101,16 @@ class Arrayable<T> extends Array<T> {
     }
 
     /**
-     * Points to a specific index inside the array to do further actions on it.
+     * @deprecated Alias for point.
      */
     at(indexOrFn: number | ((item: T) => boolean)) {
+        return this.point(indexOrFn)
+    }
+
+    /**
+     * Points to a specific index inside the array to do further actions on it.
+     */
+    point(indexOrFn: number | ((item: T) => boolean)) {
         const index = getNthIndex(this, indexOrFn)
 
         const array = this
@@ -140,7 +147,7 @@ class Arrayable<T> extends Array<T> {
              * Steps forward or backward given the number of steps.
              */
             step(steps: number) {
-                return array.at(index + steps)
+                return array.point(index + steps)
             }
         }
 

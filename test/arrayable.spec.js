@@ -319,57 +319,64 @@ test.group('Arrayable', () => {
   })
   
   test.group('Pointer API', () => {
-    test('can append items at specific pointer', (assert) => {
+    test('can use deprecated "at" api', (assert) => {
       const array = given.array(['a', 'b', 'e'])
       let abcd = array.at(1).append('c', 'd')
       isArr(assert, abcd, array)
       assert.deepEqual(abcd, ['a', 'b', 'c', 'd', 'e'])
+    })
+
+    test('can append items at specific pointer', (assert) => {
+      const array = given.array(['a', 'b', 'e'])
+      let abcd = array.point(1).append('c', 'd')
+      isArr(assert, abcd, array)
+      assert.deepEqual(abcd, ['a', 'b', 'c', 'd', 'e'])
     
-      abcd = given.array(['a', 'b', 'c']).at(-1).append('d')
+      abcd = given.array(['a', 'b', 'c']).point(-1).append('d')
       assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
     
-      abcd = given.array(['a', 'c', 'd']).at(item => item === 'a').append('b')
+      abcd = given.array(['a', 'c', 'd']).point(item => item === 'a').append('b')
       assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
     })
     
     test('can prepend items at specific pointer', (assert) => {
       const array = given.array(['a', 'b', 'e'])
-      let abcd = array.at(2).prepend('c', 'd')
+      let abcd = array.point(2).prepend('c', 'd')
       isArr(assert, abcd, array)
       assert.deepEqual(abcd, ['a', 'b', 'c', 'd', 'e'])
     
-      abcd = given.array(['a', 'b', 'd']).at(-1).prepend('c')
+      abcd = given.array(['a', 'b', 'd']).point(-1).prepend('c')
       assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
     
-      abcd = given.array(['b', 'c', 'd']).at(item => item === 'b').prepend('a')
+      abcd = given.array(['b', 'c', 'd']).point(item => item === 'b').prepend('a')
       assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
     })
     
     test('can set value at specific pointer', (assert) => {
       const array = given.array(['a', 'b', 'c'])
-      let update = array.at(1).set(item => item + 'b')
+      let update = array.point(1).set(item => item + 'b')
       isArr(assert, array, update)
       assert.deepEqual(update, ['a', 'bb', 'c'])
       assert.deepEqual(array, ['a', 'b', 'c'])
     
-      abcd = given.array(['a', 'b', 'd']).at(-1).prepend('c')
+      abcd = given.array(['a', 'b', 'd']).point(-1).prepend('c')
       assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
     
-      abcd = given.array(['b', 'c', 'd']).at(item => item === 'b').prepend('a')
+      abcd = given.array(['b', 'c', 'd']).point(item => item === 'b').prepend('a')
       assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
     })
   
     test('can read value from current position', assert => {
-      const value = given.array(['a', 'b', 'c']).at(-1).value()
+      const value = given.array(['a', 'b', 'c']).point(-1).value()
       assert.equal(value, 'c')
     })
   
     test('can step forward and backwards', assert => {
-      assert.equal(given.array(['a', 'b', 'c']).at(0).step(1).value(), 'b')
-      assert.equal(given.array(['a', 'b', 'c']).at(0).step(2).value(), 'c')
-      assert.equal(given.array(['a', 'b', 'c']).at(0).step(-1).value(), 'c')
-      assert.isUndefined(given.array(['a', 'b', 'c']).at(0).step(999).value())
-      assert.isUndefined(given.array(['a', 'b', 'c']).at(0).step(-999).value())
+      assert.equal(given.array(['a', 'b', 'c']).point(0).step(1).value(), 'b')
+      assert.equal(given.array(['a', 'b', 'c']).point(0).step(2).value(), 'c')
+      assert.equal(given.array(['a', 'b', 'c']).point(0).step(-1).value(), 'c')
+      assert.isUndefined(given.array(['a', 'b', 'c']).point(0).step(999).value())
+      assert.isUndefined(given.array(['a', 'b', 'c']).point(0).step(-999).value())
     })
   })
   

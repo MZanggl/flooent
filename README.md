@@ -758,69 +758,69 @@ given.array([])
 
 ### Pointer API
 
-<!-- array.at -->
+<!-- array.point -->
 Points to a specific index inside the array to do further actions on it.
 <!-- end -->
 
 ```javascript
-given.array(['music', 'video', 'tech']).at(1) // returns pointer pointing to 'video'
-given.array(['music', 'video', 'tech']).at(-1) // returns pointer pointing to 'tech'
-given.array(['music', 'video', 'tech']).at(item => item === 'music') // returns pointer pointing to 'music'
+given.array(['music', 'video', 'tech']).point(1) // returns pointer pointing to 'video'
+given.array(['music', 'video', 'tech']).point(-1) // returns pointer pointing to 'tech'
+given.array(['music', 'video', 'tech']).point(item => item === 'music') // returns pointer pointing to 'music'
 ```
 
 #### append
 
-<!-- array.at.append -->
+<!-- array.point.append -->
 Appends given value to array in between the currently pointed item and its next item and returns a new array.
 <!-- end -->
 
 ```javascript
-given.array(['music', 'tech']).at(0).append('video') // ['music', 'video', 'tech']
+given.array(['music', 'tech']).point(0).append('video') // ['music', 'video', 'tech']
 ```
 
 #### prepend
 
-<!-- array.at.prepend -->
+<!-- array.point.prepend -->
 Prepends given value to array in between the currently pointed item and its previous item and returns a new array.
 <!-- end -->
 
 ```javascript
-given.array(['music', 'tech']).at(1).prepend('video') // ['music', 'video', 'tech']
+given.array(['music', 'tech']).point(1).prepend('video') // ['music', 'video', 'tech']
 ```
 
 #### set
 
-<!-- array.at.set -->
+<!-- array.point.set -->
 Sets the value at the current index and returns a new array.
 <!-- end -->
 
 ```javascript
-given.array(['music', 'tec']).at(1).set(item => item + 'h') // ['music', 'tech']
+given.array(['music', 'tec']).point(1).set(item => item + 'h') // ['music', 'tech']
 ```
 
 #### value
 
-<!-- array.at.value -->
+<!-- array.point.value -->
 Returns the value for current pointer position.
 <!-- end -->
 
 ```javascript
-given.array(['music', 'tech']).at(1).value() // ['music', 'tech']
+given.array(['music', 'tech']).point(1).value() // ['music', 'tech']
 ```
 
 #### step
 
-<!-- array.at.step -->
+<!-- array.point.step -->
 Steps forward or backwards given the number of steps.
 <!-- end -->
 
 ```javascript
-given.array(['music', 'tec']).at(1).step(-1).value() // ['music']
+given.array(['music', 'tec']).point(1).step(-1).value() // ['music']
 ```
 
 #### move
 
-<!-- array.at.move -->
+<!-- array.point.move -->
 Moves an item in the array using the given source index to either "before" or "after" the given target.
 <!-- end -->
 
