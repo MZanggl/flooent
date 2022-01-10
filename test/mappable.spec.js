@@ -47,15 +47,15 @@ test.group('Mappable', () => {
   
   test('mapKeys() iterates the entries through the given callback and assigns each result as the key', assert => {
     const map = given.map({ a: 1 })
-    const newMap = map.mapKeys((value, key) => key + value)
+    const newMap = map.mapKeys((value, key) => key + value.toString())
   
     assert.isTrue(newMap.has('a1'))
     assert.equal(newMap.get('a1'), 1)
   })
   
   test('mapValues() iterates the entries through the given callback and assigns each result as the value', assert => {
-    const map = given.map({ a: '1' })
-    const newMap = map.mapValues((value, key) => key + value)
+    const map = given.map({ a: 1 })
+    const newMap = map.mapValues((value, key) => key + value.toString())
   
     assert.isTrue(newMap.has('a'))
     assert.equal(newMap.get('a'), 'a1')
