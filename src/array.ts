@@ -367,15 +367,24 @@ export function sortAsc<T>(value: T[], key?: string | number | ((item: T, index:
         return [...value].sort()
     }
 
+    const compare = (a: T, b: T) => {
+        if (typeof a === 'string') {
+            return (a as unknown as string).localeCompare(b as unknown as string)
+        }
+
+        // This also works on dates
+        return (a as unknown as number) - (b as unknown as number)
+    }
+
     if (typeof key === 'function') {
         return value.map((item, index) => {
             return { sortKey: key(item, index), item }
         })
-        .sort((a, b) => a.sortKey - b.sortKey)
+        .sort((a, b) => compare(a.sortKey, b.sortKey))
         .map(item => item.item)
     }
     
-    return [...value].sort((a, b) => a[key] - b[key])
+    return [...value].sort((a, b) => compare(a[key], b[key]))
 }
 
 /**

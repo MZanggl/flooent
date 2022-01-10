@@ -282,37 +282,64 @@ test.group('Arrayable', () => {
     assert.deepEqual(given.array([]).pipe(arr => 1), 1)
   })
   
-  test('sortAsc() and sortDesc() do not mutate original array and return arrayable', assert => {
-    const numbers = given.array([3, 1, 2])
-    isArr(assert, numbers.sortAsc(), numbers)
-    assert.deepEqual(numbers, [3, 1, 2])
-    isArr(assert, numbers.sortDesc(), numbers)
-    assert.deepEqual(numbers, [3, 1, 2])
-  
-    const numberObject = given.array([{ val: 3 }, { val: 1 }, { val: 2 }])
-    isArr(assert, numberObject.sortAsc('val'), numberObject)
-    assert.deepEqual(numberObject, [{ val: 3 }, { val: 1 }, { val: 2 }])
-    isArr(assert, numberObject.sortDesc('val'), numberObject)
-    assert.deepEqual(numberObject, [{ val: 3 }, { val: 1 }, { val: 2 }])
-  })
-  
-  test('sortAsc() and sortDesc() sort in the respective direction', assert => {
-    const numbers = given.array([3, 1, 2])
-    assert.deepEqual(numbers.sortAsc(), [1, 2, 3])
-    assert.deepEqual(numbers.sortDesc(), [3, 2, 1])
-    assert.deepEqual(given.array(['C', 'A', 'B']).sortAsc(), ['A', 'B', 'C'])
-    assert.deepEqual(given.array(['C', 'A', 'B']).sortDesc(), ['C', 'B', 'A'])
-  
-    const numberObject = given.array([{ val: 3 }, { val: 1 }, { val: 2 }])
-    assert.deepEqual(numberObject.sortAsc('val'), [{ val: 1 }, { val: 2 }, { val: 3 }])
-    assert.deepEqual(numberObject.sortDesc('val'), [{ val: 3 }, { val: 2 }, { val: 1 }])
-    assert.deepEqual(given.array([[0], [2], [1]]).sortAsc(0), [[0], [1], [2]])
+  test.group('sortAsc() and sortDesc()', group => {
+    test('sorting does not mutate the original array and returns arrayable', assert => {
+      const numbers = given.array([3, 1, 2])
+      isArr(assert, numbers.sortAsc(), numbers)
+      assert.deepEqual(numbers, [3, 1, 2])
+      isArr(assert, numbers.sortDesc(), numbers)
+      assert.deepEqual(numbers, [3, 1, 2])
     
-    assert.deepEqual(numberObject.sortAsc(item => item.val), [{ val: 1 }, { val: 2 }, { val: 3 }])
-    assert.deepEqual(numberObject.sortDesc(item => item.val), [{ val: 3 }, { val: 2 }, { val: 1 }])
+      const numberObject = given.array([{ val: 3 }, { val: 1 }, { val: 2 }])
+      isArr(assert, numberObject.sortAsc('val'), numberObject)
+      assert.deepEqual(numberObject, [{ val: 3 }, { val: 1 }, { val: 2 }])
+      isArr(assert, numberObject.sortDesc('val'), numberObject)
+      assert.deepEqual(numberObject, [{ val: 3 }, { val: 1 }, { val: 2 }])
+    })
+
+    test('can sort simple numeric arrays', (assert) => {
+      const numbers = given.array([3, 1, 2])
+      assert.deepEqual(numbers.sortAsc(), [1, 2, 3])
+      assert.deepEqual(numbers.sortDesc(), [3, 2, 1])
+    })
+
+    test('can sort simple string based arrays', (assert) => {
+      const letters = given.array(['b', 'a', 'c'])
+      assert.deepEqual(letters.sortAsc(), ['a', 'b', 'c'])
+      assert.deepEqual(letters.sortDesc(), ['c', 'b', 'a'])
+    })
+    
+    test('can sort arrays of objects by a numeric key', (assert) => {
+      const array = given.array([{ val: 3 }, { val: 1 }, { val: 2 }])
+      assert.deepEqual(array.sortAsc('val'), [{ val: 1 }, { val: 2 }, { val: 3 }])
+      assert.deepEqual(array.sortDesc('val'), [{ val: 3 }, { val: 2 }, { val: 1 }])
+    })
+
+    test('can sort arrays of objects by a string', (assert) => {
+      const array = given.array([{ val: 'c' }, { val: 'a' }, { val: 'b' }])
+      assert.deepEqual(array.sortAsc('val'), [{ val: 'a' }, { val: 'b' }, { val: 'c' }])
+      assert.deepEqual(array.sortDesc('val'), [{ val: 'c' }, { val: 'b' }, { val: 'a' }])
+    })
+
+    test('can sort arrays of objects by a date', (assert) => {
+      const dates = given.array([
+        { val: new Date(2022, 1, 1) },
+        { val: new Date(2020, 1, 1) },
+        { val: new Date(2021, 1, 1) }
+      ])
+
+      assert.deepEqual(dates.sortAsc('val'), [{ val: new Date(2020, 1, 1) }, { val: new Date(2021, 1, 1) }, { val: new Date(2022, 1, 1) }])
+      assert.deepEqual(dates.sortDesc('val'), [{ val: new Date(2022, 1, 1) }, { val: new Date(2021, 1, 1) }, { val: new Date(2020, 1, 1) }])
+    })
+    
+    test('can sort given a callback', assert => {    
+      const numberObject = given.array([{ val: 3 }, { val: 1 }, { val: 2 }])
+      assert.deepEqual(numberObject.sortAsc(item => item.val), [{ val: 1 }, { val: 2 }, { val: 3 }])
+      assert.deepEqual(numberObject.sortDesc(item => item.val), [{ val: 3 }, { val: 2 }, { val: 1 }])
+    })
   })
   
-  test('can turn array into map', assert => {
+  test('can turn arrays into maps', assert => {
     const mapTurnedMap = given.map({ key: 'value' }).entries().toMap()
     assert.equal(mapTurnedMap.get('key'), 'value')
     isMap(assert, mapTurnedMap)
