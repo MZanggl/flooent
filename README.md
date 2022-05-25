@@ -26,6 +26,7 @@ given.string(path)
   .beforeLast('.')
   .endWith('Controller')
   .capitalize()
+  .valueOf()
 ```
 
 [Try it out online!](https://codesandbox.io/s/flooent-28fkv?file=/src/index.js)
@@ -65,7 +66,7 @@ given.map({ key: 'value' }) // or given.map([['key', 'value']]), or given.map(ne
 given.any('anything') // helper class with useful methods for any data type
 ```
 
-Flooent objects simply extend the native functionality, so you can still execute any native method like `given.string('hello').includes('h')`.
+Flooent objects only extend the native functionality, so you can still execute any native method like `given.string('hello').includes('h')`.
 
 To turn flooent objects back into their respective primitive form, use the `valueOf()` method.
 
@@ -76,10 +77,16 @@ given.string('hello').valueOf()
 When newing up a flooent object, you can also provide a callback as the second argument which will automatically turn the object back into its primitive form.
 
 ```javascript
-const rawHelloWorld = given.array([1, 2, 3, 4], numbers => {
+const shuffledNumbersRaw = given.array([1, 2, 3, 4], numbers => {
   return numbers.shuffle()
 })
 ```
+
+## Best Practices
+
+After performing your data manipulations, if you need to use this data further, turn it back into its primitive form (see above) instead of passing it as an argument to another function or returning it.
+
+This is to avoid cases such as flooent having a method (e.g. array.at) that later gets added to native JavaScript with different behaviour. That other function is not expecting a flooent object (specifically a third-party lib) and could make use of the `at` method.
 
 ## Constraints
 
