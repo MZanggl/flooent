@@ -53,7 +53,7 @@ test.group('Mappable', () => {
   
     assert.isTrue(newMap.has('a1'))
     assert.equal(newMap.get('a1'), 1)
-    assert.deepEqual(indexMap, [0, 1])
+    assert.deepEqual(indexMap.keys(), [0, 1])
   })
   
   test('mapValues() iterates the entries through the given callback and assigns each result as the value', assert => {
@@ -63,7 +63,7 @@ test.group('Mappable', () => {
   
     assert.isTrue(newMap.has('a'))
     assert.equal(newMap.get('a'), 'a1')
-    assert.deepEqual(indexMap, [0, 1])
+    assert.deepEqual(indexMap.keys(), [0, 1])
   })
   
   test('arrange() arranges the map according to the given keys', assert => {
