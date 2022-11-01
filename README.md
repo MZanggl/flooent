@@ -1070,7 +1070,7 @@ Iterates the entries through the given callback and assigns each result as the k
 <!-- end -->
 
 ```javascript
-const map = given.map({ a: 1 }).mapKeys((value, key) => key + value)
+const map = given.map({ a: 1 }).mapKeys((value, key, index) => key + value)
 
 map.get('a1') // 1
 ```
@@ -1082,7 +1082,7 @@ Iterates the entries through the given callback and assigns each result as the v
 <!-- end -->
 
 ```javascript
-const map = given.map({ a: '1' }).mapValues((value, key) => key + value)
+const map = given.map({ a: '1' }).mapValues((value, key, index) => key + value)
 
 map.get('a') // a1
 ```

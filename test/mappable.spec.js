@@ -48,17 +48,21 @@ test.group('Mappable', () => {
   test('mapKeys() iterates the entries through the given callback and assigns each result as the key', assert => {
     const map = given.map({ a: 1 })
     const newMap = map.mapKeys((value, key) => key + value.toString())
+    const indexMap = given.map({ a: 1, b: 2 }).mapKeys((value, key, index) => index)
   
     assert.isTrue(newMap.has('a1'))
     assert.equal(newMap.get('a1'), 1)
+    assert.deepEqual(indexMap, [0, 1])
   })
   
   test('mapValues() iterates the entries through the given callback and assigns each result as the value', assert => {
     const map = given.map({ a: 1 })
     const newMap = map.mapValues((value, key) => key + value.toString())
+    const indexMap = given.map({ a: 1, b: 2 }).mapKeys((value, key, index) => index)
   
     assert.isTrue(newMap.has('a'))
     assert.equal(newMap.get('a'), 'a1')
+    assert.deepEqual(indexMap, [0, 1])
   })
   
   test('arrange() arranges the map according to the given keys', assert => {

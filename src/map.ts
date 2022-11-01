@@ -1,17 +1,22 @@
 /**
  * Turns the map into an object.
  */
-export function toJSON<K, V>(value: Map<K, V>) {
+export function toObject<K, V>(value: Map<K, V>) {
   const obj = {}
   value.forEach((value, key) => obj[key as unknown as string] = value)
   return obj
 }
 
 /**
+ * @deprecated Use "toObject" instead.
+ */
+export const toJSON = toObject
+
+/**
  * Iterates the entries through the given callback and assigns each result as the key.
  */
-export function mapKeys<K, V, N>(value: Map<K, V>, callback: ((value: V, key: K) => N)) {
-  return new Map<N, V>([...value.entries()].map(([key, value]) => [callback(value, key), value]) as any)
+export function mapKeys<K, V, N>(value: Map<K, V>, callback: ((value: V, key: K, index: number) => N)) {
+  return new Map<N, V>([...value.entries()].map(([key, value], index) => [callback(value, key, index), value]) as any)
 }
 
 /**
@@ -26,8 +31,8 @@ export function rename<K, V>(value: Map<K, V>, oldKey: K, newKey: K) {
 /**
  * Iterates the entries through the given callback and assigns each result as the value.
  */
-export function mapValues<K, V, N>(value: Map<K, V>, callback: ((value: V, key: K) => N)) {
-  return new Map<K, N>([...value.entries()].map(([key, value]) => [key, callback(value, key)]) as any)
+export function mapValues<K, V, N>(value: Map<K, V>, callback: ((value: V, key: K, index: number) => N)) {
+  return new Map<K, N>([...value.entries()].map(([key, value], index) => [key, callback(value, key, index)]) as any)
 }
 
 /**
