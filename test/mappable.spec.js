@@ -28,8 +28,9 @@ test.group('Mappable', () => {
     assert.instanceOf(map, Map)
   })
   
-  test('toJSON() turns the map back into an object', assert => {
+  test('toJSON() and toObject() turns the map back into an object', assert => {
     assert.deepEqual(given.map({ key: 'value' }).toJSON(), { key: 'value' })
+    assert.deepEqual(given.map({ key: 'value' }).toObject(), { key: 'value' })
   })
   
   test('keys(), values() and entries() return instances of Arrayable', assert => {

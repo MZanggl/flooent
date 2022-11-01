@@ -21,10 +21,18 @@ class Mappable<K = any, V = any> extends Map<K, V> {
   }
   
   /**
+  * Turns the map into an object. Useful for implicit transformations via JSON.stringify().
+  * Use toObject for explicit object transformations.
+  */
+  toJSON() {
+    return MapUtils.toObject(this)
+  }
+  
+  /**
    * Turns the map into an object.
    */
-  toJSON() {
-    return MapUtils.toJSON(this)
+  toObject() {
+    return MapUtils.toObject(this)
   }
 
   entries() {

@@ -1042,7 +1042,7 @@ The native methods `keys()`, `entries()` and `values()` will return an instance 
 
 > For nested data structures, only the first layer gets transformed into a map
 
-#### toJSON
+#### toObject/toJSON
 
 <!-- map.toJSON -->
 Turns the map into an object.
@@ -1050,6 +1050,7 @@ Turns the map into an object.
 
 ```javascript
 const map = given.map({ key: 'value' }) // Map { key → "value" }
+map.toObject() // { key: 'value' }
 map.toJSON() // { key: 'value' }
 ```
 
