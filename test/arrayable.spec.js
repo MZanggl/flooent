@@ -436,4 +436,10 @@ test.group('Arrayable', () => {
     assert.deepEqual(given.array(['b', 'a', 'c']).move(0, 'before', 2), ['a', 'b', 'c'])
     assert.deepEqual(given.array(['a', 'b', 'c']).move(1, 'before', 1), ['a', 'b', 'c'])
   })
+
+  test('move() can specify "first" and "last" instead of indexes', assert => {
+    assert.deepEqual(given.array(['b', 'a', 'c']).move('first', 'after', 1), ['a', 'b', 'c'])
+    assert.deepEqual(given.array(['b', 'a', 'c']).move('first', 'after', 0), ['b', 'a', 'c'])
+    assert.deepEqual(given.array(['c', 'a', 'b']).move('first', 'after', 'last'), ['a', 'b', 'c'])
+  })
 })

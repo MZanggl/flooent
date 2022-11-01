@@ -837,6 +837,13 @@ given.array(['b', 'a', 'c']).move(0, 'before', 2) // ['a', 'b', 'c']
 given.array(['b', 'a', 'c']).move(1, 'before', 0) // ['a', 'b', 'c']
 ```
 
+Instead of the index, you can also specify "first" or "last":
+
+```javascript
+given.array(['c', 'a', 'b']).move('first', 'after', 'last') // ['a', 'b', 'c']
+given.array(['b', 'c', 'a']).move('last', 'before', 'first') // ['a', 'b', 'c']
+```
+
 ### Methods for arrays of objects
 
 #### sum

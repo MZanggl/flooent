@@ -73,10 +73,23 @@ export function reject<T>(value: T[], callback: (item: T, index?: number) => boo
 /**
  * Moves an item in the array using the given source index to either "before" or "after" the given target.
  */
-export function move<T>(value: T[], source: number, position: 'before' | 'after', target: number) {
+export function move<T>(value: T[], source: number | 'first' | 'last', position: 'before' | 'after', target: number | 'first' | 'last') {
+    if (source === 'first') {
+        source = 0
+    } else if (source === 'last') {
+        source = value.length - 1
+    }
+
+    if (target === 'first') {
+        target = 0
+    } else if (target === 'last') {
+        target = value.length - 1
+    }
+
     if (source === target) {
         return value
     }
+
     
     const comparison = position === 'before' ? (_, index) => index < target : (_, index) => index <= target
     const [before, after] = partition(value, comparison)
