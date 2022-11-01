@@ -26,10 +26,9 @@
   },
   "author": "Michael Zanggl",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
     "japa": "^3.0.1",
-    "nyc": "^13.3.0",
+    "nyc": "^15.1.0",
     "typescript": "^4.2.2"
   }
 }
