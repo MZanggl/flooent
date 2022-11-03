@@ -50,7 +50,7 @@ class Mappable<K = any, V = any> extends Map<K, V> {
   /**
    * Iterates the entries through the given callback and assigns each result as the key.
    */
-  mapKeys<N>(callback: ((value: V, key: K) => N)) {
+  mapKeys<N>(callback: ((value: V, key: K, index: number) => N)) {
     return new this.constructor<N, V>(MapUtils.mapKeys(this, callback))
   }
 
@@ -64,7 +64,7 @@ class Mappable<K = any, V = any> extends Map<K, V> {
   /**
    * Iterates the entries through the given callback and assigns each result as the value.
    */
-  mapValues<N>(callback: ((value: V, key: K) => N)) {
+  mapValues<N>(callback: ((value: V, key: K, index: number) => N)) {
     return new this.constructor(MapUtils.mapValues(this, callback))
   }
 
