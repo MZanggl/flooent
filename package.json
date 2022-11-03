@@ -1,6 +1,6 @@
 {
   "name": "flooent",
-  "version": "2.3.2",
+  "version": "2.4.1",
   "description": "Fluent interface to provide an expressive syntax for common manipulations.",
   "main": "index.js",
   "types": "index.d.ts",
