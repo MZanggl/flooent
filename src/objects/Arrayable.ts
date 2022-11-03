@@ -197,11 +197,27 @@ class Arrayable<T> extends Array<T> {
     }
 
     /**
+     * Keys the collection by the given key and returns a flooent map.
+     * If multiple items have the same key, only the last one will appear in the new collection.
+     */
+    keyBy<K extends keyof T>(key: K | ((item: T) => T[K]) ) {
+        const keyed = Arr.keyBy(this, key)
+        return new Mappable<T[K], T>(keyed)
+    }
+
+    /**
      * Groups an array by the given key and returns a flooent map.
      */
     groupBy<K extends keyof T>(key: K | ((item: T) => T[K]) ) {
         const grouped = Arr.groupBy(this, key)
         return new Mappable<T[K], Arrayable<T>>(grouped)
+    }
+
+    /**
+     * Turns the given array into a map with each element becoming a key in the map.
+     */
+    toKeyedMap<DV>(defaultValueOrCallback: DV | ((item: T) => DV)) {
+        return new Mappable<T, DV>(Arr.toKeyedMap(this, defaultValueOrCallback))
     }
 
     /**

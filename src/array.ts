@@ -262,6 +262,17 @@ export function groupBy<T, K extends keyof T>(value: T[], key: K | ((item: T) =>
 }
 
 /**
+ * Keys the collection by the given key. If multiple items have the same key, only the last one will appear in the new collection.
+ */
+ export function keyBy<T, K extends keyof T>(value: T[], key: K | ((item: T) => T[K]) ) {
+    return value.reduce<Map<T[K], T>>((result, item) => {
+        const group = typeof key === "function" ? key(item) : item[key]
+        result.set(group, item)
+        return result
+    }, new Map<T[K], T>())
+}
+
+/**
  * Returns the sum of the array.
  * For arrays of objects: Pass field or callback as argument.
  */
@@ -401,8 +412,18 @@ export function sortAsc<T>(value: T[], key?: string | number | ((item: T, index:
 }
 
 /**
- * Turns an array in the structure of `[ ['key', 'value'] ]` into a flooent map.
+ * Turns an array in the structure of `[ ['key', 'value'] ]` into a map.
  */
 export function toMap<T>(value: T[]) {
     return new Map(value as any)
+}
+
+/**
+ * Turns the given array into a map with each element becoming a key in the map.
+ */
+export function toKeyedMap<T, DV>(array: T[], defaultValueOrCallback: DV | ((item: T) => DV)) {
+    return new Map(array.map(item => {
+        const value = typeof defaultValueOrCallback === 'function' ? (defaultValueOrCallback as Function)(item) : defaultValueOrCallback
+        return [item, value] as [T, DV]
+    }))
 }

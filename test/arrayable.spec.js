@@ -202,6 +202,34 @@ test.group('Arrayable', () => {
     })
   })
   
+  test('keyBy() keys an array of objects by the given key', assert => {
+    const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
+    const result = given.array(users).keyBy('area')
+  
+    isMap(assert, result)
+    assert.deepEqual(result.toJSON(), {
+      'New York': { id: 2, area: 'New York'},
+      'LA': { id: 3, area: 'LA' }
+    })
+  })
+
+  test('toKeyedMap() turns array into map with the items turning into keys of the map', assert => {
+    const genres = ['music', 'tech']
+    const map = given.array(genres).toKeyedMap(genre => genre.toUpperCase())
+
+    assert.deepEqual(map.toJSON(), {
+      music: 'MUSIC',
+      tech: 'TECH'
+    })
+
+    const simpleMap = given.array(genres).toKeyedMap(0)
+
+    assert.deepEqual(simpleMap.toJSON(), {
+      music: 0,
+      tech: 0
+    })
+  })
+  
   test('groupBy() maintains key types', assert => {
     const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
     given.array(users).groupBy('area').keys().map(k => assert.equal(typeof k, 'string'))

@@ -1028,6 +1028,52 @@ given.array(items).groupBy(item => item.name.toUpperCase()) // result is:
 */
 ```
 
+### keyBy
+
+Keys the collection by the given key and returns a flooent map.
+If multiple items have the same key, only the last one will appear in the new collection.
+
+```javascript
+const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 3, name: 'music' }]
+given.array(items).keyBy('name') // result is:
+/*
+{
+  music: { id: 3, name: 'music' },
+  movie: { id: 2, name: 'movie' }
+}
+*/
+```
+
+### toKeyedMap
+
+Turns the given array into a flooent map with each element becoming a key in the map.
+
+```javascript
+const genres = ['music', 'tech', 'games']
+const map = given.array(genres).toKeyedMap(null) // result is:
+/*
+{
+  music: null,
+  tech: null,
+  games: null
+}
+*/
+```
+
+Alternatively, pass in a callback to specify the default value for each item individually:
+
+```javascript
+const genres = ['music', 'tech', 'games']
+const map = given.array(genres).toKeyedMap(genre => genre.toUpperCase()) // result is:
+/*
+{
+  music: 'MUSIC',
+  tech: 'TECH',
+  games: 'GAMES'
+}
+*/
+```
+
 ## Maps
 
 <small>
