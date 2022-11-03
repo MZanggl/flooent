@@ -7,7 +7,8 @@
   "scripts": {
     "clean": "rm -rf dist",
     "copymeta": "cp README.md package.json dist",
-    "build": "npm run clean && tsc && npm run copymeta",
+    "generate-fp-exports": "node ./scripts/generate-fp-exports.js",
+    "build": "npm run clean && npm run generate-fp-exports && tsc && npm run copymeta",
     "publish:dist": "npm run build && cd dist && npm publish",
     "publish:beta": "npm run build && cd dist && npm publish --tag beta",
     "test": "node japaFile.js",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "japa": "^3.0.1",
     "nyc": "^15.1.0",
+    "ts-file-exports": "^0.0.4",
     "typescript": "^4.2.2"
   }
 }

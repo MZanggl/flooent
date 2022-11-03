@@ -141,6 +141,17 @@ import { rename } from 'flooent/map'
 rename(new Map([['item_id', 1]]), 'item_id', 'itemId') // Map { itemId → 1 }
 ```
 
+In addition, there is an experimental API for a pipable API:
+
+```javascript
+import { pipe, afterLast, beforeLast, endWith, capitalize } from 'flooent/fp/string'
+
+const path = 'App/Controllers/user.js'
+pipe(path, afterLast('/'), beforeLast('.'), endWith('Controller'), capitalize) // UserController
+```
+
+Note: `flooent/fp/string`, `flooent/fp/map`, `flooent/fp/number`, and `flooent/fp/array` all return the same function `pipe`.
+
 ## Strings
 
 <small>
