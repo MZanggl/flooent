@@ -19,7 +19,7 @@ export function pad(value: number, size: number) {
 /**
  * Executes callback for number of base values' times and returns a flooent array with the result of each iteration.
  */
-export function times<T = void>(length: number, callback: (index: number) => T[]) {
+export function times<T = void>(length: number, callback: (index: number) => T) {
   return Array.from({ length }, (value, i) => callback(i))
 }
 
