@@ -816,6 +816,16 @@ Sets the value at the current index and returns a new array.
 given.array(['music', 'tec']).point(1).set(item => item + 'h') // ['music', 'tech']
 ```
 
+#### remove
+
+<!-- array.point.remove -->
+Removes the current index and returns a new array.
+<!-- end -->
+
+```javascript
+given.array(['music', 'tech']).point(1).remove() // ['music']
+```
+
 #### value
 
 <!-- array.point.value -->
