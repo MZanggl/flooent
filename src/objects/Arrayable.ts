@@ -157,29 +157,37 @@ class Arrayable<T> extends Array<T> {
     /**
      * Filters array by given value or key/value pair.
      */
-    where(key: keyof T, value) {
-        return Arr.where(this, key, value) as Arrayable<T>
+    where(value: T): Arrayable<T>
+    where<K extends keyof T>(key: K, value: T[K]): Arrayable<T>
+    where<K extends keyof T>(keyOrValue: T | K, value?: T[K]) {
+        return Arr.where(this, keyOrValue, value) as Arrayable<T>
     }
     
     /**
      * Removes items from array by the given key or key/value pair.
      */
-    whereNot(key: keyof T, value) {
-        return Arr.whereNot(this, key, value) as Arrayable<T>
+    whereNot(value: T): Arrayable<T>
+    whereNot<K extends keyof T>(key: K, value: T[K]): Arrayable<T>
+    whereNot<K extends keyof T>(keyOrValue: T | K, value?: T[K]) {
+        return Arr.whereNot(this, keyOrValue, value) as Arrayable<T>
     }
 
     /**
      * Filters array by given values or key/values pair.
      */
-    whereIn(key: keyof T, value) {
-        return Arr.whereIn(this, key, value) as Arrayable<T>
+    whereIn(value: T[]): Arrayable<T>
+    whereIn<K extends keyof T>(key: K, value: T[K][]): Arrayable<T>
+    whereIn<K extends keyof T>(keyOrValue: T | K, value?: T[K][]) {
+        return Arr.whereIn(this, keyOrValue, value) as Arrayable<T>
     }
 
     /**
      * Removes items from array by the given value or key/values pair.
      */
-    whereNotIn(key: keyof T, value) {
-        return Arr.whereNotIn(this, key, value) as Arrayable<T>
+    whereNotIn(value: T[]): Arrayable<T>
+    whereNotIn<K extends keyof T>(key: K, value: T[K][]): Arrayable<T>
+    whereNotIn<K extends keyof T>(keyOrValue: T | K, value?: T[K][]) {
+        return Arr.whereNotIn(this, keyOrValue, value) as Arrayable<T>
     }
 
     /**
