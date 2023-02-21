@@ -410,7 +410,7 @@ test.group('Arrayable', () => {
     test('can set value at specific pointer', (assert) => {
       const array = given.array(['a', 'b', 'c'])
       let update = array.point(1).set(item => item + 'b')
-      isArr(assert, array, update)
+      isArr(assert, update, array)
       assert.deepEqual(update, ['a', 'bb', 'c'])
       assert.deepEqual(array, ['a', 'b', 'c'])
     
@@ -419,6 +419,14 @@ test.group('Arrayable', () => {
     
       abcd = given.array(['b', 'c', 'd']).point(item => item === 'b').prepend('a')
       assert.deepEqual(abcd, ['a', 'b', 'c', 'd'])
+    })
+
+    test('can remove index at specific pointer', (assert) => {
+      const original = given.array(['a', 'b', 'c'])
+      const updated = original.point(1).remove()
+      isArr(assert, updated, original)
+      assert.deepEqual(updated, ['a', 'c'])
+      assert.deepEqual(original, ['a', 'b', 'c'])
     })
   
     test('can read value from current position', assert => {

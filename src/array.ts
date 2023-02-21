@@ -141,7 +141,7 @@ export function point<T>(value: T[], indexOrFn: number | ((item: T) => boolean))
          * Sets the value at the current index and returns a new array.
          */
         set(callback: (item: T) => T) {
-            const copy = Array.from(array)
+            const copy = (array.constructor as ArrayConstructor<T>).from(array)
             copy[index] = callback(copy[index])
             return copy
         },
@@ -159,6 +159,14 @@ export function point<T>(value: T[], indexOrFn: number | ((item: T) => boolean))
             const [before, after] = partition(array, (item, i) => i < index)
             return [...before, ...items, ...after]
         },
+
+        /**
+         * Removes the current index and returns a new array.
+         */
+        remove() {
+            return array.filter((_, i) => index !== i)
+        },
+
         /**
          * Returns value for current pointer position.
          */

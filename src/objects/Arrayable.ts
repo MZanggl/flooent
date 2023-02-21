@@ -111,43 +111,44 @@ class Arrayable<T> extends Array<T> {
      * Points to a specific index inside the array to do further actions on it.
      */
     point(indexOrFn: number | ((item: T) => boolean)) {
-        const index = getNthIndex(this, indexOrFn)
-
         const array = this
+        const nativePointer = Arr.point(array, indexOrFn)
         const pointer = {
             /**
              * Sets the value at the current index and returns a new array.
              */
             set(callback: (item: T) => T) {
-                const copy = array.constructor.from(array)
-                copy[index] = callback(copy[index])
-                return copy
+                return nativePointer.set(callback)
             },
             /**
              * Appends given value to array in between the currently pointed item and its next item and returns a new array.
              */
             append(...items: T[]) {
-                const [before, after] = array.partition((item, i) => i <= index)
-                return array.constructor.from([...before, ...items, ...after])
+                return array.constructor.from(nativePointer.append(...items))
             },
             /**
              * Prepends given value to array in between the currently pointed item and its previous item and returns a new array.
              */
             prepend(...items: T[]) {
-                const [before, after] = array.partition((item, i) => i < index)
-                return array.constructor.from([...before, ...items, ...after])
+                return array.constructor.from(nativePointer.prepend(...items))
+            },
+            /**
+             * Removes the current index and returns a new array.
+             */
+            remove() {
+                return nativePointer.remove()
             },
             /**
              * Returns value for current pointer position.
              */
             value() {
-                return array[index]
+                return nativePointer.value()
             },
             /**
              * Steps forward or backward given the number of steps.
              */
             step(steps: number) {
-                return array.point(index + steps)
+                return nativePointer.step(steps)
             }
         }
 
