@@ -173,6 +173,15 @@ export function point<T>(value: T[], indexOrFn: number | ((item: T) => boolean))
         value() {
             return array[index]
         },
+
+        /**
+         * Splits the array at the current index
+         */
+        split() {
+            const left = array.slice(0, index)
+            const right = array.slice(index + 1)
+            return [left, right]
+        },
         /**
          * Steps forward or backward given the number of steps.
          */

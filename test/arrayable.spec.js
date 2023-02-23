@@ -428,6 +428,15 @@ test.group('Arrayable', () => {
       assert.deepEqual(updated, ['a', 'c'])
       assert.deepEqual(original, ['a', 'b', 'c'])
     })
+
+    test('can split the array at specific pointer', (assert) => {
+      const original = given.array(['a', 'is', 'c'])
+      const [left, right] = original.point(1).split()
+      isArr(assert, left, original)
+      isArr(assert, right, original)
+      assert.deepEqual(left, ['a'])
+      assert.deepEqual(right, ['c'])
+    })
   
     test('can read value from current position', assert => {
       const value = given.array(['a', 'b', 'c']).point(-1).value()

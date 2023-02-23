@@ -120,6 +120,14 @@ class Arrayable<T> extends Array<T> {
             set(callback: (item: T) => T) {
                 return nativePointer.set(callback)
             },
+
+            /**
+             * Splits the array at the current index
+             */
+            split() {
+                return nativePointer.split()
+            },
+
             /**
              * Appends given value to array in between the currently pointed item and its next item and returns a new array.
              */

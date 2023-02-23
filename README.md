@@ -826,6 +826,14 @@ Removes the current index and returns a new array.
 given.array(['music', 'tech']).point(1).remove() // ['music']
 ```
 
+#### split
+
+Splits the array at the current index
+
+```javascript
+given.array(['a', 'is', 'c']).point(1).split() // [['a'], ['c']]
+```
+
 #### value
 
 <!-- array.point.value -->
