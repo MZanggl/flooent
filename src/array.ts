@@ -366,7 +366,7 @@ export function shuffle<T>(value: T[]) {
 /**
  * Returns a tuple separating the items that pass the given truth test.
  */
-export function partition<T>(value: T[], callback: Function) {
+export function partition<T>(value: T[], callback: (item: T, index?: number) => boolean) {
     const tuple = [[], []] as [T[], T[]]
 
     value.forEach((item, index) => {
