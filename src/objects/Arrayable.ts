@@ -312,7 +312,7 @@ class Arrayable<T> extends Array<T> {
     /**
      * Returns a tuple separating the items that pass the given truth test.
      */
-    partition(callback: Function) {
+    partition(callback: (item: T) => boolean) {
         const partitioned = this.constructor.from(Arr.partition(this, callback))
         return partitioned.map(item => this.constructor.from(item))
     }
