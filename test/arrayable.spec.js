@@ -326,9 +326,9 @@ test.group('Arrayable', () => {
     })
 
     test('can sort simple numeric arrays', (assert) => {
-      const numbers = given.array([3, 1, 2])
-      assert.deepEqual(numbers.sortAsc(), [1, 2, 3])
-      assert.deepEqual(numbers.sortDesc(), [3, 2, 1])
+      const numbers = given.array([3, 1,100, 2])
+      assert.deepEqual(numbers.sortAsc(), [1, 2, 3, 100])
+      assert.deepEqual(numbers.sortDesc(), [100, 3, 2, 1])
     })
 
     test('can sort simple string based arrays', (assert) => {

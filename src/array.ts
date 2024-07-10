@@ -405,7 +405,13 @@ export function sortDesc<T>(value: T[], key?: string | number | ((item: T) => an
  */
 export function sortAsc<T>(value: T[], key?: string | number | ((item: T, index: number) => any)) {
     if (!key) {
-        return [...value].sort()
+        return [...value].sort((a, b) => {
+            if (typeof a === 'string') {
+                return (a as unknown as string).localeCompare(b as unknown as string)
+            }
+
+            return (a as unknown as number) - (b as unknown as number)
+        })
     }
 
     const compare = (a: T, b: T) => {
