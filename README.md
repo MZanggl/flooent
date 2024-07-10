@@ -44,10 +44,6 @@ given.string(path)
 
 ## Get Started
 
-[Migration from Version 1 to Version 2](https://github.com/MZanggl/flooent/releases/tag/v2.0.0)
-
-[Documentation and Code for Version 1](https://github.com/MZanggl/flooent/tree/v1-latest)
-
 ### Installation
 
 > `npm install flooent`
