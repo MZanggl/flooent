@@ -158,6 +158,8 @@ Note: `flooent/fp/string`, `flooent/fp/map`, `flooent/fp/number`, and `flooent/f
 
 You have access to [everything from the native String object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String).
 
+### Non-Fluent methods
+
 #### pipe
 
 <!-- string.pipe -->
@@ -165,7 +167,9 @@ Executes the callback and transforms the result back into a flooent string if it
 <!-- end -->
 
 ```javascript
-given.string('').pipe(str => str.append('!')) // String { '!' }
+const append = str => str.append('!') // reusable method
+
+given.string('').pipe(append) // String { '!' }
 ```
 
 #### is
@@ -186,6 +190,18 @@ Checks if the string is included in the given array.
 
 ```javascript
 given.string('flooent').includedIn(['flooent', 'string'])
+```
+
+#### parse
+
+<!-- string.parse -->
+Parses a string back into its original form.
+<!-- end -->
+
+```javascript
+given.string('true').parse() // true
+given.string('23').parse() // 23
+given.string('{\"a\":1}').parse() // { a: 1 }
 ```
 
 ### Fluent methods
@@ -419,18 +435,6 @@ given.string('Foo Bar ♥').slug() // String { 'foo-bar' }
 given.string('foo bär').slug('+') // String { 'foo+bar' }
 ```
 
-#### parse
-
-<!-- string.parse -->
-Parses a string back into its original form.
-<!-- end -->
-
-```javascript
-given.string('true').parse() // true
-given.string('23').parse() // 23
-given.string('{\"a\":1}').parse() // { a: 1 }
-```
-
 ## Arrays
 
 <small>
@@ -440,6 +444,8 @@ given.string('{\"a\":1}').parse() // { a: 1 }
 </small>
 
 You have access to [everything from the native Array object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array).
+
+### Non-Fluent methods
 
 #### pipe
 
