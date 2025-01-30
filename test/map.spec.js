@@ -1,5 +1,6 @@
 const test = require('japa')
 const { Mappable, given, Arrayable } = require('../dist')
+const mapMethods = require('../dist/map')
 
 function isMap(assert, result) {
   assert.instanceOf(result, Mappable)
@@ -8,6 +9,26 @@ function isMap(assert, result) {
 function isArr(assert, result) {
   assert.instanceOf(result, Arrayable)
 }
+
+
+
+test.group('objects', () => {
+  test('supports object in mapValues function', (assert) => {
+    const mapped = mapMethods.mapValues(new Map([['key', 'value']]), value => value.toUpperCase())
+    assert.equal(mapped.get('key'), 'VALUE')
+    
+    const mapped2 = mapMethods.mapValues({ key: 'value' }, value => value.toUpperCase())
+    assert.deepEqual(mapped2, {key: "VALUE" })
+  })
+
+  test('supports object in mapKeys function', (assert) => {
+    const mapped = mapMethods.mapKeys(new Map([['key', 'value']]), (value, key) => key.toUpperCase())
+    assert.equal(mapped.get('KEY'), 'value')
+    
+    const mapped2 = mapMethods.mapKeys({ key: 'value' }, (value, key) => key.toUpperCase())
+    assert.deepEqual(mapped2, {KEY: "value" })
+  })
+})
 
 test.group('Mappable', () => {
   test('it can create Mappable from Map or object', (assert) => {

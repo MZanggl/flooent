@@ -15,8 +15,13 @@ export const toJSON = toObject
 /**
  * Iterates the entries through the given callback and assigns each result as the key.
  */
-export function mapKeys<K, V, N>(value: Map<K, V>, callback: ((value: V, key: K, index: number) => N)) {
-  return new Map<N, V>([...value.entries()].map(([key, value], index) => [callback(value, key, index), value]) as any)
+export function mapKeys<K, V, N>(value: Map<K, V>, callback: ((value: V, key: K, index: number) => N)): Map<K, N>
+export function mapKeys<K, V, N>(value: Record<string, V>, callback: ((value: V, key: K, index: number) => N)): Record<string, N>
+export function mapKeys<K, V, N>(value, callback: ((value: V, key: K, index: number) => N)) {
+  const isMap = value instanceof Map
+  const entries = isMap ? [...value.entries()] : Object.entries(value)
+  const mapped = entries.map(([key, value], index) => [callback(value, key, index), value]) as any
+  return isMap ? new Map<K, N>(mapped) : Object.fromEntries(mapped)
 }
 
 /**
@@ -31,8 +36,13 @@ export function rename<K, V>(value: Map<K, V>, oldKey: K, newKey: K) {
 /**
  * Iterates the entries through the given callback and assigns each result as the value.
  */
-export function mapValues<K, V, N>(value: Map<K, V>, callback: ((value: V, key: K, index: number) => N)) {
-  return new Map<K, N>([...value.entries()].map(([key, value], index) => [key, callback(value, key, index)]) as any)
+export function mapValues<K, V, N>(value: Map<K, V>, callback: ((value: V, key: K, index: number) => N)): Map<K, N>
+export function mapValues<K, V, N>(value: Record<string, V>, callback: ((value: V, key: K, index: number) => N)): Record<string, N>
+export function mapValues<K, V, N>(value, callback: ((value: V, key: K, index: number) => N)) {
+  const isMap = value instanceof Map
+  const entries = isMap ? [...value.entries()] : Object.entries(value)
+  const mapped = entries.map(([key, value], index) => [key, callback(value, key, index)]) as any
+  return isMap ? new Map<K, N>(mapped) : Object.fromEntries(mapped)
 }
 
 /**
