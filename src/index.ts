@@ -4,6 +4,7 @@ import Numberable from "./objects/Numberable"
 import Mappable from "./objects/Mappable"
 import Any from "./objects/Any"
 import { MapValue } from './types'
+import { times } from './array'
 
 type Callback<T> = (result: T) => any
 
@@ -31,13 +32,14 @@ function number(value: number, callback?: Callback<Numberable>) {
     const callbackResult = callback(result)
     return callbackResult instanceof Numberable ? callbackResult.valueOf() : callbackResult
 }
-number.macro = (key: string, callback: Function) => (Numberable.prototype[key] = callback)
+array.macro = (key: string, callback: Function) => (Arrayable.prototype[key] = callback)
 
 /**
- * Create a flooent array. You have access to [everything from the native Array object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array).
+ * Executes callback for number of base values' times and returns a flooent array with the result of each iteration.
  */
-const array = <T>(value: T[]) => Arrayable.from<T>(value)
-array.macro = (key: string, callback: Function) => (Arrayable.prototype[key] = callback)
+array.times = function<T = void>(length: number, callback: (index: number) => T[]) {
+    return Arrayable.from(times(length, callback))
+}
 
 /**
  * Create a flooent map. You have access to [everything from the native Map object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map).
@@ -45,11 +47,5 @@ array.macro = (key: string, callback: Function) => (Arrayable.prototype[key] = c
 const map = <K, V>(value: MapValue<K, V>) => new Mappable<K, V>(value)
 map.macro = (key: string, callback: Function) => (Mappable.prototype[key] = callback)
 
-/**
- * A generic helper class for any kind of data types.
- */
-const any = <T>(value: T) => new Any(value)
-any.macro = (key: string, callback: Function) => (Any.prototype[key] = callback)
-
-const given = { string, number, array, map, any }
-export { Stringable, Arrayable, Numberable, Mappable, given, Any }
+const given = { string, array, map }
+export { Stringable, Arrayable, Mappable, given }

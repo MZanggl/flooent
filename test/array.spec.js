@@ -1,5 +1,6 @@
 const test = require('japa')
 const { Arrayable, Mappable, given } = require('../dist')
+const arrayUtils = require('../dist/array')
 
 function isArr(assert, result, notSameAs) {
   assert.instanceOf(result, Arrayable)
@@ -12,7 +13,32 @@ function isMap(assert, result) {
   assert.instanceOf(result, Mappable)
 }
 
+test.group('array functions', () => {
+  test('times() loops and maps through callback x times', assert => {
+    let count = 0
+    const mapped = arrayUtils.times(3, i => {
+      count++
+      return i
+    })
+    
+    assert.equal(count, 3)
+    assert.deepEqual(mapped, [0, 1, 2])
+  })
+})
+
 test.group('Arrayable', () => {
+  test('times() loops and maps through callback x times', assert => {
+    let count = 0
+    const mapped = given.array.times(3, i => {
+      count++
+      return i
+    })
+    
+    assert.equal(count, 3)
+    assert.deepEqual(mapped, [0, 1, 2])
+    assert.instanceOf(mapped, Arrayable)
+  })
+
   test('valueOf() returns the raw array', (assert) => {
     const array = Arrayable.from([1]).valueOf()
     assert.notInstanceOf(array, Arrayable)

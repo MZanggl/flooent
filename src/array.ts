@@ -255,6 +255,13 @@ export function sum<T>(value: T[], callback?: (item: T) => number) {
 }
 
 /**
+ * Creates an array of the specified length and populates it using the callback function.
+ */
+export function times<T = void>(length: number, callback: (index: number) => T) {
+    return Array.from({ length }, (value, i) => callback(i))
+}
+
+/**
  * Omits given keys from all objects in the array.
  */
 export function omit<T>(value: T[], keys: string[]) {
