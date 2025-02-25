@@ -27,50 +27,12 @@ test.group('Arrayable', () => {
     isArr(assert, Arrayable.of(1,2))
   })
   
-  test('first() returns first value in array or undefined', assert => {
-    assert.equal(given.array([1, 2]).first(), 1)
-    assert.isUndefined(given.array([]).first())
-    assert.deepEqual(given.array([1, 2]).first(2), [1, 2])
-    assert.deepEqual(given.array([1, 2]).first(4), [1, 2])
-  })
-  
-  test('second() returns second value in array or undefined', assert => {
-    assert.equal(given.array([1, 2]).second(), 2)
-    assert.isUndefined(given.array([]).second())
-  })
-  
-  test('last() returns last value in array or undefined', assert => {
-    assert.equal(given.array([1, 2]).last(), 2)
-    assert.isUndefined(given.array([]).last())
-  
-    assert.deepEqual(given.array([1, 2]).last(1), [2])
-    assert.deepEqual(given.array([1, 2, 3, 4]).last(2), [3, 4])
-    assert.deepEqual(given.array([1, 2, 3, 4]).last(200), [1, 2, 3, 4])
-  
-    assert.deepEqual(given.array([1, 2, 3, 4]).last(i => i > 1), 4)
-  })
-  
-  test('nth() returns value at given index in array or undefined', assert => {
-    assert.equal(given.array([1, 2]).nth(1), 2)
-    assert.isUndefined(given.array([]).nth(1))
-    
-    assert.equal(given.array([1, 2, 3]).nth(-1), 3)
-    assert.isUndefined(given.array([1, 2]).nth(-5))
-  })
-  
   test('until() returns all elements that match the given truth test until the first one returns false', assert => {
     const array = given.array([1, 2, 3])
   
-    isArr(assert, array.until(2), array)
     assert.deepEqual(array.until(item => item === 4), [1, 2, 3])
     assert.deepEqual(array.until(item => item === 2), [1])
-    assert.deepEqual(array.until(2), [1])
     assert.deepEqual(array.until(item => item === 1), [])
-  })
-  
-  test('isEmpty() returns whether or not the array is empty', assert => {
-    assert.isTrue(given.array([]).isEmpty())
-    assert.isFalse(given.array([1]).isEmpty())
   })
   
   test('pad() appends the remaining number of items to the array', assert => {
@@ -165,12 +127,6 @@ test.group('Arrayable', () => {
     assert.deepEqual(array.unique(), [1, 2, 3])
   })
   
-  test('unique() removes duplicate values by key when given', assert => {
-    const cities = given.array([ { id: 1, city: 'Ishigaki' }, { city: 'Naha'}, { id: 3, city: 'Ishigaki' } ])
-    isArr(assert, cities.unique('city'), cities)
-    assert.deepEqual(cities.unique('city'), [{ id: 1, city: 'Ishigaki' }, { city: 'Naha' }])
-  })
-  
   test('unique() removes duplicate values by return value when callback when given', assert => {
     const cities = given.array([ { id: 1, city: 'ishigaki' }, { city: 'Naha'}, { id: 3, city: 'Ishigaki' } ])
     assert.deepEqual(cities.unique(item => item.city), cities)
@@ -189,22 +145,14 @@ test.group('Arrayable', () => {
     const array = given.array([1])
     isArr(assert, given.array(array).filled(), array)
     assert.deepEqual(given.array([1, 0, '', null, undefined, 2]).filled(), [1, 2])
+
+    const users = [{ id: 1, area: 'New York' }, { id: 2, area: ''}, { id: 3, area: '' }]
+    assert.deepEqual(given.array(users).filled(u => u.area), [{ id: 1, area: 'New York' }])
   })
   
-  test('groupBy() groups an array of objects by the given key', assert => {
+  test('keyBy() keys an array of objects by the given key transformation', assert => {
     const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
-    const result = given.array(users).groupBy('area').toJSON()
-  
-    isArr(assert, result.LA, users)
-    assert.deepEqual(result, {
-      'New York': [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}],
-      'LA': [{ id: 3, area: 'LA' }]
-    })
-  })
-  
-  test('keyBy() keys an array of objects by the given key', assert => {
-    const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
-    const result = given.array(users).keyBy('area')
+    const result = given.array(users).keyBy(item => item.area)
   
     isMap(assert, result)
     assert.deepEqual(result.toJSON(), {
@@ -232,8 +180,8 @@ test.group('Arrayable', () => {
   
   test('groupBy() maintains key types', assert => {
     const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
-    given.array(users).groupBy('area').keys().map(k => assert.equal(typeof k, 'string'))
-    given.array(users).groupBy('id').keys().map(k => assert.equal(typeof k, 'number'))
+    given.array(users).groupBy(item => item.area).keys().map(k => assert.equal(typeof k, 'string'))
+    given.array(users).groupBy(item => item.id).keys().map(k => assert.equal(typeof k, 'number'))
   })
   
   test('groupBy() groups an array of object by the given key transformation', assert => {
@@ -251,7 +199,6 @@ test.group('Arrayable', () => {
     assert.equal(given.array([2, 2, 1]).sum(), 5)
   
     const users = [{ id: 1, points: 10 }, { id: 2, points: 10 }, { id: 3, points: 10 }]
-    assert.equal(given.array(users).sum('points'), 30)
     assert.equal(given.array(users).sum(user => user.points * 10), 300)
   })
   
@@ -319,9 +266,9 @@ test.group('Arrayable', () => {
       assert.deepEqual(numbers, [3, 1, 2])
     
       const numberObject = given.array([{ val: 3 }, { val: 1 }, { val: 2 }])
-      isArr(assert, numberObject.sortAsc('val'), numberObject)
+      isArr(assert, numberObject.sortAsc(item => item.val), numberObject)
       assert.deepEqual(numberObject, [{ val: 3 }, { val: 1 }, { val: 2 }])
-      isArr(assert, numberObject.sortDesc('val'), numberObject)
+      isArr(assert, numberObject.sortDesc(item => item.val), numberObject)
       assert.deepEqual(numberObject, [{ val: 3 }, { val: 1 }, { val: 2 }])
     })
 
@@ -339,14 +286,14 @@ test.group('Arrayable', () => {
     
     test('can sort arrays of objects by a numeric key', (assert) => {
       const array = given.array([{ val: 3 }, { val: 1 }, { val: 2 }])
-      assert.deepEqual(array.sortAsc('val'), [{ val: 1 }, { val: 2 }, { val: 3 }])
-      assert.deepEqual(array.sortDesc('val'), [{ val: 3 }, { val: 2 }, { val: 1 }])
+      assert.deepEqual(array.sortAsc(item => item.val), [{ val: 1 }, { val: 2 }, { val: 3 }])
+      assert.deepEqual(array.sortDesc(item => item.val), [{ val: 3 }, { val: 2 }, { val: 1 }])
     })
 
     test('can sort arrays of objects by a string', (assert) => {
       const array = given.array([{ val: 'c' }, { val: 'a' }, { val: 'b' }])
-      assert.deepEqual(array.sortAsc('val'), [{ val: 'a' }, { val: 'b' }, { val: 'c' }])
-      assert.deepEqual(array.sortDesc('val'), [{ val: 'c' }, { val: 'b' }, { val: 'a' }])
+      assert.deepEqual(array.sortAsc(item => item.val), [{ val: 'a' }, { val: 'b' }, { val: 'c' }])
+      assert.deepEqual(array.sortDesc(item => item.val), [{ val: 'c' }, { val: 'b' }, { val: 'a' }])
     })
 
     test('can sort arrays of objects by a date', (assert) => {
@@ -356,14 +303,8 @@ test.group('Arrayable', () => {
         { val: new Date(2021, 1, 1) }
       ])
 
-      assert.deepEqual(dates.sortAsc('val'), [{ val: new Date(2020, 1, 1) }, { val: new Date(2021, 1, 1) }, { val: new Date(2022, 1, 1) }])
-      assert.deepEqual(dates.sortDesc('val'), [{ val: new Date(2022, 1, 1) }, { val: new Date(2021, 1, 1) }, { val: new Date(2020, 1, 1) }])
-    })
-    
-    test('can sort given a callback', assert => {    
-      const numberObject = given.array([{ val: 3 }, { val: 1 }, { val: 2 }])
-      assert.deepEqual(numberObject.sortAsc(item => item.val), [{ val: 1 }, { val: 2 }, { val: 3 }])
-      assert.deepEqual(numberObject.sortDesc(item => item.val), [{ val: 3 }, { val: 2 }, { val: 1 }])
+      assert.deepEqual(dates.sortAsc(item => item.val), [{ val: new Date(2020, 1, 1) }, { val: new Date(2021, 1, 1) }, { val: new Date(2022, 1, 1) }])
+      assert.deepEqual(dates.sortDesc(item => item.val), [{ val: new Date(2022, 1, 1) }, { val: new Date(2021, 1, 1) }, { val: new Date(2020, 1, 1) }])
     })
   })
   
@@ -374,13 +315,6 @@ test.group('Arrayable', () => {
   })
   
   test.group('Pointer API', () => {
-    test('can use deprecated "at" api', (assert) => {
-      const array = given.array(['a', 'b', 'e'])
-      let abcd = array.at(1).append('c', 'd')
-      isArr(assert, abcd, array)
-      assert.deepEqual(abcd, ['a', 'b', 'c', 'd', 'e'])
-    })
-
     test('can append items at specific pointer', (assert) => {
       const array = given.array(['a', 'b', 'e'])
       let abcd = array.point(1).append('c', 'd')
