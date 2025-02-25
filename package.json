@@ -7,11 +7,10 @@
   "scripts": {
     "clean": "rm -rf dist",
     "copymeta": "cp README.md package.json dist",
-    "generate-fp-exports": "node ./scripts/generate-fp-exports.js",
-    "build": "npm run clean && npm run generate-fp-exports && tsc && npm run copymeta",
+    "build": "npm run clean && tsc && npm run copymeta",
     "publish:dist": "npm run build && cd dist && npm publish",
     "publish:beta": "npm run build && cd dist && npm publish --tag beta",
-    "test": "node japaFile.js",
+    "test": "tsc && node japaFile.js",
     "coverage": "nyc --reporter=lcov npm test"
   },
   "keywords": [
