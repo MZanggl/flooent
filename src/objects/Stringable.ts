@@ -64,28 +64,6 @@ class Stringable extends String {
     }
 
     /**
-     * Returns the text between two given values.
-     * @deprecated Use after('a').before('b') or after('a').beforeLast('b')
-     */
-    between(start: string) {
-        return {
-            and: (end: string) => this.after(start).before(end) as Stringable,
-            andLast: (end: string) => this.after(start).beforeLast(end) as Stringable,
-        }
-    }
-
-    /**
-     * Returns the text between the last occurrence of given value and second function respectively.
-     * @deprecated Use afterLast('a').before('b') or afterLast('a').beforeLast('b')
-     */
-    betweenLast(start: string) {
-        return {
-            and: (end: string) => this.afterLast(start).before(end) as Stringable,
-            andLast: (end: string) => this.afterLast(start).beforeLast(end) as Stringable,
-        }
-    }
-
-    /**
      * Executes the callback if first given value evaluates to true. Result will get transformed back into a flooent string if it is a raw string.
      */
     when<T>(comparison, then: (value: Stringable) => T) {

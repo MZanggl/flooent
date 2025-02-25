@@ -1,6 +1,5 @@
 import { Mappable } from '../index'
 import { CopyFunction } from '../types'
-import { getNthIndex } from '../utils'
 import * as Arr from '../array'
 
 class Arrayable<T> extends Array<T> {
@@ -17,37 +16,6 @@ class Arrayable<T> extends Array<T> {
      */
     valueOf() {
         return [...this]
-    }
-
-    /**
-     * Returns the first element in the array.
-     * Pass number as argument to return the first x elements.
-     */
-    first(count?: number) {
-        return Arr.first(this, count)
-    }
-
-    /**
-     * Returns the second element in the array or undefined.
-     */
-    second() {
-        return Arr.second(this)
-    }
-
-    /**
-     * Returns the last element in the array.
-     * Pass number as argument to return the last x elements.
-     * Pass callback as argument to return the last element that matches the given truth test (inverse of `find`).
-     */
-    last(countOrFn?: number | ((value: any) => any[])) {
-        return Arr.last(this, countOrFn)
-    }
-
-    /**
-     * Returns element at given index or undefined. If given value is negative, it searches from behind.
-     */
-    nth(index: number) {
-        return Arr.nth(this, index)
     }
 
     /**
@@ -91,20 +59,6 @@ class Arrayable<T> extends Array<T> {
      */
     pad(size: number, value: T) {
         return Arr.pad(this, size, value) as Arrayable<T>
-    }
-
-    /**
-     * Returns a boolean whether the array is empty or not.
-     */
-    isEmpty() {
-        return Arr.isEmpty(this)
-    }
-
-    /**
-     * @deprecated Alias for point.
-     */
-    at(indexOrFn: number | ((item: T) => boolean)) {
-        return this.point(indexOrFn)
     }
 
     /**

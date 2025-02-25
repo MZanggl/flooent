@@ -5,50 +5,6 @@ interface ArrayConstructor<T> extends Function {
 }
 
 /**
- * Returns the first (x) element(s) in the array or undefined.
- */
-export function first<T>(value: T[], count?: number) {
-    if (count) {
-        return value.slice(0, count)
-    }
-
-    return value[0]
-}
-
-/**
- * Returns the second element in the array or undefined.
- */
-export function second<T>(value: T[]) {
-    return value[1]
-}
-
-/**
- * Returns last (x) element(s) in array or undefined.
- * Alternatively, pass in a callback to get the last item that passes the given truth test (inverse of `find`).
- */
-export function last<T>(value: T[], countOrFn?: number | ((value: any) => any[])) {
-    if (typeof countOrFn === 'number') {
-        return value.slice(value.length - countOrFn)
-    } else if (typeof countOrFn === 'function') {
-        const filteredItems = value.filter(countOrFn)
-        return filteredItems[filteredItems.length - 1]
-    }
-
-    return value[value.length - 1]
-}
-
-export function isEmpty<T>(value: T[]) {
-    return value.length === 0
-}
-
-/**
- * Returns element at given index or undefined. If given value is negative, it searches from behind.
- */
-export function nth<T>(value: T[], index: number) {
-    return value[getNthIndex(value, index)]
-}
-
-/**
  * Returns the items until either the given value is found, or the given callback returns `true`.
  */
 export function until<T>(value: T[], comparison) {
@@ -192,11 +148,6 @@ export function point<T>(value: T[], indexOrFn: number | ((item: T) => boolean))
 
     return pointer
 }
-
-/**
- * @deprecated Alias for point
- */
-export const at = point
 
 /**
  * Filters array by given value or key/value pair.
