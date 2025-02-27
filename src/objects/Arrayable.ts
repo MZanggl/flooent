@@ -156,8 +156,8 @@ class Arrayable<T> extends Array<T> {
     /**
      * Only returns items which are not empty.
      */
-    filled(callback?: ((item: T) => any)) {
-        return Arr.filled(this, callback) as Arrayable<T>
+    filled(key?: string) {
+        return Arr.filled(this, key) as Arrayable<T>
     }
 
     /**
@@ -171,16 +171,16 @@ class Arrayable<T> extends Array<T> {
      * Keys the collection by the given key and returns a flooent map.
      * If multiple items have the same key, only the last one will appear in the new collection.
      */
-    keyBy<K extends keyof T>(callback: ((item: T) => T[K]) ) {
-        const keyed = Arr.keyBy(this, callback)
+    keyBy<K extends keyof T>(key: K | ((item: T) => T[K]) ) {
+        const keyed = Arr.keyBy(this, key)
         return new Mappable<T[K], T>(keyed)
     }
 
     /**
      * Groups an array by the given key and returns a flooent map.
      */
-    groupBy<K extends keyof T>(callback: ((item: T) => T[K]) ) {
-        const grouped = Arr.groupBy(this, callback)
+    groupBy<K extends keyof T>(key: K | ((item: T) => T[K]) ) {
+        const grouped = Arr.groupBy(this, key)
         return new Mappable<T[K], Arrayable<T>>(grouped)
     }
 
@@ -195,8 +195,8 @@ class Arrayable<T> extends Array<T> {
      * Returns the sum of the array.
      * For arrays of objects: Pass field or callback as argument.
      */
-    sum(callback?: ((item: T) => number)) {
-        return Arr.sum(this, callback)
+    sum(key?: string | ((item: T) => number)) {
+        return Arr.sum(this, key)
     }
 
     /**
@@ -217,8 +217,8 @@ class Arrayable<T> extends Array<T> {
      * Returns array of unique values.
      * For array ob objects: Pass key or callback to use it for the comparison.
      */
-    unique(callback?: ((item: T) => string)) {
-        return this.constructor.from(Arr.unique(this, callback))
+    unique(key?: string | ((item: T) => string)) {
+        return this.constructor.from(Arr.unique(this, key))
     }
 
     /**
@@ -289,16 +289,16 @@ class Arrayable<T> extends Array<T> {
      * Sorts an array in descending order and **returns a new array**.
      * For array of objects: Pass index, field or callback to use it for sorting.
      */
-    sortDesc(callback?: ((item: T) => any)) {
-        return this.constructor.from(Arr.sortDesc(this, callback)) as Arrayable<T>
+    sortDesc(key?: string | number | ((item: T) => any)) {
+        return this.constructor.from(Arr.sortDesc(this, key)) as Arrayable<T>
     }
 
     /**
      * Sorts an array in ascending order and **returns a new array**.
      * For array of objects: Pass index, field or callback to use it for sorting.
      */
-    sortAsc(callback?: ((item: T, index: number) => any)) {
-        return this.constructor.from(Arr.sortAsc(this, callback)) as Arrayable<T>
+    sortAsc(key?: string | number | ((item: T, index: number) => any)) {
+        return this.constructor.from(Arr.sortAsc(this, key)) as Arrayable<T>
     }
 
     /**

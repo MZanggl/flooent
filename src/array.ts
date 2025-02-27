@@ -7,10 +7,10 @@ interface ArrayConstructor<T> extends Function {
 /**
  * Returns the items until either the given value is found, or the given callback returns `true`.
  */
-export function until<T>(value: T[], callback: (item: T) => boolean) {
+export function until<T>(value: T[], comparison) {
     const newArray = []
     for (const item of value) {
-      const reachedEnd = callback(item)
+      const reachedEnd = (typeof comparison === "function" && comparison(item)) || item === comparison
       if (reachedEnd) {
         break
       }
@@ -196,12 +196,12 @@ export function whereNotIn<T>(array: T[], keyOrValue, value) {
 /**
  * Only returns items which are not empty.
  */
-export function filled<T>(value: T[], callback?: ((item: T) => any)) {
-    if (!callback) {
+export function filled<T>(value: T[], key?: string) {
+    if (!key) {
         return value.filter((value) => !!value)
     }
 
-    return value.filter((item) => !!callback(item))
+    return value.filter((item) => !!item[key])
 }
 
 /**
@@ -217,9 +217,9 @@ export function mutate<T>(value: T[], callback: ((array: T[]) => T[])) {
 /**
  * Groups an array by the given key and returns a flooent map.
  */
-export function groupBy<T, K extends keyof T>(value: T[], key: ((item: T) => T[K]) ) {
+export function groupBy<T, K extends keyof T>(value: T[], key: K | ((item: T) => T[K]) ) {
     return value.reduce<Map<T[K], T[]>>((result, item) => {
-        const group = key(item)
+        const group = typeof key === "function" ? key(item) : item[key]
         if (result.has(group)) {
             result.get(group).push(item)
         } else {
@@ -232,9 +232,9 @@ export function groupBy<T, K extends keyof T>(value: T[], key: ((item: T) => T[K
 /**
  * Keys the collection by the given key. If multiple items have the same key, only the last one will appear in the new collection.
  */
- export function keyBy<T, K extends keyof T>(value: T[], key: ((item: T) => T[K]) ) {
+ export function keyBy<T, K extends keyof T>(value: T[], key: K | ((item: T) => T[K]) ) {
     return value.reduce<Map<T[K], T>>((result, item) => {
-        const group = key(item)
+        const group = typeof key === "function" ? key(item) : item[key]
         result.set(group, item)
         return result
     }, new Map<T[K], T>())
@@ -244,11 +244,11 @@ export function groupBy<T, K extends keyof T>(value: T[], key: ((item: T) => T[K
  * Returns the sum of the array.
  * For arrays of objects: Pass field or callback as argument.
  */
-export function sum<T>(value: T[], callback?: (item: T) => number) {
+export function sum<T>(value: T[], key?: string | ((item: T) => number)) {
     return value.reduce<number>((result, item) => {
-        let number = item as unknown as number
-        if (callback) {
-            number = callback(item)
+        let number = item
+        if (key) {
+            number = typeof key === "function" ? key(item) : item[key]
         }
         return result + (number as unknown as number)
     }, 0)
@@ -283,19 +283,28 @@ export function pluck<T>(value: T[], key: keyof T) {
  * Returns array of unique values.
  * For array ob objects: Pass key or callback to use it for the comparison.
  */
-export function unique<T>(value: T[], callback?: ((item: T) => string)) {
-    if (!callback) {
+export function unique<T>(value: T[], key?: string | ((item: T) => string)) {
+    if (!key) {
         return [...new Set(value)]
     }
 
     const cache = new Map()
     const unique = []
-    for (const item of value) {
-        const value = callback(item)
-        if (!cache.has(value)) {
-            cache.set(value, 1)
-            unique.push(item)
+    if (typeof key === "function") {
+        for (const item of value) {
+            const value = key(item)
+            if (!cache.has(value)) {
+                cache.set(value, 1)
+                unique.push(item)
+            }
         }
+        return unique
+    }
+
+    for (const item of value) {
+        if (cache.has(item[key])) continue
+        cache.set(item[key], 1)
+        unique.push(item)
     }
     return unique
 }
@@ -344,16 +353,16 @@ export function append<T>(value: T[], ...items: T[]): T[] {
  * Sorts an array in descending order and **returns a new array**.
  * For array of objects: Pass index, field or callback to use it for sorting.
  */
-export function sortDesc<T>(value: T[], callback?: ((item: T) => any)) {
-    return sortAsc(value, callback).reverse()
+export function sortDesc<T>(value: T[], key?: string | number | ((item: T) => any)) {
+    return sortAsc(value, key).reverse()
 }
 
 /**
  * Sorts an array in ascending order and **returns a new array**.
  * For array of objects: Pass index, field or callback to use it for sorting.
  */
-export function sortAsc<T>(value: T[], callback?: ((item: T, index: number) => any)) {
-    if (!callback) {
+export function sortAsc<T>(value: T[], key?: string | number | ((item: T, index: number) => any)) {
+    if (!key) {
         return [...value].sort((a, b) => {
             if (typeof a === 'string') {
                 return (a as unknown as string).localeCompare(b as unknown as string)
@@ -372,11 +381,15 @@ export function sortAsc<T>(value: T[], callback?: ((item: T, index: number) => a
         return (a as unknown as number) - (b as unknown as number)
     }
 
-    return value.map((item, index) => {
-        return { sortKey: callback(item, index), item }
-    })
-    .sort((a, b) => compare(a.sortKey, b.sortKey))
-    .map(item => item.item)
+    if (typeof key === 'function') {
+        return value.map((item, index) => {
+            return { sortKey: key(item, index), item }
+        })
+        .sort((a, b) => compare(a.sortKey, b.sortKey))
+        .map(item => item.item)
+    }
+    
+    return [...value].sort((a, b) => compare(a[key], b[key]))
 }
 
 /**

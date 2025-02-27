@@ -65,6 +65,15 @@ test.group('Stringable', () => {
     assert.equal(given.string('michael@somemail.com').beforeLast('nonexisting'), 'michael@somemail.com')
   })
   
+  test('fetches text between two points', assert => {
+    isStr(assert, given.string('nested.sub.domain.com').between('.').and('.'))
+    assert.equal(given.string('nested.sub.domain.com').between('.').and('.'), 'sub')
+    assert.equal(given.string('hello@michael@some.mail.com').between('@').and('.'), 'michael@some')
+    assert.equal(given.string('hello@michael@some.mail.com').between('@').andLast('.'), 'michael@some.mail')
+    assert.equal(given.string('hello@michael@some.mail.com').betweenLast('@').and('.'), 'some')
+    assert.equal(given.string('hello@michael@some.mail.com').betweenLast('@').andLast('.'), 'some.mail')
+  })
+  
   test('when() can apply modifications conditionally', assert => {
     const callback = str => str.append('ing')
     isStr(assert, given.string('test').when(true, () => 'not Str'))
