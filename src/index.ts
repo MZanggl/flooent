@@ -1,8 +1,6 @@
 import Arrayable from "./objects/Arrayable"
 import Stringable from "./objects/Stringable"
-import Numberable from "./objects/Numberable"
 import Mappable from "./objects/Mappable"
-import Any from "./objects/Any"
 import { MapValue } from './types'
 import { times } from './array'
 
@@ -21,17 +19,7 @@ function string(value: string, callback?: Callback<Stringable>) {
 }
 string.macro = (key: string, callback: Function) => (Stringable.prototype[key] = callback)
 
-/**
- * Create a flooent number. You have access to [everything from the native Number object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number).
- */
-function number(value: number): Numberable
-function number(value: number, callback: Callback<Numberable>): number
-function number(value: number, callback?: Callback<Numberable>) {
-    const result = new Numberable(value)
-    if (!callback) return result
-    const callbackResult = callback(result)
-    return callbackResult instanceof Numberable ? callbackResult.valueOf() : callbackResult
-}
+const array = <T>(value: T[]) => Arrayable.from<T>(value)
 array.macro = (key: string, callback: Function) => (Arrayable.prototype[key] = callback)
 
 /**

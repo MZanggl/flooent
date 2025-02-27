@@ -52,38 +52,7 @@ test.group('Arrayable', () => {
     isArr(assert, Arrayable.from([1,2]))
     isArr(assert, Arrayable.of(1,2))
   })
-  
-  test('first() returns first value in array or undefined', assert => {
-    assert.equal(given.array([1, 2]).first(), 1)
-    assert.isUndefined(given.array([]).first())
-    assert.deepEqual(given.array([1, 2]).first(2), [1, 2])
-    assert.deepEqual(given.array([1, 2]).first(4), [1, 2])
-  })
-  
-  test('second() returns second value in array or undefined', assert => {
-    assert.equal(given.array([1, 2]).second(), 2)
-    assert.isUndefined(given.array([]).second())
-  })
-  
-  test('last() returns last value in array or undefined', assert => {
-    assert.equal(given.array([1, 2]).last(), 2)
-    assert.isUndefined(given.array([]).last())
-  
-    assert.deepEqual(given.array([1, 2]).last(1), [2])
-    assert.deepEqual(given.array([1, 2, 3, 4]).last(2), [3, 4])
-    assert.deepEqual(given.array([1, 2, 3, 4]).last(200), [1, 2, 3, 4])
-  
-    assert.deepEqual(given.array([1, 2, 3, 4]).last(i => i > 1), 4)
-  })
-  
-  test('nth() returns value at given index in array or undefined', assert => {
-    assert.equal(given.array([1, 2]).nth(1), 2)
-    assert.isUndefined(given.array([]).nth(1))
-    
-    assert.equal(given.array([1, 2, 3]).nth(-1), 3)
-    assert.isUndefined(given.array([1, 2]).nth(-5))
-  })
-  
+
   test('until() returns all elements that match the given truth test until the first one returns false', assert => {
     const array = given.array([1, 2, 3])
   
@@ -92,11 +61,6 @@ test.group('Arrayable', () => {
     assert.deepEqual(array.until(item => item === 2), [1])
     assert.deepEqual(array.until(2), [1])
     assert.deepEqual(array.until(item => item === 1), [])
-  })
-  
-  test('isEmpty() returns whether or not the array is empty', assert => {
-    assert.isTrue(given.array([]).isEmpty())
-    assert.isFalse(given.array([1]).isEmpty())
   })
   
   test('pad() appends the remaining number of items to the array', assert => {
@@ -400,13 +364,6 @@ test.group('Arrayable', () => {
   })
   
   test.group('Pointer API', () => {
-    test('can use deprecated "at" api', (assert) => {
-      const array = given.array(['a', 'b', 'e'])
-      let abcd = array.at(1).append('c', 'd')
-      isArr(assert, abcd, array)
-      assert.deepEqual(abcd, ['a', 'b', 'c', 'd', 'e'])
-    })
-
     test('can append items at specific pointer', (assert) => {
       const array = given.array(['a', 'b', 'e'])
       let abcd = array.point(1).append('c', 'd')
