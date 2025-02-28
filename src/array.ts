@@ -260,7 +260,7 @@ export function sum<T>(value: T[], key?: string | ((item: T, index: number) => n
 /**
  * Creates an array of the specified length and populates it using the callback function.
  */
-export function times<T = void>(length: number, callback: (index: number) => T) {
+export function sized<T = void>(length: number, callback: (index: number) => T) {
     return Array.from({ length }, (value, i) => callback(i))
 }
 
