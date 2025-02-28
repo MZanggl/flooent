@@ -7,10 +7,10 @@ interface ArrayConstructor<T> extends Function {
 /**
  * Returns the items until either the given value is found, or the given callback returns `true`.
  */
-export function until<T>(value: T[], comparison) {
+export function until<T>(value: T[], comparison: ((item: T, index: number) => boolean) | T) {
     const newArray = []
-    for (const item of value) {
-      const reachedEnd = (typeof comparison === "function" && comparison(item)) || item === comparison
+    for (const [index, item] of value.entries()) {
+      const reachedEnd = typeof comparison === "function" ? (comparison as ((item: T, index: number) => boolean))(item, index) : item === comparison
       if (reachedEnd) {
         break
       }
@@ -196,12 +196,15 @@ export function whereNotIn<T>(array: T[], keyOrValue, value) {
 /**
  * Only returns items which are not empty.
  */
-export function filled<T>(value: T[], key?: string) {
-    if (!key) {
+export function filled<T>(value: T[], comparison?: string | ((item: T, index: number) => any)) {
+    if (!comparison) {
         return value.filter((value) => !!value)
     }
 
-    return value.filter((item) => !!item[key])
+    return value.filter((item, index) => {
+        const value = typeof comparison === 'function' ? comparison(item, index) : item[comparison]
+        return !!value
+    })
 }
 
 /**
@@ -217,9 +220,9 @@ export function mutate<T>(value: T[], callback: ((array: T[]) => T[])) {
 /**
  * Groups an array by the given key and returns a flooent map.
  */
-export function groupBy<T, K extends keyof T>(value: T[], key: K | ((item: T) => T[K]) ) {
-    return value.reduce<Map<T[K], T[]>>((result, item) => {
-        const group = typeof key === "function" ? key(item) : item[key]
+export function groupBy<T, K extends keyof T>(value: T[], key: K | ((item: T, index: number) => T[K]) ) {
+    return value.reduce<Map<T[K], T[]>>((result, item, index) => {
+        const group = typeof key === "function" ? key(item, index) : item[key]
         if (result.has(group)) {
             result.get(group).push(item)
         } else {
@@ -232,9 +235,9 @@ export function groupBy<T, K extends keyof T>(value: T[], key: K | ((item: T) =>
 /**
  * Keys the collection by the given key. If multiple items have the same key, only the last one will appear in the new collection.
  */
- export function keyBy<T, K extends keyof T>(value: T[], key: K | ((item: T) => T[K]) ) {
-    return value.reduce<Map<T[K], T>>((result, item) => {
-        const group = typeof key === "function" ? key(item) : item[key]
+ export function keyBy<T, K extends keyof T>(value: T[], key: K | ((item: T, index: number) => T[K]) ) {
+    return value.reduce<Map<T[K], T>>((result, item, index) => {
+        const group = typeof key === "function" ? key(item, index) : item[key]
         result.set(group, item)
         return result
     }, new Map<T[K], T>())
@@ -244,11 +247,11 @@ export function groupBy<T, K extends keyof T>(value: T[], key: K | ((item: T) =>
  * Returns the sum of the array.
  * For arrays of objects: Pass field or callback as argument.
  */
-export function sum<T>(value: T[], key?: string | ((item: T) => number)) {
-    return value.reduce<number>((result, item) => {
+export function sum<T>(value: T[], key?: string | ((item: T, index: number) => number)) {
+    return value.reduce<number>((result, item, index) => {
         let number = item
         if (key) {
-            number = typeof key === "function" ? key(item) : item[key]
+            number = typeof key === "function" ? key(item, index) : item[key]
         }
         return result + (number as unknown as number)
     }, 0)
@@ -283,16 +286,16 @@ export function pluck<T>(value: T[], key: keyof T) {
  * Returns array of unique values.
  * For array ob objects: Pass key or callback to use it for the comparison.
  */
-export function unique<T>(value: T[], key?: string | ((item: T) => string)) {
-    if (!key) {
+export function unique<T>(value: T[], comparison?: string | ((item: T, index: number) => any)) {
+    if (!comparison) {
         return [...new Set(value)]
     }
 
     const cache = new Map()
     const unique = []
-    if (typeof key === "function") {
-        for (const item of value) {
-            const value = key(item)
+    if (typeof comparison === "function") {
+        for (const [index, item] of value.entries()) {
+            const value = comparison(item, index)
             if (!cache.has(value)) {
                 cache.set(value, 1)
                 unique.push(item)
@@ -302,8 +305,8 @@ export function unique<T>(value: T[], key?: string | ((item: T) => string)) {
     }
 
     for (const item of value) {
-        if (cache.has(item[key])) continue
-        cache.set(item[key], 1)
+        if (cache.has(item[comparison])) continue
+        cache.set(item[comparison], 1)
         unique.push(item)
     }
     return unique

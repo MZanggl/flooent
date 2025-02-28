@@ -21,7 +21,7 @@ class Arrayable<T> extends Array<T> {
     /**
      * Returns the items until either the given value is found, or the given callback returns `true`.
      */
-    until(comparison) {
+    until(comparison: T | ((item: T, index: number) => boolean)) {
         return this.constructor.from<T>(Arr.until(this, comparison))
     }
     
@@ -156,8 +156,8 @@ class Arrayable<T> extends Array<T> {
     /**
      * Only returns items which are not empty.
      */
-    filled(key?: string) {
-        return Arr.filled(this, key) as Arrayable<T>
+    filled(comparison?: string | ((item: T, index: number) => boolean)) {
+        return Arr.filled(this, comparison) as Arrayable<T>
     }
 
     /**
@@ -171,7 +171,7 @@ class Arrayable<T> extends Array<T> {
      * Keys the collection by the given key and returns a flooent map.
      * If multiple items have the same key, only the last one will appear in the new collection.
      */
-    keyBy<K extends keyof T>(key: K | ((item: T) => T[K]) ) {
+    keyBy<K extends keyof T>(key: K | ((item: T, index: number) => T[K]) ) {
         const keyed = Arr.keyBy(this, key)
         return new Mappable<T[K], T>(keyed)
     }
@@ -179,7 +179,7 @@ class Arrayable<T> extends Array<T> {
     /**
      * Groups an array by the given key and returns a flooent map.
      */
-    groupBy<K extends keyof T>(key: K | ((item: T) => T[K]) ) {
+    groupBy<K extends keyof T>(key: K | ((item: T, index: number) => T[K]) ) {
         const grouped = Arr.groupBy(this, key)
         return new Mappable<T[K], Arrayable<T>>(grouped)
     }
@@ -195,7 +195,7 @@ class Arrayable<T> extends Array<T> {
      * Returns the sum of the array.
      * For arrays of objects: Pass field or callback as argument.
      */
-    sum(key?: string | ((item: T) => number)) {
+    sum(key?: string | ((item: T, index: number) => number)) {
         return Arr.sum(this, key)
     }
 
@@ -217,8 +217,8 @@ class Arrayable<T> extends Array<T> {
      * Returns array of unique values.
      * For array ob objects: Pass key or callback to use it for the comparison.
      */
-    unique(key?: string | ((item: T) => string)) {
-        return this.constructor.from(Arr.unique(this, key))
+    unique(comparison?: string | ((item: T, index: number) => any)) {
+        return this.constructor.from(Arr.unique(this, comparison))
     }
 
     /**

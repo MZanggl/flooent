@@ -179,6 +179,10 @@ test.group('Arrayable', () => {
     const array = given.array([1])
     isArr(assert, given.array(array).filled(), array)
     assert.deepEqual(given.array([1, 0, '', null, undefined, 2]).filled(), [1, 2])
+
+    const users = given.array([{ id: 1, bday: null }, { id: 2, bday: '1990-01-01'}])
+    assert.deepEqual(users.filled('bday'), [{ id: 2, bday: '1990-01-01'}])
+    assert.deepEqual(users.filled(user => user.bday), [{ id: 2, bday: '1990-01-01'}])
   })
   
   test('groupBy() groups an array of objects by the given key', assert => {
