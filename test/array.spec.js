@@ -1,5 +1,5 @@
 const test = require('japa')
-const { Arrayable, Mappable, given } = require('../dist')
+const { Arrayable, Mappable, given, Stringable } = require('../dist')
 const arrayUtils = require('../dist/array')
 
 function isArr(assert, result, notSameAs) {
@@ -14,9 +14,9 @@ function isMap(assert, result) {
 }
 
 test.group('array functions', () => {
-  test('times() loops and maps through callback x times', assert => {
+  test('sized() loops and maps through callback x times', assert => {
     let count = 0
-    const mapped = arrayUtils.times(3, i => {
+    const mapped = arrayUtils.sized(3, i => {
       count++
       return i
     })
@@ -27,9 +27,9 @@ test.group('array functions', () => {
 })
 
 test.group('Arrayable', () => {
-  test('times() loops and maps through callback x times', assert => {
+  test('sized() loops and maps through callback x times', assert => {
     let count = 0
-    const mapped = given.array.times(3, i => {
+    const mapped = given.array.$sized(3, i => {
       count++
       return i
     })
@@ -195,6 +195,23 @@ test.group('Arrayable', () => {
       'LA': [{ id: 3, area: 'LA' }]
     })
   })
+
+  test('turns array in grouped map values back into primitives after calling valueOf()', assert => {
+    const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
+    const result = given.array(users).groupBy('area').valueOf()
+    assert.notInstanceOf(result.get('LA'), Arrayable)
+    assert.deepEqual(result.get('LA'), [{ id: 3, area: 'LA' }])
+  })
+
+  test('turns array with flooent objects back to its primitives', assert => {
+    const items = given.array([given.map(new Map), given.string('hey'),given.array([given.string('nested')]),  'hello', null, 1])
+    const raw = items.valueOf()
+    assert.notInstanceOf(raw[0], Mappable)
+    assert.notInstanceOf(raw[1], Stringable)
+    assert.notInstanceOf(raw[2], Arrayable)
+    assert.notInstanceOf(raw[2][0], Stringable)
+    assert.deepEqual(raw, [new Map(), 'hey', ['nested'], 'hello', null, 1])
+  })
   
   test('keyBy() keys an array of objects by the given key', assert => {
     const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
@@ -269,6 +286,21 @@ test.group('Arrayable', () => {
   
     assert.deepEqual(inactiveUsers, [{ id: 1, active: false }, { id: 2, active: false }])
     assert.deepEqual(activeUsers, [{ id: 3, active: true }])
+  })
+
+  test('valueOf() returns raw value for nested array types like partition(), chunk(), and point().split()', (assert) => {
+    const users = given.array([{ id: 1, active: false }, { id: 2, active: false }, { id: 3, active: true }])
+  
+    const [activeUsers, inactiveUsers] = users.partition(user => user.active).valueOf()
+
+    assert.notInstanceOf(activeUsers, Arrayable)
+    assert.notInstanceOf(inactiveUsers, Arrayable)
+
+    const chunks = users.chunk(2).valueOf()
+    chunks.forEach(chunk => assert.notInstanceOf(chunk, Arrayable))
+
+    const splits = users.point(2).split().valueOf()
+    splits.forEach(split => assert.notInstanceOf(split, Arrayable))
   })
   
   test('prepend() prepends the given items to the array and returns the entire array', assert => {
@@ -418,7 +450,9 @@ test.group('Arrayable', () => {
 
     test('can split the array at specific pointer', (assert) => {
       const original = given.array(['a', 'is', 'c'])
-      const [left, right] = original.point(1).split()
+      const result = original.point(1).split()
+      const [left, right] = result
+      isArr(assert, result, original)
       isArr(assert, left, original)
       isArr(assert, right, original)
       assert.deepEqual(left, ['a'])

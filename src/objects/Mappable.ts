@@ -1,4 +1,5 @@
 import Arrayable from './Arrayable'
+import Stringable from './Stringable'
 import * as MapUtils from '../map'
 
 class Mappable<K = any, V = any> extends Map<K, V> {
@@ -17,6 +18,10 @@ class Mappable<K = any, V = any> extends Map<K, V> {
      * Returns a raw map
     */
    valueOf() {
+    const values = this.values()
+    if (values[0] instanceof Arrayable || values[0] instanceof Mappable || values[0] instanceof Stringable) {
+      return new Map(this.mapValues(item => item?.valueOf?.() ?? item))
+    }
     return new Map(this)
   }
   

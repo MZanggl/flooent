@@ -10,8 +10,6 @@ function isArr(assert, result) {
   assert.instanceOf(result, Arrayable)
 }
 
-
-
 test.group('objects', () => {
   test('supports object in mapValues function', (assert) => {
     const mapped = mapMethods.mapValues(new Map([['key', 'value']]), value => value.toUpperCase())
@@ -31,6 +29,16 @@ test.group('objects', () => {
 })
 
 test.group('Mappable', () => {
+  test('turns nested map back into primitives after calling valueOf()', assert => {
+    const parent = given.map(new Mappable()).set('child1', new Mappable())
+    parent.get('child1').set('grandchild1', given.map(new Mappable()))
+    const raw = parent.valueOf()
+
+    assert.notInstanceOf(raw, Mappable)
+    assert.notInstanceOf(raw.get('child1'), Mappable)
+    // assert.notInstanceOf(raw.get('child1').get('grandchild1'), Mappable)
+  })
+
   test('it can create Mappable from Map or object', (assert) => {
     isMap(assert, given.map(new Map([['key', 'value']])))
     isMap(assert, given.map({ key: 'value' }))

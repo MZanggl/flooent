@@ -1,4 +1,4 @@
-import { Mappable } from '../index'
+import { Mappable, Stringable } from '../index'
 import { CopyFunction } from '../types'
 import * as Arr from '../array'
 
@@ -15,6 +15,12 @@ class Arrayable<T> extends Array<T> {
      * Returns a raw array
      */
     valueOf() {
+        if (this[0] instanceof Arrayable || this[0] instanceof Mappable || this[0] instanceof Stringable) {
+            return [...(this as unknown as T[][]).map(items => {
+                return items?.valueOf?.() ?? items
+            })]
+        }
+
         return [...this]
     }
 
@@ -79,7 +85,7 @@ class Arrayable<T> extends Array<T> {
              * Splits the array at the current index
              */
             split() {
-                return nativePointer.split()
+                return array.constructor.from(nativePointer.split())
             },
 
             /**
