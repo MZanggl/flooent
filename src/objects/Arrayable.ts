@@ -12,6 +12,13 @@ class Arrayable<T> extends Array<T> {
     }
 
     /**
+     * Executes callback for number of base values' times and returns a flooent array with the result of each iteration.
+     */
+    static $sized = function<T = void>(length: number, callback: (index: number) => T[]) {
+        return this.from(Arr.sized(length, callback))
+    }
+
+    /**
      * Returns a raw array
      */
     valueOf() {
@@ -187,7 +194,7 @@ class Arrayable<T> extends Array<T> {
      */
     groupBy<K extends keyof T>(key: K | ((item: T, index: number) => T[K]) ) {
         const grouped = Arr.groupBy(this, key)
-        return new Mappable<T[K], Arrayable<T>>(grouped)
+        return new Mappable(grouped)
     }
 
     /**
@@ -311,7 +318,8 @@ class Arrayable<T> extends Array<T> {
      * Turns an array in the structure of `[ ['key', 'value'] ]` into a flooent map.
      */
     toMap() {
-        return new Mappable(this)
+        type Tuple = this[number]
+        return new Mappable(this as unknown as Arrayable<[Tuple, Tuple]>)
     }
 }
 

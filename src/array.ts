@@ -218,7 +218,7 @@ export function mutate<T>(value: T[], callback: ((array: T[]) => T[])) {
 }
 
 /**
- * Groups an array by the given key and returns a flooent map.
+ * Groups an array by the given key and returns a map.
  */
 export function groupBy<T, K extends keyof T>(value: T[], key: K | ((item: T, index: number) => T[K]) ) {
     return value.reduce<Map<T[K], T[]>>((result, item, index) => {

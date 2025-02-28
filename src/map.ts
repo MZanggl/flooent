@@ -8,14 +8,9 @@ export function toObject<K, V>(value: Map<K, V>) {
 }
 
 /**
- * @deprecated Use "toObject" instead.
- */
-export const toJSON = toObject
-
-/**
  * Iterates the entries through the given callback and assigns each result as the key.
  */
-export function mapKeys<K, V, N>(value: Map<K, V>, callback: ((value: V, key: K, index: number) => N)): Map<K, N>
+export function mapKeys<K, V, N>(value: Map<K, V>, callback: ((value: V, key: K, index: number) => N)): Map<N, V>
 export function mapKeys<K, V, N>(value: Record<string, V>, callback: ((value: V, key: K, index: number) => N)): Record<string, N>
 export function mapKeys<K, V, N>(value, callback: ((value: V, key: K, index: number) => N)) {
   const isMap = value instanceof Map
@@ -80,7 +75,7 @@ export function except<K, V>(value: Map<K, V>, keys: K[]) {
   return new Map<K, V>([...value.entries()].filter(([key]) => keys.indexOf(key) === -1))
 }
 
-export function toEntries(obj: Object) {
+export function toEntries<K extends string, V = any>(obj: Record<K, V>) {
   let ownProps = Object.keys(obj)
   let i = ownProps.length
   let resArray = new Array(i); // preallocate the Array
@@ -88,5 +83,5 @@ export function toEntries(obj: Object) {
   while (i--)
     resArray[i] = [ownProps[i], obj[ownProps[i]]];
   
-  return resArray;
+  return resArray as [K, V][];
 }

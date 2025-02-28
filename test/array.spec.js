@@ -187,7 +187,7 @@ test.group('Arrayable', () => {
   
   test('groupBy() groups an array of objects by the given key', assert => {
     const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
-    const result = given.array(users).groupBy('area').toJSON()
+    const result = given.array(users).groupBy('area').$toObject()
   
     isArr(assert, result.LA, users)
     assert.deepEqual(result, {
@@ -218,7 +218,7 @@ test.group('Arrayable', () => {
     const result = given.array(users).keyBy('area')
   
     isMap(assert, result)
-    assert.deepEqual(result.toJSON(), {
+    assert.deepEqual(result.$toObject(), {
       'New York': { id: 2, area: 'New York'},
       'LA': { id: 3, area: 'LA' }
     })
@@ -228,14 +228,14 @@ test.group('Arrayable', () => {
     const genres = ['music', 'tech']
     const map = given.array(genres).toKeyedMap(genre => genre.toUpperCase())
 
-    assert.deepEqual(map.toJSON(), {
+    assert.deepEqual(map.$toObject(), {
       music: 'MUSIC',
       tech: 'TECH'
     })
 
     const simpleMap = given.array(genres).toKeyedMap(0)
 
-    assert.deepEqual(simpleMap.toJSON(), {
+    assert.deepEqual(simpleMap.$toObject(), {
       music: 0,
       tech: 0
     })
@@ -243,13 +243,13 @@ test.group('Arrayable', () => {
   
   test('groupBy() maintains key types', assert => {
     const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
-    given.array(users).groupBy('area').keys().map(k => assert.equal(typeof k, 'string'))
-    given.array(users).groupBy('id').keys().map(k => assert.equal(typeof k, 'number'))
+    given.array(users).groupBy('area').$keys().map(k => assert.equal(typeof k, 'string'))
+    given.array(users).groupBy('id').$keys().map(k => assert.equal(typeof k, 'number'))
   })
   
   test('groupBy() groups an array of object by the given key transformation', assert => {
     const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
-    const result = given.array(users).groupBy(item => item.area.toLowerCase()).toJSON()
+    const result = given.array(users).groupBy(item => item.area.toLowerCase()).$toObject()
   
     isArr(assert, result.la)
     assert.deepEqual(result, {
@@ -394,7 +394,7 @@ test.group('Arrayable', () => {
   })
   
   test('can turn arrays into maps', assert => {
-    const mapTurnedMap = given.map({ key: 'value' }).entries().toMap()
+    const mapTurnedMap = given.map.$fromObject({ key: 'value' }).$entries().toMap()
     assert.equal(mapTurnedMap.get('key'), 'value')
     isMap(assert, mapTurnedMap)
   })

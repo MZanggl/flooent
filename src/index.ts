@@ -18,15 +18,18 @@ array.macro = (key: string, callback: Function) => (Arrayable.prototype[key] = c
 /**
  * Executes callback for number of base values' times and returns a flooent array with the result of each iteration.
  */
-array.$sized = function<T = void>(length: number, callback: (index: number) => T[]) {
-    return Arrayable.from(sized(length, callback))
-}
+array.$sized = Arrayable.$sized.bind(Arrayable)
 
 /**
  * Create a flooent map. You have access to [everything from the native Map object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map).
  */
 const map = <K, V>(value: MapValue<K, V>) => new Mappable<K, V>(value)
 map.macro = (key: string, callback: Function) => (Mappable.prototype[key] = callback)
+
+/**
+ * Create a map from an object
+ */
+map.$fromObject = Mappable.$fromObject.bind(Mappable)
 
 const given = { string, array, map }
 export { Stringable, Arrayable, Mappable, given }
