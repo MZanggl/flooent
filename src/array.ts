@@ -197,15 +197,12 @@ export function whereNotIn<T>(array: T[], keyOrValue, value) {
 /**
  * Only returns items which are not empty.
  */
-export function filled<T, K extends keyof T>(value: T[], comparison?: K | ((item: T, index: number) => any)) {
-    if (!comparison) {
+export function filled<T>(value: T[], key?: string) {
+    if (!key) {
         return value.filter((value) => !!value)
     }
 
-    return value.filter((item, index) => {
-        const value = typeof comparison === 'function' ? comparison(item, index) : item[comparison]
-        return !!value
-    })
+    return value.filter((item) => !!item[key])
 }
 
 /**

@@ -183,7 +183,7 @@ class Arrayable<T> extends Array<T> {
     /**
      * Only returns items which are not empty.
      */
-    $filled(comparison?: string | ((item: T, index: number) => boolean)) {
+    $filled(comparison?: string) {
         return Arr.filled(this, comparison) as Arrayable<T>
     }
 
