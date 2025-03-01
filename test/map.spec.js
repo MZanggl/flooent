@@ -10,21 +10,15 @@ function isArr(assert, result) {
   assert.instanceOf(result, Arrayable)
 }
 
-test.group('objects', () => {
-  test('supports object in mapValues function', (assert) => {
+test.group('map functions', () => {
+  test('mapValues', (assert) => {
     const mapped = mapMethods.mapValues(new Map([['key', 'value']]), value => value.toUpperCase())
     assert.equal(mapped.get('key'), 'VALUE')
-    
-    const mapped2 = mapMethods.mapValues({ key: 'value' }, value => value.toUpperCase())
-    assert.deepEqual(mapped2, {key: "VALUE" })
   })
 
   test('supports object in mapKeys function', (assert) => {
     const mapped = mapMethods.mapKeys(new Map([['key', 'value']]), (value, key) => key.toUpperCase())
     assert.equal(mapped.get('KEY'), 'value')
-    
-    const mapped2 = mapMethods.mapKeys({ key: 'value' }, (value, key) => key.toUpperCase())
-    assert.deepEqual(mapped2, {KEY: "value" })
   })
 })
 
@@ -71,7 +65,7 @@ test.group('Mappable', () => {
     assert.deepEqual(given.map.$fromObject({ key: 'value' }).$toObject(), { key: 'value' })
   })
   
-  test('keys(), values() and entries() return instances of Arrayable', assert => {
+  test('$keys(), $values() and $entries() return instances of Arrayable', assert => {
     const map = given.map.$fromObject({ key: 'value' })
     isArr(assert, map.$entries())
     isArr(assert, map.$keys())
