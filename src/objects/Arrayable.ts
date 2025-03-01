@@ -231,7 +231,7 @@ class Arrayable<T> extends Array<T> {
      * Returns the sum of the array.
      * For arrays of objects: Pass field or callback as argument.
      */
-    $sum(key?: string | ((item: T, index: number) => number)) {
+    $sum<K extends keyof T>(key?: K | ((item: T, index: number) => number)) {
         return Arr.sum(this, key)
     }
 
@@ -325,7 +325,7 @@ class Arrayable<T> extends Array<T> {
      * Sorts an array in descending order and **returns a new array**.
      * For array of objects: Pass index, field or callback to use it for sorting.
      */
-    $sortDesc(key?: string | number | ((item: T) => any)) {
+    $sortDesc<K extends keyof T>(key?: K | number | ((item: T) => any)) {
         return this.constructor.from(Arr.sortDesc(this, key)) as Arrayable<T>
     }
 
@@ -333,7 +333,7 @@ class Arrayable<T> extends Array<T> {
      * Sorts an array in ascending order and **returns a new array**.
      * For array of objects: Pass index, field or callback to use it for sorting.
      */
-    $sortAsc(key?: string | number | ((item: T, index: number) => any)) {
+    $sortAsc<K extends keyof T>(key?: K | number | ((item: T, index: number) => any)) {
         return this.constructor.from(Arr.sortAsc(this, key)) as Arrayable<T>
     }
 

@@ -197,7 +197,7 @@ export function whereNotIn<T>(array: T[], keyOrValue, value) {
 /**
  * Only returns items which are not empty.
  */
-export function filled<T>(value: T[], comparison?: string | ((item: T, index: number) => any)) {
+export function filled<T, K extends keyof T>(value: T[], comparison?: K | ((item: T, index: number) => any)) {
     if (!comparison) {
         return value.filter((value) => !!value)
     }
@@ -233,11 +233,11 @@ export function mutate<T>(value: T[], callback: ((array: T[]) => T[])) {
  * Returns the sum of the array.
  * For arrays of objects: Pass field or callback as argument.
  */
-export function sum<T>(value: T[], key?: string | ((item: T, index: number) => number)) {
+export function sum<T, K extends keyof T>(value: T[], key?: K | ((item: T, index: number) => number)) {
     return value.reduce<number>((result, item, index) => {
-        let number = item
+        let number = item as number
         if (key) {
-            number = typeof key === "function" ? key(item, index) : item[key]
+            number = typeof key === "function" ? key(item, index) : item[key] as number
         }
         return result + (number as unknown as number)
     }, 0)
@@ -272,7 +272,7 @@ export function pluck<T>(value: T[], key: keyof T) {
  * Returns array of unique values.
  * For array ob objects: Pass key or callback to use it for the comparison.
  */
-export function unique<T>(value: T[], comparison?: string | ((item: T, index: number) => any)) {
+export function unique<T, K extends keyof T>(value: T[], comparison?: K | ((item: T, index: number) => any)) {
     if (!comparison) {
         return [...new Set(value)]
     }
@@ -342,7 +342,7 @@ export function append<T>(value: T[], ...items: T[]): T[] {
  * Sorts an array in descending order and **returns a new array**.
  * For array of objects: Pass index, field or callback to use it for sorting.
  */
-export function sortDesc<T>(value: T[], key?: string | number | ((item: T) => any)) {
+export function sortDesc<T, K extends keyof T>(value: T[], key?: K | number | ((item: T) => any)) {
     return sortAsc(value, key).reverse()
 }
 
@@ -350,7 +350,7 @@ export function sortDesc<T>(value: T[], key?: string | number | ((item: T) => an
  * Sorts an array in ascending order and **returns a new array**.
  * For array of objects: Pass index, field or callback to use it for sorting.
  */
-export function sortAsc<T>(value: T[], key?: string | number | ((item: T, index: number) => any)) {
+export function sortAsc<T, K extends keyof T>(value: T[], key?: K | number | ((item: T, index: number) => any)) {
     if (!key) {
         return [...value].sort((a, b) => {
             if (typeof a === 'string') {
@@ -378,7 +378,7 @@ export function sortAsc<T>(value: T[], key?: string | number | ((item: T, index:
         .map(item => item.item)
     }
     
-    return [...value].sort((a, b) => compare(a[key], b[key]))
+    return [...value].sort((a, b) => compare(a[key as string], b[key as string]))
 }
 
 /**
