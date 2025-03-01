@@ -1,4 +1,24 @@
+import { ArrayConstructor } from './types'
+
 type Key = string | number | symbol
+
+/**
+ * Groups an array by the given key and returns a map.
+ */
+export function groupBy<T, K extends keyof T>(value: T[], key: K | ((item: T, index: number) => T[K]) ) {
+  type Key = T[K] extends string | number | symbol ? T[K] : never
+  type Result = Record<Key, T[]>
+
+  return value.reduce<Result>((result, item, index) => {
+      const group = (typeof key === "function" ? key(item, index) : item[key]) as Key
+      if (result[group]) {
+          result[group].push(item)
+      } else {
+          result[group] = (value.constructor as ArrayConstructor<T>).from([item])
+      }
+      return result
+  }, {} as Result)
+}
 
 /**
  * Iterates the entries through the given callback and assigns each result as the key.

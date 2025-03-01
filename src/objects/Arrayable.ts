@@ -1,6 +1,7 @@
 import { Mappable, Stringable } from '../index'
 import { CopyFunction } from '../types'
 import * as Arr from '../array'
+import * as MapUtils from '../map'
 
 class Arrayable<T> extends Array<T> {
     ["constructor"]!: typeof Arrayable
@@ -206,7 +207,7 @@ class Arrayable<T> extends Array<T> {
      * Groups an array by the given key and returns a flooent map.
      */
     $groupBy<K extends keyof T>(key: K | ((item: T, index: number) => T[K]) ) {
-        const grouped = Arr.groupBy(this, key)
+        const grouped = MapUtils.groupBy(this, key)
         return new Mappable(grouped)
     }
 

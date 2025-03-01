@@ -1,8 +1,5 @@
 import { getNthIndex } from './utils'
-
-interface ArrayConstructor<T> extends Function {
-    from: (value: T[]) => T[]
-}
+import { ArrayConstructor } from './types'
 
 /**
  * Returns the items until either the given value is found, or the given callback returns `true`.
@@ -219,21 +216,6 @@ export function mutate<T>(value: T[], callback: ((array: T[]) => T[])) {
     value.splice(0)
     value.splice(0, 0, ...mutation)
     return value
-}
-
-/**
- * Groups an array by the given key and returns a map.
- */
-export function groupBy<T, K extends keyof T>(value: T[], key: K | ((item: T, index: number) => T[K]) ) {
-    return value.reduce<Map<T[K], T[]>>((result, item, index) => {
-        const group = typeof key === "function" ? key(item, index) : item[key]
-        if (result.has(group)) {
-            result.get(group).push(item)
-        } else {
-            result.set(group, (value.constructor as ArrayConstructor<T>).from([item]))
-        }
-        return result
-    }, new Map<T[K], T[]>())
 }
 
 /**
