@@ -136,6 +136,13 @@ class Stringable extends String {
     }
 
     /**
+     * Returns a raw string
+     */
+    $value() {
+        return this.valueOf()
+    }
+
+    /**
      * Compares the given value with the raw string.
      */
     $is(compare: string) {

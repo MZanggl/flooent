@@ -21,6 +21,13 @@ class Arrayable<T> extends Array<T> {
     /**
      * Returns a raw array
      */
+    $value() {
+        return this.valueOf()
+    }
+
+    /**
+     * Returns a raw array
+     */
     valueOf() {
         if (this[0] instanceof Arrayable || this[0] instanceof Mappable || this[0] instanceof Stringable) {
             return [...(this as unknown as T[][]).map(items => {

@@ -19,6 +19,12 @@ class Mappable<K = any, V = any> extends Map<K, V> {
   /**
      * Returns a raw map
     */
+  $value() {
+    return this.valueOf()
+  }
+  /**
+     * Returns a raw map
+    */
   valueOf() {
     const values = this.$values()
     if (values[0] instanceof Arrayable || values[0] instanceof Mappable || values[0] instanceof Stringable) {

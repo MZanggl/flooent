@@ -44,6 +44,11 @@ test.group('Arrayable', () => {
     assert.notInstanceOf(array, Arrayable)
     assert.instanceOf(array, Array)
   })
+  test('$value() returns the raw array', (assert) => {
+    const array = Arrayable.from([1]).$value()
+    assert.notInstanceOf(array, Arrayable)
+    assert.instanceOf(array, Array)
+  })
 
   test('it can create Arrayable from array', (assert) => {
     assert.deepEqual(Arrayable.from([1,2]), [1,2])

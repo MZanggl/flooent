@@ -60,6 +60,12 @@ test.group('Mappable', () => {
     assert.notInstanceOf(map, Mappable)
     assert.instanceOf(map, Map)
   })
+
+  test('$value() returns the raw map', (assert) => {
+    const map = new Mappable(new Map()).$value()
+    assert.notInstanceOf(map, Mappable)
+    assert.instanceOf(map, Map)
+  })
   
   test('$toObject() turns the map back into an object', assert => {
     assert.deepEqual(given.map.$fromObject({ key: 'value' }).$toObject(), { key: 'value' })

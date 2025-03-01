@@ -15,6 +15,7 @@ test.group('Stringable', () => {
     assert.equal(typeof given.string('test'), 'object')
     isStr(assert, given.string('test'))
     assert.equal(typeof given.string('test').valueOf(), 'string')
+    assert.equal(typeof given.string('test').$value(), 'string')
     assert.equal(typeof given.string('test').toString(), 'string')
   })
   
