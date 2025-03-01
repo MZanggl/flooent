@@ -874,6 +874,8 @@ given.array(items).groupBy(item => item.name.toUpperCase()).valueOf() // result 
 */
 ```
 
+There is no standalone function for "groupBy". Instead, use the native "Map.groupBy" or "Object.groupBy" (it only supports a callback).
+
 ### keyBy
 
 Keys the collection by the given key and returns a flooent map.

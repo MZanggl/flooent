@@ -207,7 +207,16 @@ class Arrayable<T> extends Array<T> {
      * Groups an array by the given key and returns a flooent map.
      */
     $groupBy<K extends keyof T>(key: K | ((item: T, index: number) => T[K]) ) {
-        const grouped = MapUtils.groupBy(this, key)
+        const grouped = this.reduce<Map<T[K], T[]>>((result, item, index) => {
+            const group = typeof key === "function" ? key(item, index) : item[key]
+            if (result.has(group)) {
+                result.get(group).push(item)
+            } else {
+                result.set(group, this.constructor.from([item]))
+            }
+            return result
+        }, new Map<T[K], T[]>())
+
         return new Mappable(grouped)
     }
 
@@ -244,7 +253,7 @@ class Arrayable<T> extends Array<T> {
      * Returns array of unique values.
      * For array ob objects: Pass key or callback to use it for the comparison.
      */
-    $unique(comparison?: string | ((item: T, index: number) => any)) {
+    $unique<K extends keyof T>(comparison?: K | ((item: T, index: number) => any)) {
         return this.constructor.from(Arr.unique(this, comparison))
     }
 

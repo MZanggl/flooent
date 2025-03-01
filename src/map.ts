@@ -10,21 +10,6 @@ export function toObject<K, V>(value: Map<K, V>) {
 }
 
 /**
- * Groups an array by the given key and returns a map.
- */
-export function groupBy<T, K extends keyof T>(value: T[], key: K | ((item: T, index: number) => T[K]) ) {
-  return value.reduce<Map<T[K], T[]>>((result, item, index) => {
-      const group = typeof key === "function" ? key(item, index) : item[key]
-      if (result.has(group)) {
-          result.get(group).push(item)
-      } else {
-          result.set(group, (value.constructor as ArrayConstructor<T>).from([item]))
-      }
-      return result
-  }, new Map<T[K], T[]>())
-}
-
-/**
  * Iterates the entries through the given callback and assigns each result as the key.
  */
 export function mapKeys<K, V, N>(value: Map<K, V>, callback: ((value: V, key: K, index: number) => N)): Map<N, V> {

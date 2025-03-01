@@ -4,16 +4,6 @@ const test = require('japa')
 const objMethods = require('../dist/object')
 
 test.group('objects', () => {
-  test('groupBy() groups an array of objects by the given key and returns an object', assert => {
-    const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
-    const result = objMethods.groupBy(users, 'area')
-  
-    assert.deepEqual(result, {
-      'New York': [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}],
-      'LA': [{ id: 3, area: 'LA' }]
-    })
-  })
-
   test('pull() returns the value for the given key and removes it from the object', assert => {
     const obj = { key: 'value', key2: 'value2' }
     assert.equal(objMethods.pull(obj, 'key'), 'value');
