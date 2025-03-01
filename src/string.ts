@@ -85,13 +85,6 @@ export function prepend(value: string, part: string) {
 }
 
 /**
- * Checks if the string is included in the given array.
- */
-export function includedIn(value: string, array: string[]) {
-    return array.indexOf(value) >= 0
-}
-
-/**
  * Appends the given value only if string doesn't already end with it.
  */
 export function endWith<T extends String>(value: T, part: string): T
@@ -191,14 +184,4 @@ export function slug<T extends string>(value: T, replacement = "-") {
         .replace(/[^a-zA-Z0-9\s]/g, "") // only keep numbers and alphabet
 
     return snake(slug, replacement)
-}
-
-/**
- * Parses a string back into its original form. Examples:
- * given.string('true').parse() // true
- * given.string('23').parse() // 23
- */
-export function parse<T extends String>(value: T)
-export function parse<T extends string>(value: T) {
-    return JSON.parse(value)
 }

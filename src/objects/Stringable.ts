@@ -84,7 +84,7 @@ class Stringable extends String {
      * Executes the callback if string is empty. Result will get transformed back into a flooent string if it is a raw string.
      */
     $whenEmpty(then) {
-        return this.$when(this.$is(""), then)
+        return this.$when(this.$value() === "", then)
     }
 
     /**
@@ -140,20 +140,6 @@ class Stringable extends String {
      */
     $value() {
         return this.valueOf()
-    }
-
-    /**
-     * Compares the given value with the raw string.
-     */
-    $is(compare: string) {
-        return this.valueOf() === compare
-    }
-
-    /**
-     * Checks if the string is included in the given array.
-     */
-    $includedIn(array: string[]) {
-        return Str.includedIn(this.valueOf(), array)
     }
 
     /**
@@ -226,15 +212,6 @@ class Stringable extends String {
      */
     $slug(replacement = "-") {
         return new this.constructor(Str.slug(this, replacement))
-    }
-
-    /**
-     * Parses a string back into its original form. Examples:
-     * given.string('true').parse() // true
-     * given.string('23').parse() // 23
-     */
-    $parse<R>() {
-        return Str.parse(this) as R
     }
 }
 

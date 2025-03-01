@@ -71,8 +71,8 @@ test.group('Stringable', () => {
     isStr(assert, given.string('test').$when(true, () => 'not Str'))
     assert.equal(given.string('test').$when(true, callback), 'testing')
     assert.equal(given.string('test').$when(false, callback), 'test')
-    assert.equal(given.string('test').$when(str => str.$is('test'), callback), 'testing')
-    assert.equal(given.string('test').$when(str => str.$is('not test'), callback), 'test')
+    assert.equal(given.string('test').$when(str => str.$value() === 'test', callback), 'testing')
+    assert.equal(given.string('test').$when(str => str.$value() === 'not test', callback), 'test')
   })
   
   test('wrap() wraps a string by the first (or possibly second) argument', assert => {
@@ -98,17 +98,6 @@ test.group('Stringable', () => {
   test('prepend(), well, prepends a string to the existing one', assert => {
     isStr(assert, given.string('').$prepend(':'))
     assert.equal(given.string('second').$prepend('first-'), 'first-second')
-  })
-  
-  test('is() compares the raw string against what gets passed in', assert => {
-    assert.isTrue(given.string('first').$is('first'))
-    assert.isFalse(given.string('first').$is('second'))
-    assert.isFalse(given.string('').$is(0))
-  })
-  
-  test('includedIn() checks if string is included in array', assert => {
-    assert.isTrue(given.string('first').$includedIn(['first']))
-    assert.isFalse(given.string('first').$includedIn(['second']))
   })
   
   test('endWith() ends a string with what gets passed in if it does not already end with that string', assert => {
@@ -188,14 +177,6 @@ test.group('Stringable', () => {
     assert.isTrue(wasCalled)
     assert.equal(given.string('').$tap(str => str.$append('nope')), '')
     assert.equal(given.string('').$tap(str => str.$append('nope')).$append('yup'), 'yup')
-  })
-  
-  test('parse() converts a stringified version back into original', assert => {
-    assert.equal(given.string('1').$parse(), '1')
-    assert.isTrue(given.string('true').$parse())
-  
-    const stringified = JSON.stringify({ a: 1 })
-    assert.deepEqual(given.string(stringified).$parse(), { a: 1 })
   })
   
   test('slug() turns string into URI conform format', assert => {
