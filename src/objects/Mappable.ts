@@ -17,6 +17,33 @@ class Mappable<K = any, V = any> extends Map<K, V> {
   }
 
   /**
+     * Executes callback and transforms result back into a flooent map if it is a map.
+     */
+  $pipe(callback: (value: Mappable<K, V>) => Mappable<K, V>): Mappable<K, V>
+  $pipe<P>(callback: (value: Mappable<K, V>) => P): P
+  $pipe(callback) {
+      const result = callback(this)
+      return result instanceof Map ? new this.constructor<K, V>(result) : result
+  }
+
+  /**
+   * Executes callback if first given value evaluates to true. Result will get transformed back into a flooent array if it is an array.
+   */
+  $when<P>(comparison, then: ((value: Mappable<K, V>) => P)) {
+      const isBoolean = typeof comparison === "boolean"
+
+      if (isBoolean && !comparison) {
+          return this
+      }
+
+      if (!isBoolean && !comparison(this)) {
+          return this
+      }
+
+      return this.$pipe(then)
+  }
+
+  /**
      * Returns a raw map
     */
   $value() {

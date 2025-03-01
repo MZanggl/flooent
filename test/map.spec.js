@@ -23,6 +23,22 @@ test.group('map functions', () => {
 })
 
 test.group('Mappable', () => {
+    test('pipe() calls the callback and lets you continue the chain', assert => {
+      const newMap = given.map(new Map()).$pipe(map => map.set(1, 2))
+      isMap(assert, newMap)
+      assert.equal(newMap.get(1), 2)
+      assert.equal(given.map(new Map).$pipe(() => false), false)
+    })
+
+    test('when() can apply modifications conditionally', assert => {
+      const addItem = map => map.set(1, 2)
+      isMap(assert, given.map(new Map).$when(true, addItem))
+      assert.equal(given.map(new Map).$when(true, addItem).size, 1)
+      assert.equal(given.map(new Map).$when(false, addItem).size, 0)
+      assert.equal(given.map(new Map).$when(map => map.size === 0, addItem).size, 1)
+      assert.equal(given.map(new Map).$when(map => map.size === 1).size, 0)
+    })
+
   test('turns nested map back into primitives after calling valueOf()', assert => {
     const parent = given.map(new Mappable()).set('child1', new Mappable())
     parent.get('child1').set('grandchild1', given.map(new Mappable()))
