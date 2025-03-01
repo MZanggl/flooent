@@ -930,19 +930,26 @@ const map = given.array(genres).toKeyedMap(genre => genre.toUpperCase()) // resu
 
 You have access to [everything from the native Map object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map).
 
-The native methods `keys()`, `entries()` and `values()` will return an instance of flooent Array instead of a native Array.
-
-> For nested data structures, only the first layer gets transformed into a map
-
-#### toObject/toJSON
-
-Turns the map into an object.
+This is how you can new up a map with flooent:
 
 ```javascript
-const map = given.map({ key: 'value' }) // Map { key → "value" }
-map.toObject() // { key: 'value' }
-map.toJSON() // { key: 'value' }
+// using an array in the format of entries
+given.map([['key', 'value']])
+
+// using an existing map
+given.map(new Map())
 ```
+
+Additionally, since normal objects don't have a fluent API in general, you can turn your objects into a map, perform any manipulations and turn it back into an object instead:
+
+```javascript
+given.map
+  .$fromObject({ key: 'value' })
+  .$rename('key', 'id')
+  .$toObject()
+```
+
+> For nested data structures, only the first layer gets transformed into a map
 
 #### pull
 
@@ -1039,7 +1046,7 @@ For TypeScript support, you need to additionally declare the module.
 
 ```typescript
 declare module 'flooent' {
-  interface Stringable {
+  interface Stringable { // Stringable | Arrayable | Mappable
     scream(): Stringable;
   }
 }
