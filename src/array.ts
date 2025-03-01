@@ -130,6 +130,10 @@ export function point<T>(value: T[], indexOrFn: number | ((item: T) => boolean))
             return array[index]
         },
 
+        index() {
+            return index
+        },
+
         /**
          * Splits the array at the current index
          */

@@ -120,11 +120,16 @@ class Arrayable<T> extends Array<T> {
                 return nativePointer.value()
             },
             /**
+             * Returns index for current pointer position.
+             */
+            $index() {
+                return nativePointer.index()
+            },
+            /**
              * Steps forward or backward given the number of steps.
              */
             $step(steps: number) {
-                return nativePointer.step(steps)
-                // TODO: rename methods
+                return array.$point(nativePointer.index() + steps)
             }
         }
 
