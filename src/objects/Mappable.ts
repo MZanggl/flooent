@@ -1,6 +1,7 @@
 import Arrayable from './Arrayable'
 import Stringable from './Stringable'
 import * as MapUtils from '../map'
+import * as ObjectUtils from '../object'
 import { MapValue } from '../types'
 
 class Mappable<K = any, V = any> extends Map<K, V> {
@@ -11,7 +12,7 @@ class Mappable<K = any, V = any> extends Map<K, V> {
   }
 
   static $fromObject<K extends string, V = any> (value: Record<K, V>) {
-    const entries = MapUtils.toEntries(value)
+    const entries = ObjectUtils.toEntries(value)
     return new this<K, V>(entries)
   }
 

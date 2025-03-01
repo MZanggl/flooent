@@ -10,13 +10,10 @@ export function toObject<K, V>(value: Map<K, V>) {
 /**
  * Iterates the entries through the given callback and assigns each result as the key.
  */
-export function mapKeys<K, V, N>(value: Map<K, V>, callback: ((value: V, key: K, index: number) => N)): Map<N, V>
-export function mapKeys<K, V, N>(value: Record<string, V>, callback: ((value: V, key: K, index: number) => N)): Record<string, N>
-export function mapKeys<K, V, N>(value, callback: ((value: V, key: K, index: number) => N)) {
-  const isMap = value instanceof Map
-  const entries = isMap ? [...value.entries()] : Object.entries(value)
+export function mapKeys<K, V, N>(value: Map<K, V>, callback: ((value: V, key: K, index: number) => N)): Map<N, V> {
+  const entries =  [...value.entries()]
   const mapped = entries.map(([key, value], index) => [callback(value, key, index), value]) as any
-  return isMap ? new Map<K, N>(mapped) : Object.fromEntries(mapped)
+  return new Map<N, V>(mapped)
 }
 
 /**
@@ -31,13 +28,10 @@ export function rename<K, V>(value: Map<K, V>, oldKey: K, newKey: K) {
 /**
  * Iterates the entries through the given callback and assigns each result as the value.
  */
-export function mapValues<K, V, N>(value: Map<K, V>, callback: ((value: V, key: K, index: number) => N)): Map<K, N>
-export function mapValues<K, V, N>(value: Record<string, V>, callback: ((value: V, key: K, index: number) => N)): Record<string, N>
-export function mapValues<K, V, N>(value, callback: ((value: V, key: K, index: number) => N)) {
-  const isMap = value instanceof Map
-  const entries = isMap ? [...value.entries()] : Object.entries(value)
+export function mapValues<K, V, N>(value: Map<K, V>, callback: ((value: V, key: K, index: number) => N)): Map<K, N> {
+  const entries = [...value.entries()]
   const mapped = entries.map(([key, value], index) => [key, callback(value, key, index)]) as any
-  return isMap ? new Map<K, N>(mapped) : Object.fromEntries(mapped)
+  return new Map<K, N>(mapped)
 }
 
 /**
@@ -73,15 +67,4 @@ export function only<K, V>(value: Map<K, V>, keys: K[]) {
  */
 export function except<K, V>(value: Map<K, V>, keys: K[]) {
   return new Map<K, V>([...value.entries()].filter(([key]) => keys.indexOf(key) === -1))
-}
-
-export function toEntries<K extends string, V = any>(obj: Record<K, V>) {
-  let ownProps = Object.keys(obj)
-  let i = ownProps.length
-  let resArray = new Array(i); // preallocate the Array
-
-  while (i--)
-    resArray[i] = [ownProps[i], obj[ownProps[i]]];
-  
-  return resArray as [K, V][];
 }
