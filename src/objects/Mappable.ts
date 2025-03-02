@@ -11,7 +11,7 @@ class Mappable<K = any, V = any> extends Map<K, V> {
     super(value)
   }
 
-  static $fromObject<K extends string, V = any> (value: Record<K, V>) {
+  static fromObject<K extends string, V = any> (value: Record<K, V>) {
     const entries = ObjectUtils.toEntries(value)
     return new this<K, V>(entries)
   }
@@ -19,9 +19,9 @@ class Mappable<K = any, V = any> extends Map<K, V> {
   /**
      * Executes callback and transforms result back into a flooent map if it is a map.
      */
-  $pipe(callback: (value: Mappable<K, V>) => Mappable<K, V>): Mappable<K, V>
-  $pipe<P>(callback: (value: Mappable<K, V>) => P): P
-  $pipe(callback) {
+  pipe(callback: (value: Mappable<K, V>) => Mappable<K, V>): Mappable<K, V>
+  pipe<P>(callback: (value: Mappable<K, V>) => P): P
+  pipe(callback) {
       const result = callback(this)
       return result instanceof Map ? new this.constructor<K, V>(result) : result
   }
@@ -29,7 +29,7 @@ class Mappable<K = any, V = any> extends Map<K, V> {
   /**
    * Executes callback if first given value evaluates to true. Result will get transformed back into a flooent array if it is an array.
    */
-  $when<P>(comparison, then: ((value: Mappable<K, V>) => P)) {
+  when<P>(comparison, then: ((value: Mappable<K, V>) => P)) {
       const isBoolean = typeof comparison === "boolean"
 
       if (isBoolean && !comparison) {
@@ -40,22 +40,16 @@ class Mappable<K = any, V = any> extends Map<K, V> {
           return this
       }
 
-      return this.$pipe(then)
+      return this.pipe(then)
   }
 
-  /**
-     * Returns a raw map
-    */
-  $value() {
-    return this.valueOf()
-  }
   /**
      * Returns a raw map
     */
   valueOf() {
     const values = this.toValues()
     if (values[0] instanceof Arrayable || values[0] instanceof Mappable || values[0] instanceof Stringable) {
-      return new Map(this.$mapValues(item => item?.valueOf?.() ?? item))
+      return new Map(this.mapValues(item => item?.valueOf?.() ?? item))
     }
     return new Map(this)
   }
@@ -71,7 +65,7 @@ class Mappable<K = any, V = any> extends Map<K, V> {
   /**
    * Turns the map into an object.
    */
-  $toObject() {
+  toObject() {
     return MapUtils.toObject(this)
   }
 
@@ -90,49 +84,49 @@ class Mappable<K = any, V = any> extends Map<K, V> {
   /**
    * Iterates the entries through the given callback and assigns each result as the key.
    */
-  $mapKeys<N>(callback: ((value: V, key: K, index: number) => N)) {
+  mapKeys<N>(callback: ((value: V, key: K, index: number) => N)) {
     return new this.constructor<N, V>(MapUtils.mapKeys(this, callback))
   }
 
   /**
    * Renames the given key with the new key if found, keeping the original insertion order.
    */
-  $rename(oldKey: K, newKey: K) {
+  rename(oldKey: K, newKey: K) {
     return new this.constructor(MapUtils.rename(this, oldKey, newKey))
   }
 
   /**
    * Iterates the entries through the given callback and assigns each result as the value.
    */
-  $mapValues<N>(callback: ((value: V, key: K, index: number) => N)) {
+  mapValues<N>(callback: ((value: V, key: K, index: number) => N)) {
     return new this.constructor(MapUtils.mapValues(this, callback))
   }
 
   /**
    * Rearranges the map to the given keys. Any unmentioned keys will be appended to the end.
    */
-  $arrange(...keys: K[]) {
+  arrange(...keys: K[]) {
     return new this.constructor(MapUtils.arrange<K, V>(this, ...keys))
   }
 
   /**
    * Returns the value for the given key and deletes the key value pair from the map (mutation).
    */
-  $pull(key: any) {
+  pull(key: any) {
     return MapUtils.pull<K, V>(this, key)
   }
 
   /**
    * Returns a new map with only the given keys.
    */
-  $only(keys: K[]) {
+  only(keys: K[]) {
     return new this.constructor(MapUtils.only(this, keys)) as Mappable<K, V>
   }
   
   /**
    * Inverse of `only`. Returns a new map with all keys except for the given keys.
    */
-  $except(keys: K[]) {
+  except(keys: K[]) {
     return new this.constructor(MapUtils.except(this, keys)) as Mappable<K, V>
   }
 }

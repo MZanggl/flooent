@@ -35,7 +35,7 @@ class Stringable extends String {
      * Returns the remaining text after the first occurrence of the given value. 
      * If the value does not exist in the string, the entire string is returned unchanged.
      */
-    $after(part: string) {
+    after(part: string) {
         return Str.after(this, part)
     }
 
@@ -43,7 +43,7 @@ class Stringable extends String {
      * Returns the remaining text after the last occurrence of the given value.
      * If the value does not exist in the string, the entire string is returned unchanged.
      */
-    $afterLast(part: string) {
+    afterLast(part: string) {
         return Str.afterLast(this, part)
     }
 
@@ -51,7 +51,7 @@ class Stringable extends String {
      * Returns the text before the first occurrence of the given value.
      * If the value does not exist in the string, the entire string is returned unchanged.
      */
-    $before(part: string) {
+    before(part: string) {
         return Str.before(this, part)
     }
 
@@ -59,14 +59,14 @@ class Stringable extends String {
      * Returns the text before the last occurrence of the given value.
      * If the value does not exist in the string, the entire string is returned unchanged.
      */
-    $beforeLast(part: string) {
+    beforeLast(part: string) {
         return Str.beforeLast(this, part)
     }
 
     /**
      * Executes the callback if first given value evaluates to true. Result will get transformed back into a flooent string if it is a raw string.
      */
-    $when<T>(comparison, then: (value: Stringable) => T) {
+    when<T>(comparison, then: (value: Stringable) => T) {
         const isBoolean = typeof comparison === "boolean"
 
         if (isBoolean && !comparison) {
@@ -77,22 +77,22 @@ class Stringable extends String {
             return this
         }
 
-        return (this.$pipe(then) as unknown) as Stringable
+        return (this.pipe(then) as unknown) as Stringable
     }
 
     /**
      * Executes the callback if string is empty. Result will get transformed back into a flooent string if it is a raw string.
      */
-    $whenEmpty(then) {
-        return this.$when(this.$value() === "", then)
+    whenEmpty(then) {
+        return this.when(this.value() === "", then)
     }
 
     /**
      * Executes the callback and transforms the result back into a flooent string if it is a string.
      */
-    $pipe(callback: (value: Stringable) => string): Stringable
-    $pipe<T>(callback: (value: Stringable) => T): T
-    $pipe(callback) {
+    pipe(callback: (value: Stringable) => string): Stringable
+    pipe<T>(callback: (value: Stringable) => T): T
+    pipe(callback) {
         const result = callback(this)
         if (result instanceof Stringable || typeof result !== 'string') return result
 
@@ -102,7 +102,7 @@ class Stringable extends String {
     /**
      * Tap into the chain without modifying the string.
      */
-    $tap(fn: ((value: Stringable) => any)): Stringable {
+    tap(fn: ((value: Stringable) => any)): Stringable {
         fn(this)
         return this
     }
@@ -110,77 +110,70 @@ class Stringable extends String {
     /**
      * Wraps a string with the given value.
      */
-    $wrap(start: string, end = start) {
+    wrap(start: string, end = start) {
         return new this.constructor(Str.wrap(this.valueOf(), start, end))
     }
 
     /**
      * Unwraps a string with the given value.
      */
-    $unwrap(start: string, end = start) {
+    unwrap(start: string, end = start) {
         return Str.unwrap(this, start, end)
     }
 
     /**
      * Alias for `concat`. Appends the given value to string.
      */
-    $append(part: string) {
+    append(part: string) {
         return Str.append(this, part)
     }
 
     /**
      * Prepends the given value to string.
      */
-    $prepend(part: string) {
+    prepend(part: string) {
         return new this.constructor(Str.prepend(this.valueOf(), part))
-    }
-
-    /**
-     * Returns a raw string
-     */
-    $value() {
-        return this.valueOf()
     }
 
     /**
      * Appends the given value only if string doesn't already end with it.
      */
-    $endWith(part: string) {
+    endWith(part: string) {
         return Str.endWith(this, part)
     }
 
     /**
      * Prepends the given value only if string doesn't already start with it.
      */
-    $startWith(part: string) {
+    startWith(part: string) {
         return new this.constructor(Str.startWith(this, part))
     }
 
     /**
      * Truncates text to given length and appends second argument if string got truncated.
      */
-    $limit(n: number, append = "...") {
+    limit(n: number, append = "...") {
         return Str.limit(this, n, append)
     }
 
     /**
      * Turns the string into title case.
      */
-    $title() {
+    title() {
         return new this.constructor(Str.title(this))
     }
 
     /**
      * Turns the string into kebab case.
      */
-    $kebab() {
-        return this.$snake('-')
+    kebab() {
+        return this.snake('-')
     }
 
     /**
      * Turns the string into snake case.
      */
-    $snake(replacement = '_') {
+    snake(replacement = '_') {
         const words = Str.snake(this, replacement)
         return new this.constructor(words)
     }
@@ -188,7 +181,7 @@ class Stringable extends String {
     /**
      * Turns the string into studly case.
      */
-    $studly() {
+    studly() {
         const words = Str.studly(this)
         return new this.constructor(words)
     }
@@ -196,21 +189,21 @@ class Stringable extends String {
     /**
      * Turns the string into camel case.
      */
-    $camel() {
+    camel() {
         return new this.constructor(Str.camel(this))
     }
 
     /**
      * Capitalizes the first character.
      */
-    $capitalize() {
+    capitalize() {
         return new this.constructor(Str.capitalize(this))
     }
 
     /**
      * Turns the string into URI conform slug.
      */
-    $slug(replacement = "-") {
+    slug(replacement = "-") {
         return new this.constructor(Str.slug(this, replacement))
     }
 }
