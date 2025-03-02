@@ -1,8 +1,7 @@
-import Arrayable from "./objects/Arrayable"
-import Stringable from "./objects/Stringable"
-import Mappable from "./objects/Mappable"
+import Arrayable from "./collections/Arrayable"
+import Stringable from "./collections/Stringable"
+import Mappable from "./collections/Mappable"
 import { MapValue } from './types'
-import { sized } from './array'
 
 /**
  * Create a flooent string. You have access to [everything from the native String object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String).
