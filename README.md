@@ -48,7 +48,7 @@ given.string(path)
 
 ### given
 
-Use `given` to create either a flooent Number, Array, Map or String.
+Use `given` to create either a flooent Array, Map or String.
 
 ```javascript
 import { given } from 'flooent'
@@ -66,19 +66,24 @@ To turn flooent objects back into their respective primitive form, use the `valu
 given.string('hello').valueOf()
 ```
 
-When newing up a flooent object, you can also provide a callback as the second argument which will automatically turn the object back into its primitive form.
-
-```javascript
-const shuffledNumbersRaw = given.array([1, 2, 3, 4], numbers => {
-  return numbers.shuffle()
-})
-```
-
 ## Best Practices
 
-After performing your data manipulations, if you need to use this data further, turn it back into its primitive form (see above) instead of passing it as an argument to another function or returning it.
+After transforming your data, convert the object back to its primitive form before passing it to another function or returning it.
 
-This is to avoid cases such as flooent having a method (e.g. array.at) that later gets added to native JavaScript with different behaviour. That other function is not expecting a flooent object (specifically a third-party lib) and could make use of the `at` method.
+This is to avoid naming collisions with possibly new native methods:
+
+```javascript
+import { given } from 'flooent'
+import { arrayToCsv } from 'some-csv-lib'
+
+// Avoid this
+const sortedItems = given.array(items).sortAsc('id')
+arrayToCsv(sortedItems)
+
+// instead, do this
+const sortedItems = given.array(items).sortAsc('id').valueOf()
+arrayToCsv(sortedItems)
+```
 
 ## Constraints
 
@@ -88,7 +93,7 @@ This is to avoid cases such as flooent having a method (e.g. array.at) that late
 
 </small>
 
-The contraints that apply to flooent strings and numbers are the same that apply to when you new up a native string/number using new (`new String('')`) and is just how JavaScript works.
+The contraints that apply to flooent strings are the same that apply to when you new up a native string using new (`new String('')`) and is just how JavaScript works.
 
 For one, the type will be `object` instead of `string`.
 
@@ -97,11 +102,10 @@ typeof given.string('') // object
 typeof '' // string
 ```
 
-Flooent strings and numbers are immutable. You can still do things like this:
+Flooent strings are immutable. You can still do things like this:
 
 ```javascript
 given.string('?') + '!' // '?!'
-given.number(1) + 1 // 2
 ```
 
 which will return a primitive (not an instance of flooent).
@@ -110,7 +114,6 @@ However you can not mutate flooent objects like this:
 
 ```javascript
 given.string('') += '!' // ERROR
-given.number(1) += 1 // ERROR
 ```
 
 There are various fluent alternatives available.
@@ -128,6 +131,9 @@ move(['music', 'tech', 'sports'], 0, 'after', 1) // ['tech', 'music', 'sports']
 
 import { rename } from 'flooent/map'
 rename(new Map([['item_id', 1]]), 'item_id', 'itemId') // Map { itemId → 1 }
+
+import { rename } from 'flooent/object'
+rename({ item_id: 1 }), 'item_id', 'itemId') // { itemId: 1 }
 ```
 
 ## Strings
@@ -140,45 +146,18 @@ rename(new Map([['item_id', 1]]), 'item_id', 'itemId') // Map { itemId → 1 }
 
 You have access to [everything from the native String object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String).
 
-### Non-Fluent methods
+### Fluent methods
 
 #### pipe
 
 Executes the callback and transforms the result back into a flooent string if it is a string.
+Useful for creating reusable functions for specific method combinations, or for continuing the chain when using non-flooent functions.
 
 ```javascript
-const append = str => str.append('!') // reusable method
+const append = str => str.append('!').prepend('!!')
 
 given.string('').pipe(append) // String { '!' }
 ```
-
-#### is
-
-Compares the given value with the raw string.
-
-```javascript
-given.string('flooent').is('flooent') // true
-```
-
-#### includedIn
-
-Checks if the string is included in the given array.
-
-```javascript
-given.string('flooent').includedIn(['flooent', 'string'])
-```
-
-#### parse
-
-Parses a string back into its original form.
-
-```javascript
-given.string('true').parse() // true
-given.string('23').parse() // 23
-given.string('{\"a\":1}').parse() // { a: 1 }
-```
-
-### Fluent methods
 
 #### after
 
@@ -379,14 +358,34 @@ You have access to [everything from the native Array object](https://developer.m
 
 ### Non-Fluent methods
 
+#### sum
+
+Returns the sum of the array.
+
+```javascript
+given.array([2, 2, 1]).sum() // 5
+```
+
+#### toMap
+
+Turns an array in the structure of `[ ['key', 'value'] ]` into a flooent map.
+
+```javascript
+const entries = [['key', 'value']]
+given.array(entries).toMap()// FlooentMap { itemId → 1 }
+```
+
+### Fluent methods
+
 #### pipe
 
 Executes callback and transforms result back into a flooent array if the result is an array.
+Useful for creating reusable functions for specific method combinations, or for continuing the chain when using non-flooent functions.
 
 ```javascript
-const someMethodToBePipedThrough = array => array.append(1)
+const reusableFunction = array => array.append(1)
 
-given.array([]).pipe(someMethodToBePipedThrough) // [1]
+given.array([]).pipe(reusableFunction) // [1]
 ```
 
 #### mutate
@@ -398,14 +397,6 @@ const numbers = given.array(1, 2, 3)
 
 numbers.mutate(n => n.append(4)) // [1, 2, 3, 4]
 numbers  // [1, 2, 3, 4]
-```
-
-#### sum
-
-Returns the sum of the array.
-
-```javascript
-given.array([2, 2, 1]).sum() // 5
 ```
 
 > See usage for [arrays of objects](#sum-1).
@@ -424,22 +415,12 @@ given.array([]).when(array => array.length === 0), array => array.append('called
 given.array([]).when(array => array.length === 1, array => array.append('called!')) // []
 ```
 
-#### toMap
-
-Turns an array in the structure of `[ ['key', 'value'] ]` into a flooent map.
-
-```javascript
-given.map({ key: 'value' }).entries().toMap()
-```
-
-### Fluent methods
-
-#### times
+#### sized
 
 Creates an array of the specified length and populates it using the callback function.
 
 ```javascript
-given.array.times(i => i) // [0, 1, 2]
+given.array.sized(i => i) // [0, 1, 2]
 ```
 
 #### where
@@ -874,7 +855,7 @@ given.array(items).groupBy(item => item.name.toUpperCase()).valueOf() // result 
 */
 ```
 
-There is no standalone function for "groupBy". Instead, use the native "Map.groupBy" or "Object.groupBy" (it only supports a callback).
+There is no standalone function for "groupBy". Instead, use the native "Map.groupBy" or "Object.groupBy" (they only support a callback as the argument).
 
 ### keyBy
 
@@ -946,19 +927,38 @@ Additionally, since normal objects don't have a fluent API in general, you can t
 
 ```javascript
 given.map
-  .$fromObject({ key: 'value' })
-  .$rename('key', 'id')
-  .$toObject()
+  .fromObject({ key: 'value' })
+  .rename('key', 'id')
+  .toObject()
 ```
 
 > For nested data structures, only the first layer gets transformed into a map
+
+Using standalone functions, there are two variants:
+
+```javascript
+import { mapKeys } from 'flooent/map' // -> working with maps
+import { mapKeys } from 'flooent/object' // -> working with objects
+```
+
+### toEntries, toKeys, toValues
+
+flooent variants of the native methods `entries`, `keys`, and `values`.
+Instead of a MapIterator, these return a flooent array instead.
+
+```javascript
+const map = given.map.fromObject({ key: 'value' })
+map.toKeys() // ['key']
+map.toValues() // ['value']
+map.toEntries() // [['key', 'value']]
+```
 
 #### pull
 
 Returns the value for the given key and deletes the key value pair from the map (mutation).
 
 ```javascript
-const map = given.map({ key: 'value' })
+const map = given.map.fromObject({ key: 'value' })
 map.pull('key') // 'value'
 map.has('key') // false
 ```
@@ -968,7 +968,7 @@ map.has('key') // false
 Iterates the entries through the given callback and assigns each result as the key.
 
 ```javascript
-const map = given.map({ a: 1 }).mapKeys((value, key, index) => key + value)
+const map = given.map.fromObject({ a: 1 }).mapKeys((value, key, index) => key + value)
 
 map.get('a1') // 1
 ```
@@ -978,7 +978,7 @@ map.get('a1') // 1
 Iterates the entries through the given callback and assigns each result as the value.
 
 ```javascript
-const map = given.map({ a: '1' }).mapValues((value, key, index) => key + value)
+const map = given.map.fromObject({ a: '1' }).mapValues((value, key, index) => key + value)
 
 map.get('a') // a1
 ```
@@ -988,7 +988,7 @@ map.get('a') // a1
 Returns a new map with only the given keys.
 
 ```javascript
-  given.map({ one: 1, two: 2, three: 3 }).only(['one', 'two']) // Map { "one" → 1, "two" → 2 }
+  given.map.fromObject({ one: 1, two: 2, three: 3 }).only(['one', 'two']) // Map { "one" → 1, "two" → 2 }
 ```
 
 #### except
@@ -996,7 +996,7 @@ Returns a new map with only the given keys.
 Inverse of `only`. Returns a new map with all keys except for the given keys.
 
 ```javascript
-  given.map({ one: 1, two: 2, three: 3 }).except(['one', 'two']) // Map { "three" → 3 }
+  given.map.fromObject({ one: 1, two: 2, three: 3 }).except(['one', 'two']) // Map { "three" → 3 }
 ```
 
 #### arrange
@@ -1004,9 +1004,9 @@ Inverse of `only`. Returns a new map with all keys except for the given keys.
 Rearranges the map to the given keys. Any unmentioned keys will be appended to the end.
 
 ```javascript
-given.map({ strings: 2, numbers: 1, functions: 4 })
+given.map.fromObject({ strings: 2, numbers: 1, functions: 4 })
   .arrange('numbers', 'functions')
-  .keys() // ['numbers', 'functions', 'strings']
+  .toKeys() // ['numbers', 'functions', 'strings']
 ```
 
 ### rename
@@ -1014,13 +1014,13 @@ given.map({ strings: 2, numbers: 1, functions: 4 })
 Renames the given key with the new key if found, keeping the original insertion order.
 
 ```javascript
-given.map({ one: 1, to: 2, three: 3 })
+given.map.fromObject({ one: 1, to: 2, three: 3 })
   .rename('to', 'two')
-  .keys() // ['one', 'two', 'three']
+  .toKeys() // ['one', 'two', 'three']
 ```
 
 
-## Macros (extending flooent)
+## Macros (Extending flooent)
 
 <small>
 
@@ -1028,7 +1028,7 @@ given.map({ one: 1, to: 2, three: 3 })
 
 </small>
 
-Extending flooent methods is easy as pie thanks to `macro`.
+Extend flooent with your own custom methods using `macro`.
 
 ```javascript
 import { given } from 'flooent'
@@ -1094,7 +1094,7 @@ given.array.macro('clone', function() {
 })
 
 given.map.macro('clone', function() {
-  return this.entries().clone().toMap()
+  return this.toEntries().clone().toMap()
 })
 ```
 
