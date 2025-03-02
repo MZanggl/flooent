@@ -81,11 +81,11 @@ test.group('Mappable', () => {
     assert.deepEqual(given.map.$fromObject({ key: 'value' }).$toObject(), { key: 'value' })
   })
   
-  test('$keys(), $values() and $entries() return instances of Arrayable', assert => {
+  test('toKeys(), toValues() and toEntries() return instances of Arrayable', assert => {
     const map = given.map.$fromObject({ key: 'value' })
-    isArr(assert, map.$entries())
-    isArr(assert, map.$keys())
-    isArr(assert, map.$values())
+    isArr(assert, map.toEntries())
+    isArr(assert, map.toKeys())
+    isArr(assert, map.toValues())
   })
   
   test('pull() returns the value for the given key and removes it from the map', assert => {
@@ -101,7 +101,7 @@ test.group('Mappable', () => {
   
     assert.isTrue(newMap.has('a1'))
     assert.equal(newMap.get('a1'), 1)
-    assert.deepEqual(indexMap.$keys(), [0, 1])
+    assert.deepEqual(indexMap.toKeys(), [0, 1])
   })
   
   test('mapValues() iterates the entries through the given callback and assigns each result as the value', assert => {
@@ -111,32 +111,32 @@ test.group('Mappable', () => {
   
     assert.isTrue(newMap.has('a'))
     assert.equal(newMap.get('a'), 'a1')
-    assert.deepEqual(indexMap.$keys(), [0, 1])
+    assert.deepEqual(indexMap.toKeys(), [0, 1])
   })
   
   test('arrange() arranges the map according to the given keys', assert => {
     const map = given.map.$fromObject({ strings: 2, numbers: 1, functions: 4 })
     const arranged = map.$arrange('numbers', 'functions')
   
-    assert.deepEqual(map.$keys(), ['strings', 'numbers', 'functions'])
-    assert.deepEqual(arranged.$keys(), ['numbers', 'functions', 'strings'])
+    assert.deepEqual(map.toKeys(), ['strings', 'numbers', 'functions'])
+    assert.deepEqual(arranged.toKeys(), ['numbers', 'functions', 'strings'])
   })
   
   test('only() returns a new map with only the given keys', assert => {
     const map = given.map.$fromObject({ one: 1, two: 2, three: 3 }).$only(['one', 'two'])
-    assert.deepEqual(map.$keys(), ['one', 'two'])
+    assert.deepEqual(map.toKeys(), ['one', 'two'])
   })
   
   test('except() returns a new map with all keys except for the given keys', assert => {
     const map = given.map.$fromObject({ one: 1, two: 2, three: 3 }).$except(['one', 'two'])
-    assert.deepEqual(map.$keys(), ['three'])
+    assert.deepEqual(map.toKeys(), ['three'])
   })
   
   test('rename() renames a key if found', assert => {
     const map = given.map.$fromObject({ one: 1, to: 2, three: 3 }).$rename('to', 'two')
-    assert.deepEqual(map.$keys(), ['one', 'two', 'three'])
+    assert.deepEqual(map.toKeys(), ['one', 'two', 'three'])
   
     const map2 = given.map.$fromObject({ one: 1, two: 2, three: 3 }).$rename('for', 'four')
-    assert.deepEqual(map2.$keys(), ['one', 'two', 'three'])
+    assert.deepEqual(map2.toKeys(), ['one', 'two', 'three'])
   })
 })

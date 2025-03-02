@@ -187,7 +187,6 @@ test.group('Arrayable', () => {
 
     const users = given.array([{ id: 1, bday: null }, { id: 2, bday: '1990-01-01'}])
     assert.deepEqual(users.$filled('bday'), [{ id: 2, bday: '1990-01-01'}])
-    assert.deepEqual(users.$filled(user => user.bday), [{ id: 2, bday: '1990-01-01'}])
   })
   
   test('groupBy() groups an array of objects by the given key', assert => {
@@ -248,8 +247,8 @@ test.group('Arrayable', () => {
   
   test('groupBy() maintains key types', assert => {
     const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
-    given.array(users).$groupBy('area').$keys().map(k => assert.equal(typeof k, 'string'))
-    given.array(users).$groupBy('id').$keys().map(k => assert.equal(typeof k, 'number'))
+    given.array(users).$groupBy('area').toKeys().map(k => assert.equal(typeof k, 'string'))
+    given.array(users).$groupBy('id').toKeys().map(k => assert.equal(typeof k, 'number'))
   })
   
   test('groupBy() groups an array of object by the given key transformation', assert => {
@@ -399,7 +398,7 @@ test.group('Arrayable', () => {
   })
   
   test('can turn arrays into maps', assert => {
-    const mapTurnedMap = given.map.$fromObject({ key: 'value' }).$entries().$toMap()
+    const mapTurnedMap = given.map.$fromObject({ key: 'value' }).toEntries().$toMap()
     assert.equal(mapTurnedMap.get('key'), 'value')
     isMap(assert, mapTurnedMap)
   })

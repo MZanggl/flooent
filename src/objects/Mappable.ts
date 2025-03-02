@@ -53,7 +53,7 @@ class Mappable<K = any, V = any> extends Map<K, V> {
      * Returns a raw map
     */
   valueOf() {
-    const values = this.$values()
+    const values = this.toValues()
     if (values[0] instanceof Arrayable || values[0] instanceof Mappable || values[0] instanceof Stringable) {
       return new Map(this.$mapValues(item => item?.valueOf?.() ?? item))
     }
@@ -75,18 +75,18 @@ class Mappable<K = any, V = any> extends Map<K, V> {
     return MapUtils.toObject(this)
   }
 
-  $entries() {
+  toEntries() {
     return Arrayable.from(super.entries())
   }
 
-  $keys() {
+  toKeys() {
     return Arrayable.from(super.keys())
   }
 
-  $values() {
+  toValues() {
     return Arrayable.from(super.values())
   }
-
+  
   /**
    * Iterates the entries through the given callback and assigns each result as the key.
    */

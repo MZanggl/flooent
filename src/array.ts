@@ -232,9 +232,9 @@ export function mutate<T>(value: T[], callback: ((array: T[]) => T[])) {
  */
 export function sum<T, K extends keyof T>(value: T[], key?: K | ((item: T, index: number) => number)) {
     return value.reduce<number>((result, item, index) => {
-        let number = item as number
+        let number = item as unknown as number
         if (key) {
-            number = typeof key === "function" ? key(item, index) : item[key] as number
+            number = typeof key === "function" ? key(item, index) : item[key] as unknown as number
         }
         return result + (number as unknown as number)
     }, 0)
