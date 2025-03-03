@@ -55,7 +55,8 @@ import { given } from 'flooent'
 
 given.string('hello') // instance of Stringable
 given.array([1, 2]) // instance of Arrayable
-given.map({ key: 'value' }) // or given.map([['key', 'value']]), or given.map(new Map(...)) | instance of Mappable
+given.map(new Map) // or given.map([['key', 'value']]) | instance of Mappable
+given.map.fromObject({ key: 'value' }) // instance of Mappable
 ```
 
 Flooent objects only extend the native functionality, so you can still execute any native method like `given.string('hello').includes('h')`.
@@ -366,6 +367,8 @@ Returns the sum of the array.
 given.array([2, 2, 1]).sum() // 5
 ```
 
+> See usage for [arrays of objects](#sum-1).
+
 #### toMap
 
 Turns an array in the structure of `[ ['key', 'value'] ]` into a flooent map.
@@ -373,6 +376,14 @@ Turns an array in the structure of `[ ['key', 'value'] ]` into a flooent map.
 ```javascript
 const entries = [['key', 'value']]
 given.array(entries).toMap()// FlooentMap { itemId → 1 }
+```
+
+#### sized
+
+Creates a flooent array of the specified length and populates it using the callback function.
+
+```javascript
+given.array.sized(i => i) // [0, 1, 2]
 ```
 
 ### Fluent methods
@@ -399,8 +410,6 @@ numbers.mutate(n => n.append(4)) // [1, 2, 3, 4]
 numbers  // [1, 2, 3, 4]
 ```
 
-> See usage for [arrays of objects](#sum-1).
-
 #### when
 
 Executes callback if first given value evaluates to true. Result will get transformed back into a flooent array if it is an array.
@@ -413,14 +422,6 @@ given.array([]).when(false, str => str.append(1)) // []
 // or a method
 given.array([]).when(array => array.length === 0), array => array.append('called!')) // ['called']
 given.array([]).when(array => array.length === 1, array => array.append('called!')) // []
-```
-
-#### sized
-
-Creates an array of the specified length and populates it using the callback function.
-
-```javascript
-given.array.sized(i => i) // [0, 1, 2]
 ```
 
 #### where
@@ -833,7 +834,7 @@ Groups an array by the given key and returns a flooent map.
 
 ```javascript
 const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 3, name: 'music' }]
-given.array(items).groupBy('name') // result is:
+given.array(items).groupBy('name').toObject() // result is:
 /*
 {
   music: [{ id: 1, name: 'music' }, { id: 3, name: 'music' }],
@@ -846,7 +847,7 @@ Alternatively, pass in a function of which its result will become the key instea
 
 ```javascript
 const items = [{ id: 1, name: 'Music' }, { id: 2, name: 'movie' }, { id: 3, name: 'music' }]
-given.array(items).groupBy(item => item.name.toUpperCase()).valueOf() // result is:
+given.array(items).groupBy(item => item.name.toUpperCase()).toObject() // result is:
 /*
 {
   MUSIC: [{ id: 1, name: 'music' }, { id: 3, name: 'music' }],
@@ -855,7 +856,7 @@ given.array(items).groupBy(item => item.name.toUpperCase()).valueOf() // result 
 */
 ```
 
-There is no standalone function for "groupBy". Instead, use the native "Map.groupBy" or "Object.groupBy" (they only support a callback as the argument).
+> There is no standalone function for "groupBy". Instead, use the native "Map.groupBy" or "Object.groupBy" (they only support a callback as the argument).
 
 ### keyBy
 
@@ -864,7 +865,7 @@ If multiple items have the same key, only the last one will appear in the new co
 
 ```javascript
 const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 3, name: 'music' }]
-given.array(items).keyBy('name') // result is:
+given.array(items).keyBy('name').toObject() // result is:
 /*
 {
   music: { id: 3, name: 'music' },
@@ -873,13 +874,20 @@ given.array(items).keyBy('name') // result is:
 */
 ```
 
+Alternatively, pass in a function of which its result will become the key instead:
+
+```javascript
+const items = [{ id: 1, name: 'music' }, { id: 2, name: 'movie' }, { id: 3, name: 'music' }]
+given.array(items).keyBy(item => item.name).toObject()
+```
+
 ### toKeyedMap
 
 Turns the given array into a flooent map with each element becoming a key in the map.
 
 ```javascript
 const genres = ['music', 'tech', 'games']
-const map = given.array(genres).toKeyedMap(null) // result is:
+const map = given.array(genres).toKeyedMap(null).toObject() // result is:
 /*
 {
   music: null,
@@ -893,7 +901,7 @@ Alternatively, pass in a callback to specify the default value for each item ind
 
 ```javascript
 const genres = ['music', 'tech', 'games']
-const map = given.array(genres).toKeyedMap(genre => genre.toUpperCase()) // result is:
+const map = given.array(genres).toKeyedMap(genre => genre.toUpperCase()).toObject() // result is:
 /*
 {
   music: 'MUSIC',
@@ -913,7 +921,7 @@ const map = given.array(genres).toKeyedMap(genre => genre.toUpperCase()) // resu
 
 You have access to [everything from the native Map object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map).
 
-This is how you can new up a map with flooent:
+You construct a flooent map the same way as a native map:
 
 ```javascript
 // using an array in the format of entries
@@ -923,7 +931,7 @@ given.map([['key', 'value']])
 given.map(new Map())
 ```
 
-Additionally, since normal objects don't have a fluent API in general, you can turn your objects into a map, perform any manipulations and turn it back into an object instead:
+Additionally, since normal objects don't have a fluent API in general, you can turn your objects into a map, perform any manipulations and turn them back into an object instead:
 
 ```javascript
 given.map
