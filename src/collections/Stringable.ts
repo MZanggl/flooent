@@ -167,7 +167,8 @@ class Stringable extends String {
      * Turns the string into kebab case.
      */
     kebab() {
-        return this.snake('-')
+        const words = Str.kebab(this)
+        return new this.constructor(words)
     }
 
     /**

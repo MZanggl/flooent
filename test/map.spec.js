@@ -80,6 +80,10 @@ test.group('Mappable', () => {
   test('toObject() turns the map back into an object', assert => {
     assert.deepEqual(given.map.fromObject({ key: 'value' }).toObject(), { key: 'value' })
   })
+  test('toJSON() turns the map back into an object implicitly', assert => {
+    assert.deepEqual(given.map.fromObject({ key: 'value' }).toJSON(), { key: 'value' })
+    assert.deepEqual(JSON.parse(JSON.stringify({ value: given.map.fromObject({ key: 'value' })})).value, { key: 'value' })
+  })
   
   test('toKeys(), toValues() and toEntries() return instances of Arrayable', assert => {
     const map = given.map.fromObject({ key: 'value' })

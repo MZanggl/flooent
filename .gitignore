@@ -1,3 +1,5 @@
 node_modules
 dist
 .ideas
+.nyc_output
+coverage

@@ -24,6 +24,15 @@ test.group('array functions', () => {
     assert.equal(count, 3)
     assert.deepEqual(mapped, [0, 1, 2])
   })
+  
+  test('can step forward and backwards with array utils', assert => {
+    assert.equal(arrayUtils.point(['a', 'b', 'c'], 0).step(1).value(), 'b')
+  })
+
+  test('can turn arrays into maps with array utils', assert => {
+    const map = arrayUtils.toMap([['key', 'value']])
+    assert.equal(map.get('key'), 'value')
+  })
 })
 
 test.group('Arrayable', () => {
@@ -467,6 +476,11 @@ test.group('Arrayable', () => {
       const value = given.array(['a', 'b', 'c']).point(-1).value()
       assert.equal(value, 'c')
     })
+
+    test('can read index from current position', assert => {
+      const index = given.array(['a', 'b', 'c']).point(-1).index()
+      assert.equal(index, 2)
+    })
   
     test('can step forward and backwards', assert => {
       assert.equal(given.array(['a', 'b', 'c']).point(0).step(1).value(), 'b')
@@ -511,5 +525,6 @@ test.group('Arrayable', () => {
     assert.deepEqual(given.array(['b', 'a', 'c']).move('first', 'after', 1), ['a', 'b', 'c'])
     assert.deepEqual(given.array(['b', 'a', 'c']).move('first', 'after', 0), ['b', 'a', 'c'])
     assert.deepEqual(given.array(['c', 'a', 'b']).move('first', 'after', 'last'), ['a', 'b', 'c'])
+    assert.deepEqual(given.array(['b', 'c', 'a']).move('last', 'before', 'first'), ['a', 'b', 'c'])
   })
 })

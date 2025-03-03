@@ -23,6 +23,11 @@ test('can extend flooent objects through macros', assert => {
     return this.toString()
   })
 
+  given.map.macro('firstEntry', function() {
+    return this.toEntries().at(0)
+  })
+
   assert.equal(given.string('hello').scream(), 'HELLO')
   assert.equal(given.array([1]).stringify(), '1')
+  assert.deepEqual(given.map([['key', 'value']]).firstEntry(), ['key', 'value'])
 })

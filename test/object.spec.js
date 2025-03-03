@@ -4,6 +4,11 @@ const test = require('japa')
 const objMethods = require('../dist/object')
 
 test.group('objects', () => {
+  test('toMap() turns object into map', assert => {
+    const obj = { key: 'value' }
+    assert.deepEqual(objMethods.toMap(obj), new Map([['key', 'value']]));
+  })
+
   test('pull() returns the value for the given key and removes it from the object', assert => {
     const obj = { key: 'value', key2: 'value2' }
     assert.equal(objMethods.pull(obj, 'key'), 'value');
