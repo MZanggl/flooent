@@ -953,6 +953,29 @@ map.toValues() // ['value']
 map.toEntries() // [['key', 'value']]
 ```
 
+#### pipe
+
+Executes the callback and transforms the result back into a flooent map if it is a map.
+Useful for creating reusable functions for specific method combinations, or for continuing the chain when using non-flooent functions.
+
+```javascript
+const extractAreas = map => map.only(['area1', 'area2', 'area3'])
+
+given.map(cityMap).pipe(extractAreas) // String { '!' }
+```
+
+#### when
+
+Executes the callback if first given value evaluates to true. Result will get transformed back into a flooent map if it is a raw map.
+
+```javascript
+// can be a boolean
+given.map(cityMap).when(true, map => map.set('id', genId()))
+
+// or a method
+given.map(cityMap).when(map => map.has('isNew'), map => map.set('id', genId()))
+```
+
 #### pull
 
 Returns the value for the given key and deletes the key value pair from the map (mutation).

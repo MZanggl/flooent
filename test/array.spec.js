@@ -44,8 +44,8 @@ test.group('Arrayable', () => {
     assert.notInstanceOf(array, Arrayable)
     assert.instanceOf(array, Array)
   })
-  test('value() returns the raw array', (assert) => {
-    const array = Arrayable.from([1]).value()
+  test('valueOf() returns the raw array', (assert) => {
+    const array = Arrayable.from([1]).valueOf()
     assert.notInstanceOf(array, Arrayable)
     assert.instanceOf(array, Array)
   })

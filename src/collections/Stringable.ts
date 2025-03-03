@@ -84,7 +84,7 @@ class Stringable extends String {
      * Executes the callback if string is empty. Result will get transformed back into a flooent string if it is a raw string.
      */
     whenEmpty(then) {
-        return this.when(this.value() === "", then)
+        return this.when(this.valueOf() === "", then)
     }
 
     /**

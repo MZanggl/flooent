@@ -71,8 +71,8 @@ test.group('Mappable', () => {
     assert.instanceOf(map, Map)
   })
 
-  test('value() returns the raw map', (assert) => {
-    const map = new Mappable(new Map()).value()
+  test('valueOf() returns the raw map', (assert) => {
+    const map = new Mappable(new Map()).valueOf()
     assert.notInstanceOf(map, Mappable)
     assert.instanceOf(map, Map)
   })

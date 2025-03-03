@@ -15,7 +15,7 @@ test.group('Stringable', () => {
     assert.equal(typeof given.string('test'), 'object')
     isStr(assert, given.string('test'))
     assert.equal(typeof given.string('test').valueOf(), 'string')
-    assert.equal(typeof given.string('test').value(), 'string')
+    assert.equal(typeof given.string('test').valueOf(), 'string')
     assert.equal(typeof given.string('test').toString(), 'string')
   })
   
@@ -71,8 +71,8 @@ test.group('Stringable', () => {
     isStr(assert, given.string('test').when(true, () => 'not Str'))
     assert.equal(given.string('test').when(true, callback), 'testing')
     assert.equal(given.string('test').when(false, callback), 'test')
-    assert.equal(given.string('test').when(str => str.value() === 'test', callback), 'testing')
-    assert.equal(given.string('test').when(str => str.value() === 'not test', callback), 'test')
+    assert.equal(given.string('test').when(str => str.valueOf() === 'test', callback), 'testing')
+    assert.equal(given.string('test').when(str => str.valueOf() === 'not test', callback), 'test')
   })
   
   test('wrap() wraps a string by the first (or possibly second) argument', assert => {
