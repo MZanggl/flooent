@@ -229,8 +229,10 @@ test.group('Arrayable', () => {
   test('keyBy() keys an array of objects by the given key', assert => {
     const users = [{ id: 1, area: 'New York' }, { id: 2, area: 'New York'}, { id: 3, area: 'LA' }]
     const result = given.array(users).keyBy('area')
+    const result2 = given.array(users).keyBy(user => user.area)
   
     isMap(assert, result)
+    assert.deepEqual(result, result2)
     assert.deepEqual(result.toObject(), {
       'New York': { id: 2, area: 'New York'},
       'LA': { id: 3, area: 'LA' }

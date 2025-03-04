@@ -1,9 +1,31 @@
 const test = require('japa')
 const { Stringable: Str, given } = require('../dist')
+const stringUtils = require('../dist/string')
 
 function isStr(assert, result) {
   assert.instanceOf(result, Str)
 }
+
+test.group('string functions', (assert) => {
+  test('snake()', (assert) => {
+    assert.equal(stringUtils.snake('hello world'), 'hello_world')
+  })
+
+  test('slug()', (assert) => {
+    assert.equal(stringUtils.slug('hello world'), 'hello-world')
+  })
+
+  test('limit()', (assert) => {
+    assert.equal(stringUtils.limit('hello world', 5), 'hello...')
+  })
+
+  test('wrap()', (assert) => {
+    assert.equal(stringUtils.wrap('hello world', '*'), '*hello world*')
+  })
+  test('unwrap()', (assert) => {
+    assert.equal(stringUtils.unwrap('*hello world*', '*'), 'hello world')
+  })
+})
 
 test.group('Stringable', () => {
   test('it can create Stringable from string', (assert) => {
@@ -145,6 +167,7 @@ test.group('Stringable', () => {
   
     assert.equal(given.string('Foo BAR').kebab(), 'foo-bar')
     assert.equal(given.string('Foo BAR').snake(), 'foo_bar')
+    assert.equal(given.string('Foo BAR').snake('+'), 'foo+bar')
   })
   
   test('studly() turns string into respective case', assert => {

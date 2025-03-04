@@ -1,7 +1,16 @@
 import Arrayable from './Arrayable'
 import Stringable from './Stringable'
-import * as MapUtils from '../map'
-import * as ObjectUtils from '../object'
+import {
+  toObject,
+  mapKeys,
+  rename,
+  mapValues,
+  arrange,
+  pull,
+  only,
+  except,
+} from '../map'
+import { toEntries } from '../object'
 import { MapValue } from '../types'
 
 class Mappable<K = any, V = any> extends Map<K, V> {
@@ -12,7 +21,7 @@ class Mappable<K = any, V = any> extends Map<K, V> {
   }
 
   static fromObject<K extends string, V = any> (value: Record<K, V>) {
-    const entries = ObjectUtils.toEntries(value)
+    const entries = toEntries(value)
     return new this<K, V>(entries)
   }
 
@@ -59,14 +68,14 @@ class Mappable<K = any, V = any> extends Map<K, V> {
   * Use toObject for explicit object transformations.
   */
   toJSON() {
-    return MapUtils.toObject(this)
+    return toObject(this)
   }
   
   /**
    * Turns the map into an object.
    */
   toObject() {
-    return MapUtils.toObject(this)
+    return toObject(this)
   }
 
   toEntries() {
@@ -85,49 +94,49 @@ class Mappable<K = any, V = any> extends Map<K, V> {
    * Iterates the entries through the given callback and assigns each result as the key.
    */
   mapKeys<N>(callback: ((value: V, key: K, index: number) => N)) {
-    return new this.constructor<N, V>(MapUtils.mapKeys(this, callback))
+    return new this.constructor<N, V>(mapKeys(this, callback))
   }
 
   /**
    * Renames the given key with the new key if found, keeping the original insertion order.
    */
   rename(oldKey: K, newKey: K) {
-    return new this.constructor(MapUtils.rename(this, oldKey, newKey))
+    return new this.constructor(rename(this, oldKey, newKey))
   }
 
   /**
    * Iterates the entries through the given callback and assigns each result as the value.
    */
   mapValues<N>(callback: ((value: V, key: K, index: number) => N)) {
-    return new this.constructor(MapUtils.mapValues(this, callback))
+    return new this.constructor(mapValues(this, callback))
   }
 
   /**
    * Rearranges the map to the given keys. Any unmentioned keys will be appended to the end.
    */
   arrange(...keys: K[]) {
-    return new this.constructor(MapUtils.arrange<K, V>(this, ...keys))
+    return new this.constructor(arrange<K, V>(this, ...keys))
   }
 
   /**
    * Returns the value for the given key and deletes the key value pair from the map (mutation).
    */
   pull(key: any) {
-    return MapUtils.pull<K, V>(this, key)
+    return pull<K, V>(this, key)
   }
 
   /**
    * Returns a new map with only the given keys.
    */
   only(keys: K[]) {
-    return new this.constructor(MapUtils.only(this, keys)) as Mappable<K, V>
+    return new this.constructor(only(this, keys)) as Mappable<K, V>
   }
   
   /**
    * Inverse of `only`. Returns a new map with all keys except for the given keys.
    */
   except(keys: K[]) {
-    return new this.constructor(MapUtils.except(this, keys)) as Mappable<K, V>
+    return new this.constructor(except(this, keys)) as Mappable<K, V>
   }
 }
 

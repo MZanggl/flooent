@@ -1,7 +1,33 @@
 import { Mappable, Stringable } from '../index'
 import { CopyFunction } from '../types'
-import * as Arr from '../array'
-import * as MapUtils from '../map'
+import {
+    sized,
+    until,
+    reject,
+    move,
+    chunk,
+    forPage,
+    pad,
+    point,
+    where,
+    whereNot,
+    whereIn,
+    whereNotIn,
+    filled,
+    mutate,
+    keyBy,
+    toKeyedMap,
+    sum,
+    omit,
+    pluck,
+    unique,
+    shuffle,
+    partition,
+    prepend,
+    append,
+    sortDesc,
+    sortAsc
+} from '../array'
 
 class Arrayable<T> extends Array<T> {
     ["constructor"]!: typeof Arrayable
@@ -16,7 +42,7 @@ class Arrayable<T> extends Array<T> {
      * Executes callback for number of base values' times and returns a flooent array with the result of each iteration.
      */
     static sized = function<T = void>(length: number, callback: (index: number) => T[]) {
-        return this.from(Arr.sized(length, callback))
+        return this.from(sized(length, callback))
     }
 
     /**
@@ -36,28 +62,28 @@ class Arrayable<T> extends Array<T> {
      * Returns the items until either the given value is found, or the given callback returns `true`.
      */
     until(comparison: T | ((item: T, index: number) => boolean)) {
-        return this.constructor.from<T>(Arr.until(this, comparison))
+        return this.constructor.from<T>(until(this, comparison))
     }
     
     /**
      * Return all items that don't pass the given truth test. Inverse of `Array.filter`
      */
     reject(callback: (item: T, index?: number) => boolean) {
-        return Arr.reject(this, callback) as Arrayable<T>
+        return reject(this, callback) as Arrayable<T>
     }
     
     /**
      * Moves an item in the array using the given source index to either "before" or "after" the given target.
      */
     move(source: number, position: 'before' | 'after', target: number) {
-        return Arr.move(this, source, position, target) as Arrayable<T>
+        return move(this, source, position, target) as Arrayable<T>
     }
 
     /**
      * Breaks the array into multiple, smaller arrays of a given size.
      */
     chunk(size: number) {
-        const chunked = this.constructor.from(Arr.chunk(this, size))
+        const chunked = this.constructor.from(chunk(this, size))
         return chunked.map(chunk => this.constructor.from<T>(chunk))
     }
 
@@ -65,14 +91,14 @@ class Arrayable<T> extends Array<T> {
      * Returns the items for the given page and size.
      */
     forPage(page: number, size: number) {
-        return Arr.forPage(this, page, size) as Arrayable<T>
+        return forPage(this, page, size) as Arrayable<T>
     }
 
     /**
      * Fills up the array with the given value.
      */
     pad(size: number, value: T) {
-        return Arr.pad(this, size, value) as Arrayable<T>
+        return pad(this, size, value) as Arrayable<T>
     }
 
     /**
@@ -80,7 +106,7 @@ class Arrayable<T> extends Array<T> {
      */
     point(indexOrFn: number | ((item: T) => boolean)) {
         const array = this
-        const nativePointer = Arr.point(array, indexOrFn)
+        const nativePointer = point(array, indexOrFn)
         const pointer = {
             /**
              * Sets the value at the current index and returns a new array.
@@ -143,7 +169,7 @@ class Arrayable<T> extends Array<T> {
     where(value: T): Arrayable<T>
     where<K extends keyof T>(key: K, value: T[K]): Arrayable<T>
     where<K extends keyof T>(keyOrValue: T | K, value?: T[K]) {
-        return Arr.where(this, keyOrValue, value) as Arrayable<T>
+        return where(this, keyOrValue, value) as Arrayable<T>
     }
     
     /**
@@ -152,7 +178,7 @@ class Arrayable<T> extends Array<T> {
     whereNot(value: T): Arrayable<T>
     whereNot<K extends keyof T>(key: K, value: T[K]): Arrayable<T>
     whereNot<K extends keyof T>(keyOrValue: T | K, value?: T[K]) {
-        return Arr.whereNot(this, keyOrValue, value) as Arrayable<T>
+        return whereNot(this, keyOrValue, value) as Arrayable<T>
     }
 
     /**
@@ -161,7 +187,7 @@ class Arrayable<T> extends Array<T> {
     whereIn(value: T[]): Arrayable<T>
     whereIn<K extends keyof T>(key: K, value: T[K][]): Arrayable<T>
     whereIn<K extends keyof T>(keyOrValue: T | K, value?: T[K][]) {
-        return Arr.whereIn(this, keyOrValue, value) as Arrayable<T>
+        return whereIn(this, keyOrValue, value) as Arrayable<T>
     }
 
     /**
@@ -170,21 +196,21 @@ class Arrayable<T> extends Array<T> {
     whereNotIn(value: T[]): Arrayable<T>
     whereNotIn<K extends keyof T>(key: K, value: T[K][]): Arrayable<T>
     whereNotIn<K extends keyof T>(keyOrValue: T | K, value?: T[K][]) {
-        return Arr.whereNotIn(this, keyOrValue, value) as Arrayable<T>
+        return whereNotIn(this, keyOrValue, value) as Arrayable<T>
     }
 
     /**
      * Only returns items which are not empty.
      */
     filled(comparison?: string) {
-        return Arr.filled(this, comparison) as Arrayable<T>
+        return filled(this, comparison) as Arrayable<T>
     }
 
     /**
      * Mutates the original array with the return value of the given callback.
      */
     mutate(callback: ((array: T[]) => T[])) {
-        return Arr.mutate(this, callback) as Arrayable<T>
+        return mutate(this, callback) as Arrayable<T>
     }
 
     /**
@@ -192,7 +218,7 @@ class Arrayable<T> extends Array<T> {
      * If multiple items have the same key, only the last one will appear in the new collection.
      */
     keyBy<K extends keyof T>(key: K | ((item: T, index: number) => T[K]) ) {
-        const keyed = Arr.keyBy(this, key)
+        const keyed = keyBy(this, key)
         return new Mappable<T[K], T>(keyed)
     }
 
@@ -217,7 +243,7 @@ class Arrayable<T> extends Array<T> {
      * Turns the given array into a map with each element becoming a key in the map.
      */
     toKeyedMap<DV>(defaultValueOrCallback: DV | ((item: T) => DV)) {
-        return new Mappable<T, DV>(Arr.toKeyedMap(this, defaultValueOrCallback))
+        return new Mappable<T, DV>(toKeyedMap(this, defaultValueOrCallback))
     }
 
     /**
@@ -225,21 +251,21 @@ class Arrayable<T> extends Array<T> {
      * For arrays of objects: Pass field or callback as argument.
      */
     sum<K extends keyof T>(key?: K | ((item: T, index: number) => number)) {
-        return Arr.sum(this, key)
+        return sum(this, key)
     }
 
     /**
      * Omits given keys from all objects in the array.
      */
     omit(keys: string[]) {
-        return Arr.omit(this, keys) as Arrayable<T>
+        return omit(this, keys) as Arrayable<T>
     }
 
     /**
      * Pluck the given field out of each object in the array.
      */
     pluck(key: keyof T) {
-        return Arr.pluck(this, key)
+        return pluck(this, key)
     }
 
     /**
@@ -247,14 +273,14 @@ class Arrayable<T> extends Array<T> {
      * For array ob objects: Pass key or callback to use it for the comparison.
      */
     unique<K extends keyof T>(comparison?: K | ((item: T, index: number) => any)) {
-        return this.constructor.from(Arr.unique(this, comparison))
+        return this.constructor.from(unique(this, comparison))
     }
 
     /**
      * Shuffles and returns a new array.
      */
     shuffle() {
-        return Arr.shuffle(this)
+        return shuffle(this)
     }
 
     /**
@@ -296,7 +322,7 @@ class Arrayable<T> extends Array<T> {
      * Returns a tuple separating the items that pass the given truth test.
      */
     partition(callback: (item: T, index: number) => boolean) {
-        const partitioned = this.constructor.from(Arr.partition(this, callback))
+        const partitioned = this.constructor.from(partition(this, callback))
         return partitioned.map(item => this.constructor.from(item))
     }
 
@@ -304,14 +330,14 @@ class Arrayable<T> extends Array<T> {
      * Prepends the given items to the array. Unlike `unshift`, it is immutable and returns a new array.
      */
     prepend(...items: T[]): Arrayable<T> {
-        return this.constructor.from(Arr.prepend(this, ...items))
+        return this.constructor.from(prepend(this, ...items))
     }
 
     /**
      * Appends the given items to the array. Unlike `push`, it is immutable and returns a new array.
      */
     append(...items: T[]): Arrayable<T> {
-        return this.constructor.from(Arr.append(this, ...items))
+        return this.constructor.from(append(this, ...items))
     }
 
     /**
@@ -319,7 +345,7 @@ class Arrayable<T> extends Array<T> {
      * For array of objects: Pass index, field or callback to use it for sorting.
      */
     sortDesc<K extends keyof T>(key?: K | number | ((item: T) => any)) {
-        return this.constructor.from(Arr.sortDesc(this, key)) as Arrayable<T>
+        return this.constructor.from(sortDesc(this, key)) as Arrayable<T>
     }
 
     /**
@@ -327,7 +353,7 @@ class Arrayable<T> extends Array<T> {
      * For array of objects: Pass index, field or callback to use it for sorting.
      */
     sortAsc<K extends keyof T>(key?: K | number | ((item: T, index: number) => any)) {
-        return this.constructor.from(Arr.sortAsc(this, key)) as Arrayable<T>
+        return this.constructor.from(sortAsc(this, key)) as Arrayable<T>
     }
 
     /**

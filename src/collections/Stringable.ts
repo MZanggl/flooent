@@ -1,4 +1,23 @@
-import * as Str from '../string'
+import {
+    after,
+    afterLast,
+    before,
+    beforeLast,
+    wrap,
+    unwrap,
+    append,
+    prepend,
+    endWith,
+    startWith,
+    limit,
+    title,
+    kebab,
+    snake,
+    studly,
+    camel,
+    capitalize,
+    slug
+} from '../string'
 
 const override = [
     "replace",
@@ -36,7 +55,7 @@ class Stringable extends String {
      * If the value does not exist in the string, the entire string is returned unchanged.
      */
     after(part: string) {
-        return Str.after(this, part)
+        return after(this, part)
     }
 
     /**
@@ -44,7 +63,7 @@ class Stringable extends String {
      * If the value does not exist in the string, the entire string is returned unchanged.
      */
     afterLast(part: string) {
-        return Str.afterLast(this, part)
+        return afterLast(this, part)
     }
 
     /**
@@ -52,7 +71,7 @@ class Stringable extends String {
      * If the value does not exist in the string, the entire string is returned unchanged.
      */
     before(part: string) {
-        return Str.before(this, part)
+        return before(this, part)
     }
 
     /**
@@ -60,7 +79,7 @@ class Stringable extends String {
      * If the value does not exist in the string, the entire string is returned unchanged.
      */
     beforeLast(part: string) {
-        return Str.beforeLast(this, part)
+        return beforeLast(this, part)
     }
 
     /**
@@ -111,63 +130,63 @@ class Stringable extends String {
      * Wraps a string with the given value.
      */
     wrap(start: string, end = start) {
-        return new this.constructor(Str.wrap(this.valueOf(), start, end))
+        return new this.constructor(wrap(this.valueOf(), start, end))
     }
 
     /**
      * Unwraps a string with the given value.
      */
     unwrap(start: string, end = start) {
-        return Str.unwrap(this, start, end)
+        return unwrap(this, start, end)
     }
 
     /**
      * Alias for `concat`. Appends the given value to string.
      */
     append(part: string) {
-        return Str.append(this, part)
+        return append(this, part)
     }
 
     /**
      * Prepends the given value to string.
      */
     prepend(part: string) {
-        return new this.constructor(Str.prepend(this.valueOf(), part))
+        return new this.constructor(prepend(this.valueOf(), part))
     }
 
     /**
      * Appends the given value only if string doesn't already end with it.
      */
     endWith(part: string) {
-        return Str.endWith(this, part)
+        return endWith(this, part)
     }
 
     /**
      * Prepends the given value only if string doesn't already start with it.
      */
     startWith(part: string) {
-        return new this.constructor(Str.startWith(this, part))
+        return new this.constructor(startWith(this, part))
     }
 
     /**
      * Truncates text to given length and appends second argument if string got truncated.
      */
     limit(n: number, append = "...") {
-        return Str.limit(this, n, append)
+        return limit(this, n, append)
     }
 
     /**
      * Turns the string into title case.
      */
     title() {
-        return new this.constructor(Str.title(this))
+        return new this.constructor(title(this))
     }
 
     /**
      * Turns the string into kebab case.
      */
     kebab() {
-        const words = Str.kebab(this)
+        const words = kebab(this)
         return new this.constructor(words)
     }
 
@@ -175,7 +194,7 @@ class Stringable extends String {
      * Turns the string into snake case.
      */
     snake(replacement = '_') {
-        const words = Str.snake(this, replacement)
+        const words = snake(this, replacement)
         return new this.constructor(words)
     }
 
@@ -183,7 +202,7 @@ class Stringable extends String {
      * Turns the string into studly case.
      */
     studly() {
-        const words = Str.studly(this)
+        const words = studly(this)
         return new this.constructor(words)
     }
 
@@ -191,21 +210,21 @@ class Stringable extends String {
      * Turns the string into camel case.
      */
     camel() {
-        return new this.constructor(Str.camel(this))
+        return new this.constructor(camel(this))
     }
 
     /**
      * Capitalizes the first character.
      */
     capitalize() {
-        return new this.constructor(Str.capitalize(this))
+        return new this.constructor(capitalize(this))
     }
 
     /**
      * Turns the string into URI conform slug.
      */
     slug(replacement = "-") {
-        return new this.constructor(Str.slug(this, replacement))
+        return new this.constructor(slug(this, replacement))
     }
 }
 
