@@ -1167,3 +1167,27 @@ given.string('child').singular() // String { 'child' }
 ```
 </details>
 
+## Future Considerations
+
+If the [call-this proposal](https://github.com/tc39/proposal-call-this) ever gets added to ES, it would eliminate all constraints and complexities.
+
+Current Implementation:
+
+```typescript
+given.string(path)
+  .afterLast('/')
+  .beforeLast('.')
+  .endWith('Controller')
+  .toLowerCase()
+  .valueOf()
+```
+
+Potential Future Implementation:
+
+```typescript
+path
+  ::afterLast('/')
+  ::beforeLast('.')
+  ::endWith('Controller')
+  .toLowerCase()
+```
