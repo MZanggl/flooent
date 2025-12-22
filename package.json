@@ -29,7 +29,6 @@
   "devDependencies": {
     "japa": "^3.0.1",
     "nyc": "^15.1.0",
-    "ts-file-exports": "^0.0.4",
     "typescript": "^4.2.2"
   }
 }
